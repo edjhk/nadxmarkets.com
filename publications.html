@@ -23,9 +23,7 @@
       --space-8: 2rem;
       --space-10: 2.5rem;
       --space-12: 3rem;
-      --radius-lg: 0.75rem;
       --radius-xl: 1rem;
-      --radius-full: 9999px;
       --color-bg: #f7f6f2;
       --color-surface: #faf9f6;
       --color-border: #d6d1c8;
@@ -37,7 +35,6 @@
       --font-display: 'Zodiak', Georgia, serif;
       --content: 1100px;
     }
-
     [data-theme="dark"] {
       --color-bg: #171614;
       --color-surface: #1d1c19;
@@ -47,7 +44,6 @@
       --color-text-muted: #9a978f;
       --color-primary: #4f98a3;
     }
-
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -57,7 +53,6 @@
       font-size: var(--text-base);
       line-height: 1.58;
     }
-
     a { color: inherit; text-decoration: none; }
 
     .container {
@@ -72,7 +67,6 @@
       background: color-mix(in srgb, var(--color-bg) 90%, transparent);
       border-bottom: 1px solid var(--color-divider);
     }
-
     .site-header__inner {
       min-height: 60px;
       display: flex;
@@ -80,7 +74,6 @@
       justify-content: space-between;
       gap: 1rem;
     }
-
     .brand {
       display: inline-flex;
       align-items: center;
@@ -90,7 +83,6 @@
       letter-spacing: .05em;
       text-transform: uppercase;
     }
-
     .brand-mark {
       width: 28px;
       height: 28px;
@@ -102,27 +94,23 @@
       font-size: .76rem;
       font-weight: 700;
     }
-
     .nav {
       display: flex;
       gap: 1.4rem;
     }
-
     .nav a {
       font-size: var(--text-sm);
       color: var(--color-text-muted);
     }
-
     .nav a.active,
     .nav a:hover {
       color: var(--color-text);
     }
-
     .theme-toggle {
       border: 1px solid var(--color-border);
       background: var(--color-surface);
       color: var(--color-text);
-      border-radius: var(--radius-full);
+      border-radius: 9999px;
       padding: .45rem .8rem;
       cursor: pointer;
     }
@@ -130,7 +118,6 @@
     .hero {
       padding: 4rem 0 1.75rem;
     }
-
     .eyebrow {
       margin: 0 0 .75rem;
       font-size: var(--text-xs);
@@ -138,7 +125,6 @@
       text-transform: uppercase;
       color: var(--color-text-muted);
     }
-
     h1 {
       margin: 0 0 1rem;
       max-width: 12ch;
@@ -147,7 +133,6 @@
       line-height: 1;
       font-weight: 500;
     }
-
     .hero-copy {
       max-width: 60ch;
       color: var(--color-text-muted);
@@ -158,22 +143,22 @@
       gap: 1rem;
       padding: 1.5rem 0 4rem;
     }
-
     .item {
-      display: block;
-      padding: 1.35rem;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-xl);
-      background: var(--color-surface);
+      padding: 0 0 0.75rem;
+      border-bottom: 1px solid var(--color-border);
     }
-
-    .item h2 {
-      margin: 0 0 .65rem;
+    .item:last-child {
+      border-bottom: none;
+    }
+    .item-title {
+      margin: 0 0 .3rem;
       font-size: var(--text-lg);
       line-height: 1.14;
     }
-
-    .item p {
+    .item-title a:hover {
+      text-decoration: underline;
+    }
+    .item-blurb {
       margin: 0;
       color: var(--color-text-muted);
       font-size: var(--text-sm);
@@ -187,16 +172,16 @@
 <body>
   <header class="site-header">
     <div class="container site-header__inner">
-      <a class="brand" href="./index.html">
+      <a class="brand" href="/index.html">
         <span class="brand-mark">NX</span>
         <span>NADX Markets</span>
       </a>
 
       <nav class="nav">
-        <a href="./index.html">Overview</a>
-        <a class="active" href="./publications.html">Publications</a>
-        <a href="./community.html">Community</a>
-        <a href="./publications.html">About</a>
+        <a href="/index.html">Overview</a>
+        <a class="active" href="/publications.html">Publications</a>
+        <a href="/community.html">Community</a>
+        <a href="/publications.html">About</a>
       </nav>
 
       <button class="theme-toggle" type="button" data-theme-toggle>◐</button>
@@ -206,32 +191,41 @@
   <main>
     <section class="hero">
       <div class="container">
-        <p class="eyebrow">Library</p>
+        <p class="eyebrow">Publications</p>
         <h1>Publications and formal commentary.</h1>
-        <p class="hero-copy">This section gathers essays, formal submissions, and long-form commentary on market structure, settlement, exchange incentives, and the architecture of securities markets.</p>
+        <p class="hero-copy">Essays and long-form commentary on market structure, settlement, exchange incentives, and the architecture of securities markets.</p>
       </div>
     </section>
 
     <section>
+      <div class="container list">
         <div class="item">
-          <p><a href="/publications/why-no-moon.html">Why No Moon for Securities on the Blockchain</a></p>
-          <p>Short blurb.</p>
+          <h2 class="item-title">
+            <a href="/publications/why-no-moon.html">Why No Moon for Securities on the Blockchain</a>
+          </h2>
+          <p class="item-blurb">Short one-line blurb here.</p>
         </div>
 
-        <a class="item" href="./publications/regulatory-capture.html">
-          <h2>Regulatory Capture — Why Markets Never Get Fixed</h2>
-          <p>An argument that market reform repeatedly fails because concentrated trading interests can organize, spend, and outlast the diffuse investor majority.</p>
-        </a>
+        <div class="item">
+          <h2 class="item-title">
+            <a href="/publications/regulatory-capture.html">Regulatory Capture — Why Markets Never Get Fixed</a>
+          </h2>
+          <p class="item-blurb">Short one-line blurb here.</p>
+        </div>
 
-        <a class="item" href="./publications/the-compact.html">
-          <h2>The Compact That Was Never Honored</h2>
-          <p>A historical argument that demutualization severed the old bargain between trading privilege and market-making obligation, leaving the buy-side as customer and then product.</p>
-        </a>
+        <div class="item">
+          <h2 class="item-title">
+            <a href="/publications/the-compact.html">The Compact That Was Never Honored</a>
+          </h2>
+          <p class="item-blurb">Short one-line blurb here.</p>
+        </div>
 
-        <a class="item" href="./publications/the-netting-myth.html">
-          <h2>The Netting Myth</h2>
-          <p>A challenge to the claim that T-instant settlement is blocked by economic reality, arguing that many of the loudest objections are defenses of the current intermediary structure.</p>
-        </a>
+        <div class="item">
+          <h2 class="item-title">
+            <a href="/publications/the-netting-myth.html">The Netting Myth</a>
+          </h2>
+          <p class="item-blurb">Short one-line blurb here.</p>
+        </div>
       </div>
     </section>
   </main>
