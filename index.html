@@ -134,10 +134,10 @@
     }
 
     .hero {
-      min-height: calc(100vh - 60px);
+      min-height: auto;
       display: grid;
-      align-items: center;
-      padding: var(--space-6) 0 var(--space-4);
+      align-items: flex-start;
+      padding: var(--space-6) 0 var(--space-2);
     }
     .hero-grid {
       display: grid;
@@ -214,7 +214,9 @@
     }
 
     .publications {
-      padding: var(--space-2) 0 var(--space-12);
+    padding: var(--space-4) 0 var(--space-10);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-divider);
     }
     .publications-header {
       display: flex;
@@ -226,9 +228,15 @@
     .publications-title {
       margin: 0;
       font-family: var(--font-display);
-      font-size: var(--text-xl);
+      font-size: var(--text-2xl);
       line-height: 1.02;
-      font-weight: 500;
+      font-weight: 600;
+    }
+    .publications-title a {
+      text-decoration: none;
+    }
+    .publications-title a:hover {
+      text-decoration: underline;
     }
     .publications-link {
       font-size: var(--text-sm);
@@ -243,8 +251,9 @@
 
     .pub-item-title {
       margin: 0;
-      font-size: var(--text-lg);
-      line-height: 1.2;
+      font-size: var(--text-base);
+      line-height: 1.25;
+      font-weight: 500;
     }
     .pub-item-title a {
       text-decoration: none;
@@ -323,12 +332,13 @@
       </div>
     </section>
 
-    <section class="publications" id="publications">
-      <div class="container">
-        <div class="publications-header">
-          <h2 class="publications-title">Publications</h2>
-          <a class="publications-link" href="/publications.html">See all</a>
-        </div>
+   <section class="publications" id="publications">
+        <div class="container">
+          <div class="publications-header">
+            <h2 class="publications-title">
+              <a href="/publications.html">Publications</a>
+            </h2>
+          </div>
 
         <div class="publications-list">
           <div>
