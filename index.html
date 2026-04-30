@@ -44,7 +44,6 @@
       --font-display: 'Zodiak', Georgia, serif;
       --content: 1160px;
     }
-
     [data-theme="dark"] {
       --color-bg: #171614;
       --color-surface: #1d1c19;
@@ -57,7 +56,6 @@
       --color-primary-hover: #227f8b;
       --shadow-sm: 0 12px 28px rgba(0,0,0,0.28);
     }
-
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -68,7 +66,6 @@
       color: var(--color-text);
       background: var(--color-bg);
     }
-
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
     button { font: inherit; }
@@ -86,7 +83,6 @@
       background: color-mix(in srgb, var(--color-bg) 90%, transparent);
       border-bottom: 1px solid var(--color-divider);
     }
-
     .site-header__inner {
       min-height: 60px;
       display: flex;
@@ -94,7 +90,6 @@
       justify-content: space-between;
       gap: var(--space-4);
     }
-
     .brand {
       display: inline-flex;
       align-items: center;
@@ -105,7 +100,6 @@
       text-transform: uppercase;
       white-space: nowrap;
     }
-
     .brand-mark {
       width: 28px;
       height: 28px;
@@ -117,23 +111,19 @@
       font-size: 0.76rem;
       font-weight: 700;
     }
-
     .nav {
       display: flex;
       align-items: center;
       gap: var(--space-5);
     }
-
     .nav a {
       font-size: var(--text-sm);
       color: var(--color-text-muted);
     }
-
     .nav a:hover,
     .nav a.active {
       color: var(--color-text);
     }
-
     .theme-toggle {
       border: 1px solid var(--color-border);
       background: var(--color-surface);
@@ -149,14 +139,12 @@
       align-items: center;
       padding: var(--space-6) 0 var(--space-4);
     }
-
     .hero-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
       gap: var(--space-6);
       align-items: end;
     }
-
     .eyebrow {
       margin: 0 0 var(--space-2);
       font-size: var(--text-xs);
@@ -164,7 +152,6 @@
       text-transform: uppercase;
       color: var(--color-text-muted);
     }
-
     h1 {
       margin: 0;
       max-width: 11ch;
@@ -174,20 +161,17 @@
       font-weight: 500;
       letter-spacing: -0.03em;
     }
-
     .hero-copy {
       max-width: 56ch;
       margin: var(--space-4) 0 0;
       color: var(--color-text-muted);
     }
-
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-3);
       margin-top: var(--space-5);
     }
-
     .button {
       display: inline-flex;
       align-items: center;
@@ -199,16 +183,13 @@
       font-size: var(--text-sm);
       font-weight: 600;
     }
-
     .button--primary {
       background: var(--color-primary);
       color: white;
     }
-
     .button--primary:hover {
       background: var(--color-primary-hover);
     }
-
     .button--secondary {
       border-color: var(--color-border);
       background: var(--color-surface);
@@ -221,13 +202,11 @@
       background: var(--color-surface);
       box-shadow: var(--shadow-sm);
     }
-
     .signal-box h2 {
       margin: 0 0 var(--space-3);
       font-size: var(--text-lg);
       line-height: 1.12;
     }
-
     .signal-box p {
       margin: 0;
       color: var(--color-text-muted);
@@ -237,64 +216,43 @@
     .publications {
       padding: var(--space-2) 0 var(--space-12);
     }
-
-    .section-head {
+    .publications-header {
       display: flex;
-      align-items: end;
+      align-items: baseline;
       justify-content: space-between;
       gap: var(--space-4);
-      margin-bottom: var(--space-5);
+      margin-bottom: var(--space-3);
     }
-
-    .section-title {
+    .publications-title {
       margin: 0;
       font-family: var(--font-display);
       font-size: var(--text-xl);
       line-height: 1.02;
       font-weight: 500;
     }
-
-    .section-link {
+    .publications-link {
       font-size: var(--text-sm);
       color: var(--color-text-muted);
     }
 
-    .publication-grid {
+    .publications-list {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--space-4);
+      gap: 0.75rem;
+      margin-top: var(--space-2);
     }
 
-    .publication-card {
-      display: block;
-      padding: var(--space-5);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      background: var(--color-surface);
-      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
-    }
-
-    .publication-card:hover {
-      transform: translateY(-2px);
-      border-color: color-mix(in srgb, var(--color-primary) 24%, var(--color-border));
-      box-shadow: var(--shadow-sm);
-    }
-
-    .publication-card__kicker {
-      margin: 0 0 var(--space-2);
-      font-size: var(--text-xs);
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-    }
-
-    .publication-card h3 {
-      margin: 0 0 var(--space-2);
+    .pub-item-title {
+      margin: 0;
       font-size: var(--text-lg);
-      line-height: 1.14;
+      line-height: 1.2;
     }
-
-    .publication-card p:last-child {
+    .pub-item-title a {
+      text-decoration: none;
+    }
+    .pub-item-title a:hover {
+      text-decoration: underline;
+    }
+    .pub-item-blurb {
       margin: 0;
       color: var(--color-text-muted);
       font-size: var(--text-sm);
@@ -306,7 +264,6 @@
       color: var(--color-text-muted);
       font-size: var(--text-sm);
     }
-
     .footer-row {
       display: flex;
       align-items: center;
@@ -318,27 +275,23 @@
     @media (max-width: 900px) {
       .nav { display: none; }
       .hero { min-height: auto; padding-top: var(--space-8); }
-      .hero-grid,
-      .publication-grid {
-        grid-template-columns: 1fr;
-      }
-      h1 { max-width: 13ch; }
+      .hero-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <header class="site-header">
     <div class="container site-header__inner">
-      <a class="brand" href="./index.html" aria-label="NADX Markets home">
+      <a class="brand" href="/index.html" aria-label="NADX Markets home">
         <span class="brand-mark">NX</span>
         <span>NADX Markets</span>
       </a>
 
       <nav class="nav" aria-label="Primary">
-        <a class="active" href="./index.html">Overview</a>
-        <a href="./publications.html">Publications</a>
-        <a href="./community.html">Community</a>
-        <a href="./publications.html">About</a>
+        <a class="active" href="/index.html">Overview</a>
+        <a href="/publications.html">Publications</a>
+        <a href="/community.html">Community</a>
+        <a href="/publications.html">About</a>
       </nav>
 
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle color theme">◐</button>
@@ -355,7 +308,7 @@
 
           <div class="hero-actions">
             <a class="button button--primary" href="#publications">View publications</a>
-            <a class="button button--secondary" href="./publications.html">Open library</a>
+            <a class="button button--secondary" href="/publications.html">View all</a>
           </div>
         </div>
 
@@ -368,37 +321,39 @@
 
     <section class="publications" id="publications">
       <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Publications</p>
-            <h2 class="section-title">Recent writing and formal pieces.</h2>
-          </div>
-          <a class="section-link" href="./publications.html">View all publications</a>
+        <div class="publications-header">
+          <h2 class="publications-title">Publications</h2>
+          <a class="publications-link" href="/publications.html">See all</a>
         </div>
 
-          <div class="publication-card">
-          <p class="publication-card__kicker">Publication 01</p>
-          <h3><a href="/publications/why-no-moon.html">Why No Moon for Securities on the Blockchain</a></h3>
-          <p>Your one-line blurb here.</p>
+        <div class="publications-list">
+          <div>
+            <h3 class="pub-item-title">
+              <a href="/publications/why-no-moon.html">Why No Moon for Securities on the Blockchain</a>
+            </h3>
+            <p class="pub-item-blurb">Your one-line blurb here.</p>
           </div>
 
-          <a class="publication-card" href="./publications/regulatory-capture.html">
-            <p class="publication-card__kicker">Publication 02</p>
-            <h3>Regulatory Capture — Why Markets Never Get Fixed</h3>
-            <p>An argument that market reform repeatedly fails because concentrated trading interests can organize, spend, and outlast the diffuse investor majority.</p>
-          </a>
+          <div>
+            <h3 class="pub-item-title">
+              <a href="/publications/regulatory-capture.html">Regulatory Capture — Why Markets Never Get Fixed</a>
+            </h3>
+            <p class="pub-item-blurb">Short blurb here.</p>
+          </div>
 
-          <a class="publication-card" href="./publications/the-compact.html">
-            <p class="publication-card__kicker">Publication 03</p>
-            <h3>The Compact That Was Never Honored</h3>
-            <p>A historical argument that demutualization severed the old bargain between trading privilege and market-making obligation, leaving the buy-side as customer and then product.</p>
-          </a>
+          <div>
+            <h3 class="pub-item-title">
+              <a href="/publications/the-compact.html">The Compact That Was Never Honored</a>
+            </h3>
+            <p class="pub-item-blurb">Short blurb here.</p>
+          </div>
 
-          <a class="publication-card" href="./publications/the-netting-myth.html">
-            <p class="publication-card__kicker">Publication 04</p>
-            <h3>The Netting Myth</h3>
-            <p>A challenge to the claim that T-instant settlement is blocked by economic reality, arguing that many of the loudest objections are defenses of the current intermediary structure.</p>
-          </a>
+          <div>
+            <h3 class="pub-item-title">
+              <a href="/publications/the-netting-myth.html">The Netting Myth</a>
+            </h3>
+            <p class="pub-item-blurb">Short blurb here.</p>
+          </div>
         </div>
       </div>
     </section>
