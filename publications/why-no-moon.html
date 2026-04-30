@@ -3,238 +3,214 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Publications | NADX Markets</title>
-  <meta name="description" content="Publications from NADX Markets on market structure, settlement, and securities infrastructure.">
+  <title>Why No Moon for Securities on the Blockchain | NADX Markets</title>
+  <meta name="description" content="Why tokenized securities are unlikely to produce crypto-style windfalls, and why the real question is market design rather than speculative upside.">
   <link rel="preconnect" href="https://api.fontshare.com">
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=zodiak@400,500,700&display=swap" rel="stylesheet">
   <style>
     :root, [data-theme="light"] {
-      --text-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.86rem);
-      --text-sm: clamp(0.88rem, 0.82rem + 0.2vw, 0.98rem);
-      --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.08rem);
-      --text-lg: clamp(1.08rem, 1rem + 0.45vw, 1.32rem);
-      --text-xl: clamp(1.35rem, 1.08rem + 1vw, 1.95rem);
-      --text-2xl: clamp(2rem, 1.45rem + 1.8vw, 3rem);
-      --space-2: 0.5rem;
-      --space-3: 0.75rem;
-      --space-4: 1rem;
-      --space-5: 1.25rem;
-      --space-6: 1.5rem;
-      --space-8: 2rem;
-      --space-10: 2.5rem;
-      --space-12: 3rem;
-      --radius-lg: 0.75rem;
-      --radius-xl: 1rem;
-      --radius-full: 9999px;
-      --color-bg: #f7f6f2;
-      --color-surface: #faf9f6;
-      --color-border: #d6d1c8;
-      --color-divider: #dfdbd4;
-      --color-text: #25221b;
-      --color-text-muted: #6b6862;
-      --color-primary: #01696f;
-      --font-body: 'General Sans', Inter, sans-serif;
-      --font-display: 'Zodiak', Georgia, serif;
-      --content: 1100px;
+      --bg:#f7f6f2; --surface:#faf9f6; --border:#d6d1c8; --divider:#dfdbd4;
+      --text:#25221b; --muted:#6b6862; --primary:#01696f;
+      --font-body:'General Sans', Inter, sans-serif;
+      --font-display:'Zodiak', Georgia, serif;
+      --content:760px;
     }
-
     [data-theme="dark"] {
-      --color-bg: #171614;
-      --color-surface: #1d1c19;
-      --color-border: #393734;
-      --color-divider: #2b2a27;
-      --color-text: #cfcdc8;
-      --color-text-muted: #9a978f;
-      --color-primary: #4f98a3;
+      --bg:#171614; --surface:#1d1c19; --border:#393734; --divider:#2b2a27;
+      --text:#cfcdc8; --muted:#9a978f; --primary:#4f98a3;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--font-body);
+      line-height:1.7;
+      font-size:1.06rem;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{
+      width:min(calc(100% - 2rem),var(--content));
+      margin:0 auto;
+    }
+    .site-header{
+      position:sticky;
+      top:0;
+      background:color-mix(in srgb,var(--bg) 90%,transparent);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--divider);
+    }
+    .site-header__inner{
+      min-height:60px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+    }
+    .brand{
+      display:inline-flex;
+      align-items:center;
+      gap:.75rem;
+      font-size:.95rem;
+      font-weight:600;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+    .brand-mark{
+      width:28px;
+      height:28px;
+      border-radius:9px;
+      display:grid;
+      place-items:center;
+      background:var(--primary);
+      color:white;
+      font-size:.76rem;
+      font-weight:700;
+    }
+    .nav{
+      display:flex;
+      gap:1.4rem;
+    }
+    .nav a{
+      font-size:.95rem;
+      color:var(--muted);
+    }
+    .nav a:hover{color:var(--text)}
+    .theme-toggle{
+      border:1px solid var(--border);
+      background:var(--surface);
+      color:var(--text);
+      border-radius:9999px;
+      padding:.45rem .8rem;
+      cursor:pointer;
     }
 
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--color-bg);
-      color: var(--color-text);
-      font-family: var(--font-body);
-      font-size: var(--text-base);
-      line-height: 1.58;
+    .article{
+      padding:3.5rem 0 5rem;
     }
-
-    a { color: inherit; text-decoration: none; }
-
-    .container {
-      width: min(calc(100% - 2rem), var(--content));
-      margin: 0 auto;
+    .back{
+      display:inline-flex;
+      align-items:center;
+      gap:.4rem;
+      margin-bottom:1.25rem;
+      color:var(--muted);
+      font-size:.95rem;
     }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      backdrop-filter: blur(14px);
-      background: color-mix(in srgb, var(--color-bg) 90%, transparent);
-      border-bottom: 1px solid var(--color-divider);
+    .eyebrow{
+      margin:0 0 .75rem;
+      font-size:.8rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--muted);
     }
-
-    .site-header__inner {
-      min-height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
+    h1{
+      margin:0 0 1rem;
+      max-width:16ch;
+      font-family:var(--font-display);
+      font-size:clamp(2.2rem,1.4rem + 2vw,3.2rem);
+      line-height:1.03;
+      font-weight:500;
     }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: .75rem;
-      font-size: var(--text-sm);
-      font-weight: 600;
-      letter-spacing: .05em;
-      text-transform: uppercase;
+    .dek{
+      margin:0 0 1.5rem;
+      color:var(--muted);
+      max-width:60ch;
     }
-
-    .brand-mark {
-      width: 28px;
-      height: 28px;
-      border-radius: 9px;
-      display: grid;
-      place-items: center;
-      background: var(--color-primary);
-      color: white;
-      font-size: .76rem;
-      font-weight: 700;
+    .meta{
+      padding:0 0 1.6rem;
+      border-bottom:1px solid var(--divider);
+      margin-bottom:2rem;
+      color:var(--muted);
+      font-size:.95rem;
     }
-
-    .nav {
-      display: flex;
-      gap: 1.4rem;
+    .body h2{
+      margin:2.3rem 0 .9rem;
+      font-family:var(--font-display);
+      font-size:1.55rem;
+      line-height:1.12;
+      font-weight:500;
     }
-
-    .nav a {
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
+    .body p{
+      margin:0 0 1.2rem;
     }
-
-    .nav a.active,
-    .nav a:hover {
-      color: var(--color-text);
-    }
-
-    .theme-toggle {
-      border: 1px solid var(--color-border);
-      background: var(--color-surface);
-      color: var(--color-text);
-      border-radius: var(--radius-full);
-      padding: .45rem .8rem;
-      cursor: pointer;
-    }
-
-    .hero {
-      padding: 4rem 0 1.75rem;
-    }
-
-    .eyebrow {
-      margin: 0 0 .75rem;
-      font-size: var(--text-xs);
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-    }
-
-    h1 {
-      margin: 0 0 1rem;
-      max-width: 12ch;
-      font-family: var(--font-display);
-      font-size: var(--text-2xl);
-      line-height: 1;
-      font-weight: 500;
-    }
-
-    .hero-copy {
-      max-width: 60ch;
-      color: var(--color-text-muted);
-    }
-
-    .list {
-      display: grid;
-      gap: 1rem;
-      padding: 1.5rem 0 4rem;
-    }
-
-    .item {
-      display: block;
-      padding: 1.35rem;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-xl);
-      background: var(--color-surface);
-    }
-
-    .item h2 {
-      margin: 0 0 .65rem;
-      font-size: var(--text-lg);
-      line-height: 1.14;
-    }
-
-    .item p {
-      margin: 0;
-      color: var(--color-text-muted);
-      font-size: var(--text-sm);
-    }
-
-    @media (max-width: 900px) {
-      .nav { display: none; }
+    .body em{font-style:italic}
+    @media (max-width:900px){
+      .nav{display:none}
     }
   </style>
 </head>
 <body>
   <header class="site-header">
     <div class="container site-header__inner">
-      <a class="brand" href="../index.html">
+      <a class="brand" href="/index.html">
         <span class="brand-mark">NX</span>
         <span>NADX Markets</span>
       </a>
-
       <nav class="nav">
-        <a href="../index.html">Overview</a>
-        <a class="active" href="../publications.html">Publications</a>
-        <a href="./community.html">Community</a>
-        <a href="../publications.html">About</a>
+        <a href="/index.html">Overview</a>
+        <a href="/publications.html">Publications</a>
+        <a href="/community.html">Community</a>
       </nav>
-
       <button class="theme-toggle" type="button" data-theme-toggle>◐</button>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="container">
-        <p class="eyebrow">Library</p>
-        <h1>Publications and formal commentary.</h1>
-        <p class="hero-copy">This section gathers essays, formal submissions, and long-form commentary on market structure, settlement, exchange incentives, and the architecture of securities markets.</p>
+  <main class="article">
+    <article class="container">
+      <a class="back" href="/publications.html">← Back to publications</a>
+      <p class="eyebrow">Publication</p>
+      <h1>Why No Moon for Securities on the Blockchain</h1>
+      <p class="dek">Why tokenized securities are unlikely to produce crypto-style windfalls, and why the real question is market design rather than speculative upside.</p>
+      <div class="meta">Essay · Securities on blockchain · Market structure</div>
+
+      <div class="body">
+        <p><strong>Why No Moon for Securities on the Blockchain</strong></p>
+        <p>Two words that defined an era: <strong>When moon?</strong></p>
+        <p>During the ICO boom of 2017 to 2021, investors didn't measure returns in percentages, but in multiples – 5x, 10x, 50x. The standard playbook: receive 20% of your total token allocation at the token generation event, dump it immediately into the launch-day frenzy, recover your entire investment in the first hours of trading, and ride the remaining 80% for free. It worked. Repeatedly. Until it didn't.</p>
+        <p>Securities on the blockchain will deliver none of that. This article is not a skeptic's obituary for the technology. It is a precise account of what securities on the blockchain will and will not do – and why the “will not” matters as much as the “will.”</p>
+
+        <h2>When Moon! Number Go Up!</h2>
+        <p>Let's be honest about something first: the ICO boom of 2017–18 was extraordinary. Not as a scam, not as a cautionary tale – as a genuine feat of financial engineering that nobody in legacy finance could have imagined.</p>
+        <p>Crypto created a global, 24/7, permissionless market for digital assets accessible to anyone with an internet connection – built entirely outside the architecture of legacy finance. No prime brokers. No clearinghouses. No compliance departments. No correspondent banking relationships. It just worked.</p>
+        <p>And it worked for four compounding reasons. It was <strong>unregulated</strong> – no filing requirements, no accreditation thresholds, no registration. Anyone with an internet connection could participate at pre-launch, launch, and in the secondary market. No broker required. No net worth threshold. No geography. The ICO market was essentially the world.</p>
+        <p>It was driven by <strong>explosive FOMO</strong> – the visible, public, real-time spectacle of ordinary people making life-changing returns created a self-reinforcing wave of participation. It had <strong>network effects</strong> – every new participant made the asset more valuable and the market more liquid, pulling in retail speculation at a scale trad‑fi markets had never seen. And it had <strong>no fundamental anchor</strong> – utility tokens were neither debt nor equity; assets traded on pure sentiment, narrative, and community. There was nothing to tether them.</p>
+        <p>Underlying all of it: trustless transactions and frictionless transfers that let those four forces operate at genuinely global scale.</p>
+        <p>Most importantly, crypto proved something: the old gatekeepers were not indispensable. The market functioned – and thrived – entirely without them.</p>
+        <p>The people asking “when moon?” were not wrong to be excited. They were in the right place at the right time. The reasons it worked, however, are precisely the reasons it cannot be replicated in securities markets.</p>
+
+        <h2>Why No Moon for Securities on the Blockchain</h2>
+        <p>Securities on the blockchain will have none of those four conditions. Remove any one of them and the returns profile changes dramatically. Securities will be missing all four.</p>
+        <p>It will be <strong>regulated</strong> – from day one. KYC. AML. Insider trading rules. Settlement obligations. Every protection that securities law imposes – and every constraint – travels with the asset regardless of what technology underlies it. The relevant market is not the world.</p>
+        <p>Pre-launch private placements are restricted to accredited investors – net worth over $1 million, income over $200,000. The retail crowd that fueled the crypto boom largely isn't invited to the pre‑IPO. Launch‑day and secondary trading, while broader, still require KYC, AML compliance, and a brokerage relationship.</p>
+        <p>There will be no <strong>self‑sustaining FOMO</strong>. Securities can generate it – GameStop proved it – but that required WallStreetBets' social movement. The blockchain wrapper doesn't create one.</p>
+        <p><strong>Network effects</strong> won't save it either. Without significant institutional participation from day one, the loop runs in reverse – thin markets, wide spreads, participants leave. Fewer participants means worse pricing. Worse pricing drives more participants away. Retail participation alone will never break that cycle.</p>
+        <p>And securities have <strong>fundamental anchors</strong>. A tokenized Apple share is worth what Apple is worth. The token is not the asset. It is just the wrapper. Putting a blockchain label on a security changes nothing about its value.</p>
+        <p>The track record confirms it. As of 2026, a handful of entities have put securities on the blockchain in various forms. The result has been, almost without exception, a nothingburger.</p>
+        <p>The blockchain didn't make anyone rich. The absence of regulation did. Securities will have regulation. Ergo: no moon.</p>
+
+        <h2>So Why Bother?</h2>
+        <p>If there's no moon, and retail participation alone can't solve the liquidity problem, the institutional shrug becomes understandable. Most buy‑side firms don't see securities on the blockchain as an opportunity. They see it as a nuisance – one more venue to connect to, one more compliance question to answer, one more flavor of fragmentation in a market already fragmented beyond reason. Another thing their compliance teams will have to figure out.</p>
+        <p>They are right – about what is being proposed now. They are wrong about what is possible.</p>
+        <p>Here is the framing that changes the question: markets always move toward greater efficiency. Trading is virtually free for retail investors today. It was also “more efficient than ever” ten years ago, twenty‑five years ago, fifty years ago. Each generation of infrastructure delivered the next increment of efficiency – and was eventually replaced by something that delivered more.</p>
+        <p>The direction is not in doubt. Only the timing and the architecture are open questions.</p>
+        <p>The next unlock is not blockchain. It is <strong>T‑instant settlement</strong>. Without it, blockchain is just a wrapper – a new label on a process that remains structurally unchanged.</p>
+        <p>SEC Chair Atkins and Larry Fink of BlackRock have both said that blockchain can eliminate clearing costs. They are right. But it will not do that until the clearing and settlement process itself is overhauled – not rebranded. The way securities trade must change.</p>
+        <p>The incumbents are already moving. But they are moving to cement the existing economics onto new rails – preserving the fee structures, the intermediary layers, and the information and power asymmetries that define the current system. Worse yet, their approach risks introducing additional fragmentation into a market that is already paying a steep price for the fragmentation it has.</p>
+        <p>NADX is asking a different question: what would T‑instant settlement actually look like, what would it take to get there, with improved execution quality and costs?</p>
+        <p>The following articles will address those questions.</p>
+
+        <h2>The Real Question</h2>
+        <p>Securities will trade on the blockchain. That is not a prediction – it is already happening, and the direction of travel is not reversible.</p>
+        <p>If the wrong players build it – the incumbents, the exchanges, the clearinghouses – they will replicate every broken feature of the current system on new rails. The HFT advantages that cost institutional investors billions annually will be further entrenched, not eliminated. The fragmentation that destroys execution quality will be extended into a new asset class.</p>
+        <p>The economics that currently flow away from the buy‑side will continue to flow away from the buy‑side, now with a blockchain logo on the letterhead.</p>
+        <p>If the right players build it – the buy‑side – none of that has to be true.</p>
+        <p>The institutions that shrug today are correct about what exists now. They are looking at the right landscape and reaching the right conclusion about the wrong question.</p>
+        <p>The question is not whether today's securities‑on‑blockchain offerings are worth their attention. They are not.</p>
+        <p>The question is who will own the infrastructure when it finally gets built right – and whether the buy‑side will be at that table, or will arrive, as it did with the exchanges, only to discover that its seat was sold while it wasn't paying attention.</p>
+        <p>The buy‑side doesn't need a moon. It needs a market that works. Those are very different things. One is a windfall. The other is thirty years overdue.</p>
+        <p><em>Leuchtkäfer (n.) – German: firefly. Literally, “glowing beetle.”</em></p>
       </div>
-    </section>
-
-    <section>
-      <div class="container list">
-        <a class="item" href="./publications/why-no-moon.html">
-          <h2>Why No Moon for Securities on the Blockchain</h2>
-          <p>A case against the fantasy that tokenized securities will recreate ICO-style upside, and an argument that institutional economics and market structure matter far more than hype.</p>
-        </a>
-
-        <a class="item" href="./publications/regulatory-capture.html">
-          <h2>Regulatory Capture — Why Markets Never Get Fixed</h2>
-          <p>An argument that market reform repeatedly fails because concentrated trading interests can organize, spend, and outlast the diffuse investor majority.</p>
-        </a>
-
-        <a class="item" href="./publications/the-compact.html">
-          <h2>The Compact That Was Never Honored</h2>
-          <p>A historical argument that demutualization severed the old bargain between trading privilege and market-making obligation, leaving the buy-side as customer and then product.</p>
-        </a>
-
-        <a class="item" href="./publications/the-netting-myth.html">
-          <h2>The Netting Myth</h2>
-          <p>A challenge to the claim that T-instant settlement is blocked by economic reality, arguing that many of the loudest objections are defenses of the current intermediary structure.</p>
-        </a>
-      </div>
-    </section>
+    </article>
   </main>
 
   <script>
