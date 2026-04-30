@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Compact That Was Never Honored | NADX Markets</title>
+  <meta name="description" content="How demutualization broke the old quid pro quo between market makers and the market, and why the buy-side went from owner to product.">
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=zodiak@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --bg:#f7f6f2; --surface:#faf9f6; --border:#d6d1c8; --divider:#dfdbd4;
+      --text:#25221b; --muted:#6b6862; --primary:#01696f;
+      --font-body:'General Sans', Inter, sans-serif;
+      --font-display:'Zodiak', Georgia, serif;
+      --content:760px;
+    }
+    [data-theme="dark"] {
+      --bg:#171614; --surface:#1d1c19; --border:#393734; --divider:#2b2a27;
+      --text:#cfcdc8; --muted:#9a978f; --primary:#4f98a3;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--font-body);
+      line-height:1.7;
+      font-size:1.06rem;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{
+      width:min(calc(100% - 2rem),var(--content));
+      margin:0 auto;
+    }
+    .site-header{
+      position:sticky;
+      top:0;
+      background:color-mix(in srgb,var(--bg) 90%,transparent);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--divider);
+    }
+    .site-header__inner{
+      min-height:60px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+    }
+    .brand{
+      display:inline-flex;
+      align-items:center;
+      gap:.75rem;
+      font-size:.95rem;
+      font-weight:600;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+    .brand-mark{
+      width:28px;height:28px;border-radius:9px;
+      display:grid;place-items:center;
+      background:var(--primary);color:white;
+      font-size:.76rem;font-weight:700;
+    }
+    .nav{
+      display:flex;
+      gap:1.4rem;
+    }
+    .nav a{
+      font-size:.95rem;
+      color:var(--muted);
+    }
+    .nav a:hover{color:var(--text)}
+    .theme-toggle{
+      border:1px solid var(--border);
+      background:var(--surface);
+      color:var(--text);
+      border-radius:9999px;
+      padding:.45rem .8rem;
+      cursor:pointer;
+    }
+
+    .article{
+      padding:3.5rem 0 5rem;
+    }
+    .back{
+      display:inline-flex;
+      align-items:center;
+      gap:.4rem;
+      margin-bottom:1.25rem;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+    .eyebrow{
+      margin:0 0 .75rem;
+      font-size:.8rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    h1{
+      margin:0 0 1rem;
+      max-width:18ch;
+      font-family:var(--font-display);
+      font-size:clamp(2.2rem,1.4rem + 2vw,3.2rem);
+      line-height:1.03;
+      font-weight:500;
+    }
+    .dek{
+      margin:0 0 1.5rem;
+      color:var(--muted);
+      max-width:60ch;
+    }
+    .meta{
+      padding:0 0 1.6rem;
+      border-bottom:1px solid var(--divider);
+      margin-bottom:2rem;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+    .body h2{
+      margin:2.3rem 0 .9rem;
+      font-family:var(--font-display);
+      font-size:1.55rem;
+      line-height:1.12;
+      font-weight:500;
+    }
+    .body p{
+      margin:0 0 1.2rem;
+    }
+    .body em{font-style:italic}
+    @media (max-width:900px){
+      .nav{display:none}
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/index.html">
+        <span class="brand-mark">NX</span>
+        <span>NADX Markets</span>
+      </a>
+      <nav class="nav">
+        <a href="/index.html">Overview</a>
+        <a href="/publications.html">Publications</a>
+        <a href="/community.html">Community</a>
+      </nav>
+      <button class="theme-toggle" type="button" data-theme-toggle>◐</button>
+    </div>
+  </header>
+
+  <main class="article">
+    <article class="container">
+      <a class="back" href="/publications.html">← Back to publications</a>
+      <p class="eyebrow">Publication</p>
+      <h1>The Compact That Was Never Honored</h1>
+      <p class="dek">How demutualization severed the bargain between trading privileges and market-making obligations, and how the buy-side went from owner to product.</p>
+      <div class="meta">Essay · Demutualization · Market obligations</div>
+
+      <div class="body">
+        <p>In 1792, twenty‑four brokers signed the Buttonwood Agreement under a buttonwood tree on Wall Street. They formed a club. The club owned the exchange. The people who traded on it owned the infrastructure that served them. That arrangement lasted, in its essential form, for two hundred years.</p>
+
+        <p>In 2006, the New York Stock Exchange went public. ICE — the Intercontinental Exchange, a Georgia‑based derivatives platform — acquired it in 2013 for 8.2 billion dollars. The exchange founded as a member cooperative is now a subsidiary answerable to ICE’s shareholders. Nobody asked the pension funds.</p>
+
+        <p>This is not ancient history. It is the origin of most of what is wrong with US equity markets today.</p>
+
+        <h2>The Original Compact</h2>
+
+        <p>For most of the NYSE’s history, liquidity was provided by specialists — designated market makers with an exclusive franchise in specific stocks. The specialist in IBM captured the bid‑ask spread on every IBM trade. They saw the order book before anyone else. The franchise was valuable, legally protected, and enormously profitable.</p>
+
+        <p>In exchange, the specialist had explicit, enforceable obligations under NYSE Rule 104. The affirmative obligation: post both a bid and an offer at all times. The stabilization obligation: when the market is falling, buy. When it is rising, sell. Your capital is the shock absorber of last resort. A specialist who withdrew during a market break lost their franchise.</p>
+
+        <p>This was the quid pro quo: <em>you capture the spread; you show up when the market breaks.</em> The obligation was not ethical — it was structural. The specialist showed up because their franchise was at stake. The exchange enforced it because the exchange was owned by the people who needed the market to function.</p>
+
+        <h2>What Demutualization Destroyed</h2>
+
+        <p>High‑frequency trading firms are the functional successors to specialists. They now provide the majority of displayed liquidity in US equity markets. They inherited the privileges — spread capture, order‑flow information, co‑location advantages sold to them by the newly for‑profit exchange. They inherited none of the obligations.</p>
+
+        <p>No affirmative quoting requirement. No stabilization duty. No franchise at risk if they withdraw. They have the quid without the quo.</p>
+
+        <p>The for‑profit exchange did not impose obligations on its most important customers. HFT firms generate the volume that drives exchange revenue. When the NYSE became answerable to shareholders instead of members, its incentive shifted from enforcing market quality to maximizing that volume. Obligations became inconvenient. They were quietly retired.</p>
+
+        <p>On May 6, 2010, the bill came due. When the Flash Crash hit, HFT firms withdrew their liquidity. A trillion dollars of market capitalization evaporated in minutes. Virtu’s own SEC filings later acknowledged that HFT firms pulled their quotes during the crash — the exact behavior NYSE Rule 104 was designed to prevent. Under the specialist system, a market maker who did this lost their franchise by morning. In 2010, the firms that withdrew faced no consequences whatsoever. They had no obligation to breach.</p>
+
+        <p>The circuit breakers that followed were a regulatory acknowledgment of what had been lost. They are a mechanical substitute for a professional obligation that was eliminated when the exchange stopped being owned by the people who needed it to work.</p>
+
+        <h2>Why Nobody Fixed It</h2>
+
+        <p>After the Flash Crash, the SEC conducted a joint investigation with the CFTC. It produced reports, roundtables, and, eventually, circuit breakers. It did not restore the stabilization obligation. It did not reimpose an affirmative quoting requirement on the firms that had replaced the specialists. The quid pro quo remained broken.</p>
+
+        <p>This is where the revolving door earns its place in the story. The buy‑side shows up. Comment letters get filed. The data supports reform. But the sell‑side doesn’t just file comment letters — it retains lobbyists, funds economic studies designed to challenge the SEC’s analysis, and ensures that every reform proposal gets met with an equally credentialed counter‑argument. The regulator weighs what’s in front of them. What’s in front of them is not a balanced record. Nobody passed an envelope. The Collective Action Problem does the rest.</p>
+
+        <p>The pattern would repeat. Each new reform proposal brought the same response: the sell‑side standing up, ostensibly for retail — invoking the approximately 30 million Americans who actively trade their own brokerage accounts. What went unmentioned is that more than 120 million Americans hold their savings in mutual funds, ETFs, and retirement accounts — and their interests run in precisely the opposite direction. The sell‑side was not wrong to invoke retail. They were just invoking the smaller half of it. That argument is examined in the next article.</p>
+
+        <p>The exchange was demutualized. The quid pro quo was broken. The Flash Crash proved it. The revolving door ensured nobody fixed it.</p>
+
+        <p>The buy‑side went from co‑owner of the exchange to customer. Then, gradually, to product — the source of the order flow that the exchange sells access to, via co‑location and proprietary data feeds, to the same HFT firms that replaced the specialists without replacing their obligations.</p>
+
+        <p>The compact can be restored. Not by rule. By ownership.</p>
+
+        <p>No one designing a market from scratch today would build this one — where the privileges stayed and the obligations disappeared, where the buy‑side went from owner to product. Blockchain is the first genuine opportunity in thirty years to build it differently. The buy‑side built the original market. It has the capital, the collective weight, and now the technology to build the next one. What it has lacked, historically, is the will to act together. That is a choice — and it is still available.</p>
+
+        <p><em>“The corruptible but regulated dealer has been replaced by largely unaccountable and unregulated firms.” — R.T. Leuchtkafer, SEC Comment Letter, 2010</em></p>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggle = document.querySelector('[data-theme-toggle]');
+      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.setAttribute('data-theme', theme);
+      const sync = () => { toggle.textContent = theme === 'dark' ? '☼' : '◐'; };
+      sync();
+      toggle.addEventListener('click', () => {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', theme);
+        sync();
+      });
+    }());
+  </script>
+</body>
+</html>
