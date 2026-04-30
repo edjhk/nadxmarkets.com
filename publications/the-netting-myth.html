@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Netting Myth | NADX Markets</title>
+  <meta name="description" content="Why claims that T-instant settlement is impossible without netting are more about defending existing franchises than real economic constraints.">
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=zodiak@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --bg:#f7f6f2; --surface:#faf9f6; --border:#d6d1c8; --divider:#dfdbd4;
+      --text:#25221b; --muted:#6b6862; --primary:#01696f;
+      --font-body:'General Sans', Inter, sans-serif;
+      --font-display:'Zodiak', Georgia, serif;
+      --content:760px;
+    }
+    [data-theme="dark"] {
+      --bg:#171614; --surface:#1d1c19; --border:#393734; --divider:#2b2a27;
+      --text:#cfcdc8; --muted:#9a978f; --primary:#4f98a3;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--font-body);
+      line-height:1.7;
+      font-size:1.06rem;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{
+      width:min(calc(100% - 2rem),var(--content));
+      margin:0 auto;
+    }
+    .site-header{
+      position:sticky;
+      top:0;
+      background:color-mix(in srgb,var(--bg) 90%,transparent);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--divider);
+    }
+    .site-header__inner{
+      min-height:60px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+    }
+    .brand{
+      display:inline-flex;
+      align-items:center;
+      gap:.75rem;
+      font-size:.95rem;
+      font-weight:600;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+    .brand-mark{
+      width:28px;height:28px;border-radius:9px;
+      display:grid;place-items:center;
+      background:var(--primary);color:white;
+      font-size:.76rem;font-weight:700;
+    }
+    .nav{
+      display:flex;
+      gap:1.4rem;
+    }
+    .nav a{
+      font-size:.95rem;
+      color:var(--muted);
+    }
+    .nav a:hover{color:var(--text)}
+    .theme-toggle{
+      border:1px solid var(--border);
+      background:var(--surface);
+      color:var(--text);
+      border-radius:9999px;
+      padding:.45rem .8rem;
+      cursor:pointer;
+    }
+
+    .article{
+      padding:3.5rem 0 5rem;
+    }
+    .back{
+      display:inline-flex;
+      align-items:center;
+      gap:.4rem;
+      margin-bottom:1.25rem;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+    .eyebrow{
+      margin:0 0 .75rem;
+      font-size:.8rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    h1{
+      margin:0 0 1rem;
+      max-width:18ch;
+      font-family:var(--font-display);
+      font-size:clamp(2.2rem,1.4rem + 2vw,3.2rem);
+      line-height:1.03;
+      font-weight:500;
+    }
+    .dek{
+      margin:0 0 1.5rem;
+      color:var(--muted);
+      max-width:60ch;
+    }
+    .meta{
+      padding:0 0 1.6rem;
+      border-bottom:1px solid var(--divider);
+      margin-bottom:2rem;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+    .body h2{
+      margin:2.3rem 0 .9rem;
+      font-family:var(--font-display);
+      font-size:1.55rem;
+      line-height:1.12;
+      font-weight:500;
+    }
+    .body p{
+      margin:0 0 1.2rem;
+    }
+    .body em{font-style:italic}
+    @media (max-width:900px){
+      .nav{display:none}
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/index.html">
+        <span class="brand-mark">NX</span>
+        <span>NADX Markets</span>
+      </a>
+      <nav class="nav">
+        <a href="/index.html">Overview</a>
+        <a href="/publications.html">Publications</a>
+        <a href="/community.html">Community</a>
+      </nav>
+      <button class="theme-toggle" type="button" data-theme-toggle>◐</button>
+    </div>
+  </header>
+
+  <main class="article">
+    <article class="container">
+      <a class="back" href="/publications.html">← Back to publications</a>
+      <p class="eyebrow">Publication</p>
+      <h1>The Netting Myth</h1>
+      <p class="dek">Why claims that T-instant settlement is impossible without netting omit the third option, and what real-time netting and commercial credit lines actually make possible.</p>
+      <div class="meta">Essay · Netting · T‑instant settlement</div>
+
+      <div class="body">
+        <p><em>Part 4 in a series on securities markets, blockchain, and the case for structural change.</em></p>
+
+        <p>Railroads opposed the automobile. Cars opened a continent.</p>
+        <p>Luddites smashed looms. Looms ignited the Industrial Revolution.</p>
+        <p>Bank tellers opposed ATMs. Banks opened more branches, not fewer.</p>
+
+        <p>According to DTCC, T‑instant settlement is impossible without netting.</p>
+
+        <p>The first three articles in this series established the problem. Putting securities on the blockchain without changing the underlying infrastructure produces no meaningful change — it is a new label on an old system. The structural problems in US equity markets have largely resisted thirty years of reform because of regulatory capture and the Collective Action Problem: small groups with large individual stakes will always outspend and outlast large groups with diffuse ones. And when the NYSE demutualized, the buy‑side went from co‑owner of the exchange to customer — and then, gradually, to product.</p>
+
+        <p>This fourth article turns the corner. The question now is what real change actually looks like — and what we are being told stands in the way.</p>
+
+        <p>Two arguments follow every serious discussion of market structure reform like a shadow. The first: without high‑speed liquidity providers, markets would lose depth and eventually seize up. The second: without netting, the only alternative is pre‑funding — meaning every firm must hold full cash against every trade before executing. Both arguments are treated as settled economic facts. Neither is.</p>
+
+        <h2>A Word on Scienter</h2>
+
+        <p>Before going further, let’s be precise about what NADX is and is not arguing.</p>
+
+        <p>High‑frequency trading firms, market makers, and incumbent clearinghouses aren’t villains. They’re simply for‑profit companies operating rationally within the rules they were given — or helped create. There is no scienter — no intent to harm, no conspiracy, no bad faith.</p>
+
+        <p>A firm that captures spread without the obligations of a traditional market maker is simply doing what any rational actor would do. The previous article covered what those obligations used to look like — and when they disappeared. The problem has never been the players. It is the game. Change the game, and the behavior follows.</p>
+
+        <h2>The Liquidity Provider Is Not Indispensable</h2>
+
+        <p>The argument runs like this: high‑speed market makers provide the liquidity that makes trading possible. Without them, spreads would widen, depth would evaporate, and the market would become unworkable for institutional and retail participants alike.</p>
+
+        <p>This is backwards.</p>
+
+        <p>Markets create their own liquidity. If a seller needs to sell, they lower their price until a buyer appears. That buyer might be a high‑speed firm, a pension fund, another broker, or a retail investor. The current structure concentrates liquidity provision in a small number of high‑speed firms not because the market requires it, but because the current infrastructure rewards it. Exchanges sell proprietary data feeds. They offer rebates. They permit order types that only make sense at microsecond speed. If you don’t play the game, you can’t compete — and if you can’t compete, you exit. What looks like indispensable liquidity provision is really a self‑reinforcing infrastructure built around speed traders — and then dependent on them.</p>
+
+        <p>Remove the speed advantage — through randomly timed auctions, for example — and liquidity does not disappear. It redistributes. The latency arms race ends not by regulating speed but by making speed irrelevant. The firms that currently profit from microsecond advantages will adapt. They won’t close up shop. What will not survive is the argument that they are irreplaceable — that a regulatory framework which treats sub‑millisecond quote detection as legitimate market activity rather than, as R.T. Leuchtkafer put it, “essentially a form of fraud,” is the only way markets can function.</p>
+
+        <h2>What T‑Instant Actually Means</h2>
+
+        <p>The real innovation that blockchain makes possible for securities markets is not tokenization. It is atomic settlement. The next article will return to basics on this point — exploring how close blockchain‑based securities trading already is to the securities markets we have always had. Tokenization is not a new idea. When the Dutch East India Company issued the world’s first publicly traded shares in 1602, it was doing precisely what tokenization does today: dividing ownership of an enterprise into transferable pieces. Calling those pieces tokens instead of securities is semantics. Without structural change, the label does nothing.</p>
+
+        <p>In atomic settlement, both legs of a trade — the security and the cash — transfer simultaneously, in a single verifiable event, with a timestamp. The trade either completes entirely or it does not happen at all. There is no float window. There are no settlement fails. There are no ghost shares — phantom positions that exist only because the current system creates a gap between trade execution and actual transfer of ownership.</p>
+
+        <p>This is a closed system. A finite universe of securities. Every sale is simultaneously a purchase. Account balances update in real time. It is, in essence, what double‑entry accounting looks like applied to securities markets. In 1494, the Franciscan friar Luca Pacioli codified double‑entry bookkeeping in Venice — a system already in use across northern Italy for 150 years that he finally set down in rigorous form. It transformed commerce. It reduced fraud. It made capital formation across distances possible. It unlocked an era of trade that neither party to a transaction had previously been able to trust.</p>
+
+        <p>Imagine what atomic settlement could unlock.</p>
+
+        <h2>The Netting Myth</h2>
+
+        <p>Here is the objection: without netting, every trade requires full upfront capital. According to DTCC itself, netting reduces daily settlement obligations by an average of 98–99 percent. Remove netting, the argument goes, and the capital requirements become unworkable. Pre‑fund every trade, and institutional trading grinds to a halt.</p>
+
+        <p>This argument presents two options: netting or pre‑funding. It omits a third.</p>
+
+        <h2>The Third Option: A Commercial Line of Credit</h2>
+
+        <p>When the netting argument is pressed, a second objection follows: even if real‑time netting is theoretically possible, the capital costs of T‑instant settlement would fall on buy‑side firms in ways they are unprepared to absorb.</p>
+
+        <p>This conflates two very different things.</p>
+
+        <p>Margin trading — borrowing against a portfolio to achieve leverage, subject to margin calls, Regulation T limits, and broker oversight — is not what T‑instant settlement requires. Cash settlement with a pre‑arranged commercial line of credit is simply treasury management. The buyer has a funding facility with their own lender. The line activates on purchase and reduces on sale. The overnight balance — whatever position remains at end of day — earns interest paid to the buyer’s own lender, not to a clearing intermediary.</p>
+
+        <p>Every major buy‑side institution already manages commercial credit facilities. This is not exotic financing. It is a different legal relationship — one in which the clearing firm is no longer the linchpin of the capital structure. The buyer funds their own trades. The lender relationship is direct. The intermediary is removed.</p>
+
+        <p>The argument that this is operationally impossible is made by the intermediaries who would be removed.</p>
+
+        <p>Further evidence that real‑time netting at institutional scale is not theoretical: CHIPS — the Clearing House Interbank Payments System — processed an average of 2 trillion dollars per day in 2025. Not T+1. Not end of day. In real time, throughout the trading day, netting continuously across major financial institutions. CHIPS handles the large‑value interbank payments that underlie much of the global financial system — wire transfers, international settlements, interbank obligations — and it does so with real‑time netting that reduces gross obligations by roughly 95 percent.</p>
+
+        <p>The DTCC objection is not an economic constraint. It is a franchise defense.</p>
+
+        <h2>Who Benefits from T+1</h2>
+
+        <p>T+1 is a float.</p>
+
+        <p>During that business day, securities and cash are in motion. The settlement gap is not a neutral technical feature — it is an interval with economic value. Clearing firms hold positions, manage exposure, and earn revenue from the infrastructure that bridges trade execution and actual settlement. DTCC sits at the center of that process. Its franchise depends on the continued existence of the gap.</p>
+
+        <p>T‑instant eliminates the float. The clearing firm no longer holds the position. The confirmation function is replaced by the hash. The intermediary becomes optional — not because it was forced out, but because the economic function it performed no longer exists.</p>
+
+        <p>That is not a side effect of T‑instant settlement. It is why the objection exists at all. When an incumbent says a new system is impossible, the first question worth asking is: impossible for whom?</p>
+
+        <p>The netting argument is the first line of defense. When it falls, there is a second: without a central record‑keeper, no one will know who owns what. That argument — and what it reveals about who DTCC actually serves — is examined in the next article.</p>
+
+        <p><em>“What is legal is the widespread lack of supervision of the most aggressive and profitable groups of traders in American history.” — R.T. Leuchtkafer, SEC Comment Letter, April 16, 2010</em></p>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggle = document.querySelector('[data-theme-toggle]');
+      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.setAttribute('data-theme', theme);
+      const sync = () => { toggle.textContent = theme === 'dark' ? '☼' : '◐'; };
+      sync();
+      toggle.addEventListener('click', () => {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', theme);
+        sync();
+      });
+    }());
+  </script>
+</body>
+</html>
