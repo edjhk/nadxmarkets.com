@@ -16,6 +16,24 @@
       --content:760px;
     }
 
+    .comment-entry-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 18px 0 22px;
+}
+
+#comment-entry-area {
+  margin-top: 6px;
+}
+
+#comment-auth-panel,
+#comment-user-panel {
+  margin-top: 18px;
+}
+
+#screen-name-form {
+  margin-bottom: 24px;
+}
     *{box-sizing:border-box}
     body{
       margin:0;
@@ -396,387 +414,405 @@
       </div>
 
       <section class="article-comments" id="article-comments">
-        <h2>Comments</h2>
-        <p class="article-comments-intro">
-          Discussion stays with the article. Comments require email verification.
-        </p>
+  <h2>Comments</h2>
 
-        <div class="comments-panel">
-          <div id="comments-auth-logged-out">
-            <h3>Join the discussion</h3>
-            <p>Enter your email and name, and we’ll send you a sign-in link.</p>
+  <div class="comments-panel">
+    <div id="comments-list" class="comments-list"></div>
+    <p id="comments-empty" class="comment-empty" hidden>No comments yet.</p>
 
-            <form id="magic-link-form">
-              <div class="comment-field">
-                <label for="comment-email">Email</label>
-                <input id="comment-email" name="email" type="email" autocomplete="email" required>
-              </div>
+    <div class="comment-entry-divider"></div>
 
-              <div class="comment-field">
-                <label for="comment-full-name">Full name</label>
-                <input id="comment-full-name" name="full_name" type="text" required>
-              </div>
+    <div id="comment-entry-area">
+      <button id="open-comment-box" class="comment-secondary-button" type="button">Leave a comment</button>
 
-              <div class="comment-actions">
-                <button class="comment-button" type="submit">Email me a sign-in link</button>
-              </div>
-
-              <p id="magic-link-status" class="comment-status" hidden></p>
-            </form>
+      <div id="comment-auth-panel" hidden>
+        <form id="magic-link-form">
+          <div class="comment-field">
+            <label for="comment-email">Email</label>
+            <input id="comment-email" name="email" type="email" autocomplete="email" required>
           </div>
 
-          <div id="comments-auth-logged-in" hidden>
-            <div class="comment-user-bar">
-              <p id="logged-in-message"></p>
-              <button id="comment-sign-out" class="comment-secondary-button" type="button">Sign out</button>
-            </div>
-
-            <div id="screen-name-panel">
-              <h3>Display name</h3>
-              <p class="comment-help">
-                Optional. Leave this blank and we’ll use your first name and last initial.
-              </p>
-
-              <form id="screen-name-form">
-                <div class="comment-field">
-                  <label for="comment-screen-name">Screen name</label>
-                  <input id="comment-screen-name" name="screen_name" type="text" maxlength="40">
-                </div>
-
-                <div class="comment-actions">
-                  <button class="comment-secondary-button" type="submit">Save display name</button>
-                </div>
-
-                <p id="screen-name-status" class="comment-status" hidden></p>
-              </form>
-            </div>
+          <div class="comment-field">
+            <label for="comment-full-name">Full name</label>
+            <input id="comment-full-name" name="full_name" type="text" required>
           </div>
+
+          <div class="comment-actions">
+            <button class="comment-button" type="submit">Email me a sign-in link</button>
+            <button id="cancel-auth-panel" class="comment-secondary-button" type="button">Cancel</button>
+          </div>
+
+          <p id="magic-link-status" class="comment-status" hidden></p>
+        </form>
+      </div>
+
+      <div id="comment-user-panel" hidden>
+        <div class="comment-user-bar">
+          <p id="logged-in-message"></p>
+          <button id="comment-sign-out" class="comment-secondary-button" type="button">Sign out</button>
         </div>
 
-        <div class="comments-panel">
-          <h3>Leave a comment</h3>
-          <form id="comment-form">
-            <div class="comment-field">
-              <label for="comment-body">Comment</label>
-              <textarea id="comment-body" name="body" maxlength="5000" required></textarea>
-            </div>
+        <form id="screen-name-form">
+          <div class="comment-field">
+            <label for="comment-screen-name">Screen name</label>
+            <input id="comment-screen-name" name="screen_name" type="text" maxlength="40">
+          </div>
 
-            <div class="comment-actions">
-              <button class="comment-button" type="submit">Submit comment</button>
-            </div>
+          <div class="comment-actions">
+            <button class="comment-secondary-button" type="submit">Save display name</button>
+          </div>
 
-            <p class="comment-help">New comments appear after review.</p>
-            <p id="comment-submit-status" class="comment-status" hidden></p>
-          </form>
-        </div>
+          <p id="screen-name-status" class="comment-status" hidden></p>
+        </form>
 
-        <div class="comments-panel">
-          <h3>Published comments</h3>
-          <div id="comments-list" class="comments-list"></div>
-          <p id="comments-empty" class="comment-empty" hidden>No comments yet.</p>
-        </div>
-      </section>
-    </article>
+        <form id="comment-form">
+          <div class="comment-field">
+            <label for="comment-body">Leave a comment</label>
+            <textarea id="comment-body" name="body" maxlength="5000" required></textarea>
+          </div>
+
+          <div class="comment-actions">
+            <button class="comment-button" type="submit">Submit comment</button>
+          </div>
+
+          <p id="comment-submit-status" class="comment-status" hidden></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>    </article>
   </main>
 
   <script type="module">
-    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-    const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co'
-    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh'
-    const ARTICLE_SLUG = 'why-no-moon'
+  const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co'
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh'
+  const ARTICLE_SLUG = 'why-no-moon'
 
-    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+  const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
 
-    const ui = {
-      loggedOut: document.getElementById('comments-auth-logged-out'),
-      loggedIn: document.getElementById('comments-auth-logged-in'),
-      magicLinkForm: document.getElementById('magic-link-form'),
-      magicLinkStatus: document.getElementById('magic-link-status'),
-      emailInput: document.getElementById('comment-email'),
-      fullNameInput: document.getElementById('comment-full-name'),
-      loggedInMessage: document.getElementById('logged-in-message'),
-      signOutButton: document.getElementById('comment-sign-out'),
-      screenNameForm: document.getElementById('screen-name-form'),
-      screenNameInput: document.getElementById('comment-screen-name'),
-      screenNameStatus: document.getElementById('screen-name-status'),
-      commentForm: document.getElementById('comment-form'),
-      commentBody: document.getElementById('comment-body'),
-      commentSubmitStatus: document.getElementById('comment-submit-status'),
-      commentsList: document.getElementById('comments-list'),
-      commentsEmpty: document.getElementById('comments-empty')
-    }
+  const ui = {
+    openCommentBox: document.getElementById('open-comment-box'),
+    authPanel: document.getElementById('comment-auth-panel'),
+    cancelAuthPanel: document.getElementById('cancel-auth-panel'),
+    userPanel: document.getElementById('comment-user-panel'),
+    magicLinkForm: document.getElementById('magic-link-form'),
+    magicLinkStatus: document.getElementById('magic-link-status'),
+    emailInput: document.getElementById('comment-email'),
+    fullNameInput: document.getElementById('comment-full-name'),
+    loggedInMessage: document.getElementById('logged-in-message'),
+    signOutButton: document.getElementById('comment-sign-out'),
+    screenNameForm: document.getElementById('screen-name-form'),
+    screenNameInput: document.getElementById('comment-screen-name'),
+    screenNameStatus: document.getElementById('screen-name-status'),
+    commentForm: document.getElementById('comment-form'),
+    commentBody: document.getElementById('comment-body'),
+    commentSubmitStatus: document.getElementById('comment-submit-status'),
+    commentsList: document.getElementById('comments-list'),
+    commentsEmpty: document.getElementById('comments-empty')
+  }
 
-    function setStatus(el, message, type = 'success') {
-      el.hidden = false
-      el.textContent = message
-      el.classList.remove('is-error', 'is-success')
-      el.classList.add(type === 'error' ? 'is-error' : 'is-success')
-    }
+  function setStatus(el, message, type = 'success') {
+    el.hidden = false
+    el.textContent = message
+    el.classList.remove('is-error', 'is-success')
+    el.classList.add(type === 'error' ? 'is-error' : 'is-success')
+  }
 
-    function clearStatus(el) {
-      el.hidden = true
-      el.textContent = ''
-      el.classList.remove('is-error', 'is-success')
-    }
+  function clearStatus(el) {
+    el.hidden = true
+    el.textContent = ''
+    el.classList.remove('is-error', 'is-success')
+  }
 
-    function escapeHtml(value) {
-      return (value || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;')
-    }
+  function escapeHtml(value) {
+    return (value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;')
+  }
 
-    function deriveFallbackDisplayName(fullName) {
-      const cleaned = (fullName || '').trim().replace(/\s+/g, ' ')
-      if (!cleaned) return 'Verified User'
-      const parts = cleaned.split(' ')
-      const first = parts[0]
-      const lastInitial = parts.length > 1 ? ` ${parts[parts.length - 1][0]}.` : ''
-      return `${first}${lastInitial}`
-    }
+  function deriveFallbackDisplayName(fullName) {
+    const cleaned = (fullName || '').trim().replace(/\s+/g, ' ')
+    if (!cleaned) return 'Verified User'
+    const parts = cleaned.split(' ')
+    const first = parts[0]
+    const lastInitial = parts.length > 1 ? ` ${parts[parts.length - 1][0]}.` : ''
+    return `${first}${lastInitial}`
+  }
 
-    function getPublicName(profile) {
-      if (profile?.screen_name && profile.screen_name.trim() !== '') return profile.screen_name.trim()
-      return deriveFallbackDisplayName(profile?.full_name || '')
-    }
+  function getPublicName(profile) {
+    if (profile?.screen_name && profile.screen_name.trim() !== '') return profile.screen_name.trim()
+    return deriveFallbackDisplayName(profile?.full_name || '')
+  }
 
-    async function getCurrentSession() {
-      const { data, error } = await supabase.auth.getSession()
-      if (error) throw error
-      return data.session
-    }
+  function showLoggedOutState() {
+    ui.authPanel.hidden = true
+    ui.userPanel.hidden = true
+    ui.openCommentBox.hidden = false
+  }
 
-    async function getOwnProfile(userId) {
-      const { data, error } = await supabase
+  function showAuthPanel() {
+    ui.authPanel.hidden = false
+    ui.userPanel.hidden = true
+    ui.openCommentBox.hidden = true
+  }
+
+  function showUserPanel() {
+    ui.authPanel.hidden = true
+    ui.userPanel.hidden = false
+    ui.openCommentBox.hidden = true
+  }
+
+  async function getCurrentSession() {
+    const { data, error } = await supabase.auth.getSession()
+    if (error) throw error
+    return data.session
+  }
+
+  async function getOwnProfile(userId) {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('user_id', userId)
+      .single()
+
+    if (error) throw error
+    return data
+  }
+
+  async function ensureProfile(user) {
+    let profile = await getOwnProfile(user.id)
+    const pendingFullName = (sessionStorage.getItem('pending_full_name') || '').trim()
+
+    if ((!profile.full_name || profile.full_name.trim() === '') && pendingFullName) {
+      const { error } = await supabase
         .from('profiles')
-        .select('*')
-        .eq('user_id', userId)
-        .single()
+        .update({ full_name: pendingFullName, email: user.email })
+        .eq('user_id', user.id)
 
       if (error) throw error
-      return data
+      profile = await getOwnProfile(user.id)
     }
 
-    async function ensureProfile(user) {
-      let profile = await getOwnProfile(user.id)
-      const pendingFullName = (sessionStorage.getItem('pending_full_name') || '').trim()
+    return profile
+  }
 
-      if ((!profile.full_name || profile.full_name.trim() === '') && pendingFullName) {
-        const { error } = await supabase
-          .from('profiles')
-          .update({ full_name: pendingFullName, email: user.email })
-          .eq('user_id', user.id)
+  async function refreshAuthState() {
+    clearStatus(ui.magicLinkStatus)
+    clearStatus(ui.screenNameStatus)
+    clearStatus(ui.commentSubmitStatus)
 
-        if (error) throw error
-        profile = await getOwnProfile(user.id)
-      }
+    const session = await getCurrentSession()
 
-      return profile
+    if (!session?.user) {
+      showLoggedOutState()
+      return null
     }
 
-    async function refreshAuthState() {
-      clearStatus(ui.magicLinkStatus)
-      clearStatus(ui.screenNameStatus)
-      clearStatus(ui.commentSubmitStatus)
+    const profile = await ensureProfile(session.user)
+    const displayName = getPublicName(profile)
 
-      const session = await getCurrentSession()
+    ui.loggedInMessage.textContent = `Signed in as ${displayName}`
+    ui.screenNameInput.value = profile.screen_name || ''
 
-      if (!session?.user) {
-        ui.loggedOut.hidden = false
-        ui.loggedIn.hidden = true
-        return null
-      }
+    showUserPanel()
+    return { session, profile }
+  }
 
-      ui.loggedOut.hidden = true
-      ui.loggedIn.hidden = false
+  async function loadPublishedComments() {
+    const { data: comments, error: commentsError } = await supabase
+      .from('article_comments')
+      .select('id, user_id, body, created_at')
+      .eq('article_slug', ARTICLE_SLUG)
+      .eq('status', 'published')
+      .order('created_at', { ascending: true })
 
-      const profile = await ensureProfile(session.user)
-      const displayName = getPublicName(profile)
-
-      ui.loggedInMessage.textContent = `Signed in as ${displayName}`
-      ui.screenNameInput.value = profile.screen_name || ''
-
-      return { session, profile }
-    }
-
-    async function loadPublishedComments() {
-      const { data: comments, error: commentsError } = await supabase
-        .from('article_comments')
-        .select('id, user_id, body, created_at')
-        .eq('article_slug', ARTICLE_SLUG)
-        .eq('status', 'published')
-        .order('created_at', { ascending: true })
-
-      if (commentsError) {
-        ui.commentsList.innerHTML = '<p>Unable to load comments right now.</p>'
-        ui.commentsEmpty.hidden = true
-        return
-      }
-
-      if (!comments || comments.length === 0) {
-        ui.commentsList.innerHTML = ''
-        ui.commentsEmpty.hidden = false
-        return
-      }
-
-      const authorIds = [...new Set(comments.map(comment => comment.user_id))]
-      let profilesMap = new Map()
-
-      if (authorIds.length > 0) {
-        const { data: profileRows } = await supabase
-          .from('profiles')
-          .select('user_id, full_name, screen_name')
-          .in('user_id', authorIds)
-
-        profilesMap = new Map((profileRows || []).map(profile => [profile.user_id, profile]))
-      }
-
+    if (commentsError) {
+      ui.commentsList.innerHTML = '<p>Unable to load comments right now.</p>'
       ui.commentsEmpty.hidden = true
-      ui.commentsList.innerHTML = comments.map(comment => {
-        const profile = profilesMap.get(comment.user_id)
-        const author = getPublicName(profile)
-        const date = new Date(comment.created_at).toLocaleDateString(undefined, {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        })
-
-        return `
-          <article class="comment-item">
-            <div class="comment-meta">
-              <div class="comment-author">${escapeHtml(author)}</div>
-              <div class="comment-date">${escapeHtml(date)}</div>
-            </div>
-            <div class="comment-body">${escapeHtml(comment.body)}</div>
-          </article>
-        `
-      }).join('')
+      return
     }
 
-    ui.magicLinkForm.addEventListener('submit', async (event) => {
-      event.preventDefault()
-      clearStatus(ui.magicLinkStatus)
+    if (!comments || comments.length === 0) {
+      ui.commentsList.innerHTML = ''
+      ui.commentsEmpty.hidden = false
+      return
+    }
 
-      const email = ui.emailInput.value.trim()
-      const fullName = ui.fullNameInput.value.trim()
+    const authorIds = [...new Set(comments.map(comment => comment.user_id))]
+    let profilesMap = new Map()
 
-      if (!email || !fullName) {
-        setStatus(ui.magicLinkStatus, 'Please enter both your email and full name.', 'error')
-        return
-      }
+    if (authorIds.length > 0) {
+      const { data: profileRows } = await supabase
+        .from('profiles')
+        .select('user_id, full_name, screen_name')
+        .in('user_id', authorIds)
 
-      sessionStorage.setItem('pending_full_name', fullName)
+      profilesMap = new Map((profileRows || []).map(profile => [profile.user_id, profile]))
+    }
 
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          shouldCreateUser: true,
-          emailRedirectTo: window.location.href
-        }
+    ui.commentsEmpty.hidden = true
+    ui.commentsList.innerHTML = comments.map(comment => {
+      const profile = profilesMap.get(comment.user_id)
+      const author = getPublicName(profile)
+      const date = new Date(comment.created_at).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
       })
 
-      if (error) {
-        setStatus(ui.magicLinkStatus, error.message, 'error')
-        return
-      }
+      return `
+        <article class="comment-item">
+          <div class="comment-meta">
+            <div class="comment-author">${escapeHtml(author)}</div>
+            <div class="comment-date">${escapeHtml(date)}</div>
+          </div>
+          <div class="comment-body">${escapeHtml(comment.body)}</div>
+        </article>
+      `
+    }).join('')
+  }
 
-      setStatus(ui.magicLinkStatus, 'Check your email for your sign-in link.')
+  ui.openCommentBox.addEventListener('click', async () => {
+    const session = await getCurrentSession()
+    if (session?.user) {
+      await refreshAuthState()
+    } else {
+      showAuthPanel()
+    }
+  })
+
+  ui.cancelAuthPanel.addEventListener('click', () => {
+    clearStatus(ui.magicLinkStatus)
+    showLoggedOutState()
+  })
+
+  ui.magicLinkForm.addEventListener('submit', async (event) => {
+    event.preventDefault()
+    clearStatus(ui.magicLinkStatus)
+
+    const email = ui.emailInput.value.trim()
+    const fullName = ui.fullNameInput.value.trim()
+
+    if (!email || !fullName) {
+      setStatus(ui.magicLinkStatus, 'Please enter both your email and full name.', 'error')
+      return
+    }
+
+    sessionStorage.setItem('pending_full_name', fullName)
+
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: window.location.href
+      }
     })
 
-    ui.screenNameForm.addEventListener('submit', async (event) => {
-      event.preventDefault()
-      clearStatus(ui.screenNameStatus)
+    if (error) {
+      setStatus(ui.magicLinkStatus, error.message, 'error')
+      return
+    }
 
-      const session = await getCurrentSession()
-      if (!session?.user) {
-        setStatus(ui.screenNameStatus, 'Please sign in again.', 'error')
-        return
-      }
+    setStatus(ui.magicLinkStatus, 'Check your email for your sign-in link.')
+  })
 
-      const screenName = ui.screenNameInput.value.trim()
+  ui.screenNameForm.addEventListener('submit', async (event) => {
+    event.preventDefault()
+    clearStatus(ui.screenNameStatus)
 
-      const { error } = await supabase
-        .from('profiles')
-        .update({
-          screen_name: screenName === '' ? null : screenName
-        })
-        .eq('user_id', session.user.id)
+    const session = await getCurrentSession()
+    if (!session?.user) {
+      setStatus(ui.screenNameStatus, 'Please sign in again.', 'error')
+      return
+    }
 
-      if (error) {
-        setStatus(ui.screenNameStatus, error.message, 'error')
-        return
-      }
+    const screenName = ui.screenNameInput.value.trim()
 
-      setStatus(ui.screenNameStatus, 'Display name saved.')
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        screen_name: screenName === '' ? null : screenName
+      })
+      .eq('user_id', session.user.id)
+
+    if (error) {
+      setStatus(ui.screenNameStatus, error.message, 'error')
+      return
+    }
+
+    setStatus(ui.screenNameStatus, 'Display name saved.')
+    await refreshAuthState()
+    await loadPublishedComments()
+  })
+
+  ui.commentForm.addEventListener('submit', async (event) => {
+    event.preventDefault()
+    clearStatus(ui.commentSubmitStatus)
+
+    const session = await getCurrentSession()
+    if (!session?.user) {
+      showAuthPanel()
+      setStatus(ui.commentSubmitStatus, 'Please sign in before submitting a comment.', 'error')
+      return
+    }
+
+    const body = ui.commentBody.value.trim()
+
+    if (!body) {
+      setStatus(ui.commentSubmitStatus, 'Please enter a comment.', 'error')
+      return
+    }
+
+    const { error } = await supabase
+      .from('article_comments')
+      .insert([{
+        article_slug: ARTICLE_SLUG,
+        user_id: session.user.id,
+        body,
+        status: 'pending'
+      }])
+
+    if (error) {
+      setStatus(ui.commentSubmitStatus, error.message, 'error')
+      return
+    }
+
+    ui.commentBody.value = ''
+    setStatus(ui.commentSubmitStatus, 'Comment submitted.')
+  })
+
+  ui.signOutButton.addEventListener('click', async () => {
+    await supabase.auth.signOut()
+    sessionStorage.removeItem('pending_full_name')
+    showLoggedOutState()
+  })
+
+  const { data: authListener } = supabase.auth.onAuthStateChange(async () => {
+    try {
       await refreshAuthState()
       await loadPublishedComments()
-    })
+    } catch (error) {
+      console.error(error)
+    }
+  })
 
-    ui.commentForm.addEventListener('submit', async (event) => {
-      event.preventDefault()
-      clearStatus(ui.commentSubmitStatus)
-
-      const session = await getCurrentSession()
-      if (!session?.user) {
-        setStatus(ui.commentSubmitStatus, 'Please sign in before submitting a comment.', 'error')
-        return
-      }
-
-      const body = ui.commentBody.value.trim()
-
-      if (!body) {
-        setStatus(ui.commentSubmitStatus, 'Please enter a comment.', 'error')
-        return
-      }
-
-      const { error } = await supabase
-        .from('article_comments')
-        .insert([{
-          article_slug: ARTICLE_SLUG,
-          user_id: session.user.id,
-          body,
-          status: 'pending'
-        }])
-
-      if (error) {
-        setStatus(ui.commentSubmitStatus, error.message, 'error')
-        return
-      }
-
-      ui.commentBody.value = ''
-      setStatus(ui.commentSubmitStatus, 'Comment submitted for review.')
-    })
-
-    ui.signOutButton.addEventListener('click', async () => {
-      await supabase.auth.signOut()
-      sessionStorage.removeItem('pending_full_name')
+  ;(async function initComments() {
+    try {
       await refreshAuthState()
-    })
+      await loadPublishedComments()
+    } catch (error) {
+      console.error(error)
+    }
+  })()
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(async () => {
-      try {
-        await refreshAuthState()
-        await loadPublishedComments()
-      } catch (error) {
-        console.error(error)
-      }
-    })
-
-    ;(async function initComments() {
-      try {
-        await refreshAuthState()
-        await loadPublishedComments()
-      } catch (error) {
-        console.error(error)
-      }
-    })()
-
-    window.addEventListener('beforeunload', () => {
-      authListener?.subscription?.unsubscribe?.()
-    })
-  </script>
+  window.addEventListener('beforeunload', () => {
+    authListener?.subscription?.unsubscribe?.()
+  })
+</script>
 </body>
 </html>
