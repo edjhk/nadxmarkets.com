@@ -15,10 +15,7 @@
       --font-display:'Zodiak', Georgia, serif;
       --content:760px;
     }
-    [data-theme="dark"] {
-      --bg:#171614; --surface:#1d1c19; --border:#393734; --divider:#2b2a27;
-      --text:#cfcdc8; --muted:#9a978f; --primary:#4f98a3;
-    }
+
     *{box-sizing:border-box}
     body{
       margin:0;
@@ -39,6 +36,7 @@
       background:color-mix(in srgb,var(--bg) 90%,transparent);
       backdrop-filter:blur(14px);
       border-bottom:1px solid var(--divider);
+      z-index:10;
     }
     .site-header__inner{
       min-height:60px;
@@ -56,17 +54,6 @@
       letter-spacing:.05em;
       text-transform:uppercase;
     }
-    .brand-mark{
-      width:28px;
-      height:28px;
-      border-radius:9px;
-      display:grid;
-      place-items:center;
-      background:var(--primary);
-      color:white;
-      font-size:.76rem;
-      font-weight:700;
-    }
     .nav{
       display:flex;
       gap:1.4rem;
@@ -76,14 +63,6 @@
       color:var(--muted);
     }
     .nav a:hover{color:var(--text)}
-    .theme-toggle{
-      border:1px solid var(--border);
-      background:var(--surface);
-      color:var(--text);
-      border-radius:9999px;
-      padding:.45rem .8rem;
-      cursor:pointer;
-    }
 
     .article{
       padding:3.5rem 0 5rem;
@@ -134,23 +113,229 @@
       margin:0 0 1.2rem;
     }
     .body em{font-style:italic}
+
+    .article-comments {
+      margin-top: 72px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    .article-comments h2 {
+      margin: 0 0 10px 0;
+      font-size: 1.5rem;
+      line-height: 1.2;
+      font-weight: 600;
+    }
+
+    .article-comments-intro {
+      margin: 0 0 28px 0;
+      color: rgba(0, 0, 0, 0.68);
+      max-width: 720px;
+    }
+
+    .comments-panel {
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      padding: 24px;
+      margin-bottom: 24px;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(6px);
+    }
+
+    .comments-panel h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.05rem;
+      line-height: 1.3;
+      font-weight: 600;
+    }
+
+    .comments-panel p {
+      margin: 0 0 16px 0;
+    }
+
+    .comment-field {
+      margin-bottom: 16px;
+    }
+
+    .comment-field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .comment-field input,
+    .comment-field textarea {
+      width: 100%;
+      border: 1px solid rgba(0, 0, 0, 0.18);
+      background: #fff;
+      color: #111;
+      padding: 12px 14px;
+      font: inherit;
+      line-height: 1.45;
+      border-radius: 0;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .comment-field input:focus,
+    .comment-field textarea:focus {
+      border-color: #4a87b9;
+      box-shadow: 0 0 0 1px #4a87b9;
+    }
+
+    .comment-field textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .comment-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .comment-button,
+    .comment-secondary-button {
+      appearance: none;
+      border: 1px solid #111;
+      background: #111;
+      color: #fff;
+      font: inherit;
+      padding: 11px 16px;
+      cursor: pointer;
+      transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+    }
+
+    .comment-button:hover,
+    .comment-button:focus {
+      background: #4a87b9;
+      border-color: #4a87b9;
+    }
+
+    .comment-secondary-button {
+      background: transparent;
+      color: #111;
+    }
+
+    .comment-secondary-button:hover,
+    .comment-secondary-button:focus {
+      color: #4a87b9;
+      border-color: #4a87b9;
+      background: transparent;
+    }
+
+    .comment-status {
+      margin-top: 12px;
+      font-size: 0.95rem;
+    }
+
+    .comment-status.is-error {
+      color: #9d1f1f;
+    }
+
+    .comment-status.is-success {
+      color: #1c6b45;
+    }
+
+    .comment-user-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .comment-user-bar p {
+      margin: 0;
+    }
+
+    .comment-help {
+      font-size: 0.94rem;
+      color: rgba(0, 0, 0, 0.68);
+    }
+
+    .comments-list {
+      margin-top: 6px;
+    }
+
+    .comment-item {
+      padding: 18px 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .comment-item:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .comment-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .comment-author {
+      font-weight: 600;
+    }
+
+    .comment-date {
+      font-size: 0.94rem;
+      color: rgba(0, 0, 0, 0.62);
+    }
+
+    .comment-body {
+      white-space: pre-wrap;
+    }
+
+    .comment-empty {
+      color: rgba(0, 0, 0, 0.68);
+      margin: 0;
+    }
+
     @media (max-width:900px){
       .nav{display:none}
+    }
+
+    @media (max-width:720px){
+      .article-comments {
+        margin-top: 56px;
+        padding-top: 32px;
+      }
+
+      .comments-panel {
+        padding: 18px;
+      }
+
+      .comment-user-bar,
+      .comment-meta,
+      .comment-actions {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .comment-button,
+      .comment-secondary-button {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
   <header class="site-header">
     <div class="container site-header__inner">
-      <a class="brand" href="/index.html" aria-label="NADX Markets home">
+      <a class="brand" href="/" aria-label="NADX Markets home">
         <img src="/nadx.png" alt="NADX Markets" style="height:28px; display:block;">
       </a>
       <nav class="nav">
-        <a href="/index.html">Overview</a>
+        <a href="/">Overview</a>
         <a href="/publications.html">Publications</a>
-        <a href="/community.html">Community</a>
+        <a href="/resources.html">Resources</a>
       </nav>
-      <button class="theme-toggle" type="button" data-theme-toggle>◐</button>
     </div>
   </header>
 
@@ -209,23 +394,389 @@
         <p>The buy‑side doesn't need a moon. It needs a market that works. Those are very different things. One is a windfall. The other is thirty years overdue.</p>
         <p><em>Leuchtkäfer (n.) – German: firefly. Literally, “glowing beetle.”</em></p>
       </div>
+
+      <section class="article-comments" id="article-comments">
+        <h2>Comments</h2>
+        <p class="article-comments-intro">
+          Discussion stays with the article. Comments require email verification.
+        </p>
+
+        <div class="comments-panel">
+          <div id="comments-auth-logged-out">
+            <h3>Join the discussion</h3>
+            <p>Enter your email and name, and we’ll send you a sign-in link.</p>
+
+            <form id="magic-link-form">
+              <div class="comment-field">
+                <label for="comment-email">Email</label>
+                <input id="comment-email" name="email" type="email" autocomplete="email" required>
+              </div>
+
+              <div class="comment-field">
+                <label for="comment-full-name">Full name</label>
+                <input id="comment-full-name" name="full_name" type="text" required>
+              </div>
+
+              <div class="comment-actions">
+                <button class="comment-button" type="submit">Email me a sign-in link</button>
+              </div>
+
+              <p id="magic-link-status" class="comment-status" hidden></p>
+            </form>
+          </div>
+
+          <div id="comments-auth-logged-in" hidden>
+            <div class="comment-user-bar">
+              <p id="logged-in-message"></p>
+              <button id="comment-sign-out" class="comment-secondary-button" type="button">Sign out</button>
+            </div>
+
+            <div id="screen-name-panel">
+              <h3>Display name</h3>
+              <p class="comment-help">
+                Optional. Leave this blank and we’ll use your first name and last initial.
+              </p>
+
+              <form id="screen-name-form">
+                <div class="comment-field">
+                  <label for="comment-screen-name">Screen name</label>
+                  <input id="comment-screen-name" name="screen_name" type="text" maxlength="40">
+                </div>
+
+                <div class="comment-actions">
+                  <button class="comment-secondary-button" type="submit">Save display name</button>
+                </div>
+
+                <p id="screen-name-status" class="comment-status" hidden></p>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="comments-panel">
+          <h3>Leave a comment</h3>
+          <form id="comment-form">
+            <div class="comment-field">
+              <label for="comment-body">Comment</label>
+              <textarea id="comment-body" name="body" maxlength="5000" required></textarea>
+            </div>
+
+            <div class="comment-actions">
+              <button class="comment-button" type="submit">Submit comment</button>
+            </div>
+
+            <p class="comment-help">New comments appear after review.</p>
+            <p id="comment-submit-status" class="comment-status" hidden></p>
+          </form>
+        </div>
+
+        <div class="comments-panel">
+          <h3>Published comments</h3>
+          <div id="comments-list" class="comments-list"></div>
+          <p id="comments-empty" class="comment-empty" hidden>No comments yet.</p>
+        </div>
+      </section>
     </article>
   </main>
 
-  <script>
-    (function () {
-      const root = document.documentElement;
-      const toggle = document.querySelector('[data-theme-toggle]');
-      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      root.setAttribute('data-theme', theme);
-      const sync = () => { toggle.textContent = theme === 'dark' ? '☼' : '◐'; };
-      sync();
-      toggle.addEventListener('click', () => {
-        theme = theme === 'dark' ? 'light' : 'dark';
-        root.setAttribute('data-theme', theme);
-        sync();
-      });
-    }());
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+    const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co'
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh'
+    const ARTICLE_SLUG = 'why-no-moon'
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+
+    const ui = {
+      loggedOut: document.getElementById('comments-auth-logged-out'),
+      loggedIn: document.getElementById('comments-auth-logged-in'),
+      magicLinkForm: document.getElementById('magic-link-form'),
+      magicLinkStatus: document.getElementById('magic-link-status'),
+      emailInput: document.getElementById('comment-email'),
+      fullNameInput: document.getElementById('comment-full-name'),
+      loggedInMessage: document.getElementById('logged-in-message'),
+      signOutButton: document.getElementById('comment-sign-out'),
+      screenNameForm: document.getElementById('screen-name-form'),
+      screenNameInput: document.getElementById('comment-screen-name'),
+      screenNameStatus: document.getElementById('screen-name-status'),
+      commentForm: document.getElementById('comment-form'),
+      commentBody: document.getElementById('comment-body'),
+      commentSubmitStatus: document.getElementById('comment-submit-status'),
+      commentsList: document.getElementById('comments-list'),
+      commentsEmpty: document.getElementById('comments-empty')
+    }
+
+    function setStatus(el, message, type = 'success') {
+      el.hidden = false
+      el.textContent = message
+      el.classList.remove('is-error', 'is-success')
+      el.classList.add(type === 'error' ? 'is-error' : 'is-success')
+    }
+
+    function clearStatus(el) {
+      el.hidden = true
+      el.textContent = ''
+      el.classList.remove('is-error', 'is-success')
+    }
+
+    function escapeHtml(value) {
+      return (value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+    }
+
+    function deriveFallbackDisplayName(fullName) {
+      const cleaned = (fullName || '').trim().replace(/\s+/g, ' ')
+      if (!cleaned) return 'Verified User'
+      const parts = cleaned.split(' ')
+      const first = parts[0]
+      const lastInitial = parts.length > 1 ? ` ${parts[parts.length - 1][0]}.` : ''
+      return `${first}${lastInitial}`
+    }
+
+    function getPublicName(profile) {
+      if (profile?.screen_name && profile.screen_name.trim() !== '') return profile.screen_name.trim()
+      return deriveFallbackDisplayName(profile?.full_name || '')
+    }
+
+    async function getCurrentSession() {
+      const { data, error } = await supabase.auth.getSession()
+      if (error) throw error
+      return data.session
+    }
+
+    async function getOwnProfile(userId) {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', userId)
+        .single()
+
+      if (error) throw error
+      return data
+    }
+
+    async function ensureProfile(user) {
+      let profile = await getOwnProfile(user.id)
+      const pendingFullName = (sessionStorage.getItem('pending_full_name') || '').trim()
+
+      if ((!profile.full_name || profile.full_name.trim() === '') && pendingFullName) {
+        const { error } = await supabase
+          .from('profiles')
+          .update({ full_name: pendingFullName, email: user.email })
+          .eq('user_id', user.id)
+
+        if (error) throw error
+        profile = await getOwnProfile(user.id)
+      }
+
+      return profile
+    }
+
+    async function refreshAuthState() {
+      clearStatus(ui.magicLinkStatus)
+      clearStatus(ui.screenNameStatus)
+      clearStatus(ui.commentSubmitStatus)
+
+      const session = await getCurrentSession()
+
+      if (!session?.user) {
+        ui.loggedOut.hidden = false
+        ui.loggedIn.hidden = true
+        return null
+      }
+
+      ui.loggedOut.hidden = true
+      ui.loggedIn.hidden = false
+
+      const profile = await ensureProfile(session.user)
+      const displayName = getPublicName(profile)
+
+      ui.loggedInMessage.textContent = `Signed in as ${displayName}`
+      ui.screenNameInput.value = profile.screen_name || ''
+
+      return { session, profile }
+    }
+
+    async function loadPublishedComments() {
+      const { data: comments, error: commentsError } = await supabase
+        .from('article_comments')
+        .select('id, user_id, body, created_at')
+        .eq('article_slug', ARTICLE_SLUG)
+        .eq('status', 'published')
+        .order('created_at', { ascending: true })
+
+      if (commentsError) {
+        ui.commentsList.innerHTML = '<p>Unable to load comments right now.</p>'
+        ui.commentsEmpty.hidden = true
+        return
+      }
+
+      if (!comments || comments.length === 0) {
+        ui.commentsList.innerHTML = ''
+        ui.commentsEmpty.hidden = false
+        return
+      }
+
+      const authorIds = [...new Set(comments.map(comment => comment.user_id))]
+      let profilesMap = new Map()
+
+      if (authorIds.length > 0) {
+        const { data: profileRows } = await supabase
+          .from('profiles')
+          .select('user_id, full_name, screen_name')
+          .in('user_id', authorIds)
+
+        profilesMap = new Map((profileRows || []).map(profile => [profile.user_id, profile]))
+      }
+
+      ui.commentsEmpty.hidden = true
+      ui.commentsList.innerHTML = comments.map(comment => {
+        const profile = profilesMap.get(comment.user_id)
+        const author = getPublicName(profile)
+        const date = new Date(comment.created_at).toLocaleDateString(undefined, {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        })
+
+        return `
+          <article class="comment-item">
+            <div class="comment-meta">
+              <div class="comment-author">${escapeHtml(author)}</div>
+              <div class="comment-date">${escapeHtml(date)}</div>
+            </div>
+            <div class="comment-body">${escapeHtml(comment.body)}</div>
+          </article>
+        `
+      }).join('')
+    }
+
+    ui.magicLinkForm.addEventListener('submit', async (event) => {
+      event.preventDefault()
+      clearStatus(ui.magicLinkStatus)
+
+      const email = ui.emailInput.value.trim()
+      const fullName = ui.fullNameInput.value.trim()
+
+      if (!email || !fullName) {
+        setStatus(ui.magicLinkStatus, 'Please enter both your email and full name.', 'error')
+        return
+      }
+
+      sessionStorage.setItem('pending_full_name', fullName)
+
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: true,
+          emailRedirectTo: window.location.href
+        }
+      })
+
+      if (error) {
+        setStatus(ui.magicLinkStatus, error.message, 'error')
+        return
+      }
+
+      setStatus(ui.magicLinkStatus, 'Check your email for your sign-in link.')
+    })
+
+    ui.screenNameForm.addEventListener('submit', async (event) => {
+      event.preventDefault()
+      clearStatus(ui.screenNameStatus)
+
+      const session = await getCurrentSession()
+      if (!session?.user) {
+        setStatus(ui.screenNameStatus, 'Please sign in again.', 'error')
+        return
+      }
+
+      const screenName = ui.screenNameInput.value.trim()
+
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          screen_name: screenName === '' ? null : screenName
+        })
+        .eq('user_id', session.user.id)
+
+      if (error) {
+        setStatus(ui.screenNameStatus, error.message, 'error')
+        return
+      }
+
+      setStatus(ui.screenNameStatus, 'Display name saved.')
+      await refreshAuthState()
+      await loadPublishedComments()
+    })
+
+    ui.commentForm.addEventListener('submit', async (event) => {
+      event.preventDefault()
+      clearStatus(ui.commentSubmitStatus)
+
+      const session = await getCurrentSession()
+      if (!session?.user) {
+        setStatus(ui.commentSubmitStatus, 'Please sign in before submitting a comment.', 'error')
+        return
+      }
+
+      const body = ui.commentBody.value.trim()
+
+      if (!body) {
+        setStatus(ui.commentSubmitStatus, 'Please enter a comment.', 'error')
+        return
+      }
+
+      const { error } = await supabase
+        .from('article_comments')
+        .insert([{
+          article_slug: ARTICLE_SLUG,
+          user_id: session.user.id,
+          body,
+          status: 'pending'
+        }])
+
+      if (error) {
+        setStatus(ui.commentSubmitStatus, error.message, 'error')
+        return
+      }
+
+      ui.commentBody.value = ''
+      setStatus(ui.commentSubmitStatus, 'Comment submitted for review.')
+    })
+
+    ui.signOutButton.addEventListener('click', async () => {
+      await supabase.auth.signOut()
+      sessionStorage.removeItem('pending_full_name')
+      await refreshAuthState()
+    })
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(async () => {
+      try {
+        await refreshAuthState()
+        await loadPublishedComments()
+      } catch (error) {
+        console.error(error)
+      }
+    })
+
+    ;(async function initComments() {
+      try {
+        await refreshAuthState()
+        await loadPublishedComments()
+      } catch (error) {
+        console.error(error)
+      }
+    })()
+
+    window.addEventListener('beforeunload', () => {
+      authListener?.subscription?.unsubscribe?.()
+    })
   </script>
 </body>
 </html>
