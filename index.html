@@ -32,6 +32,62 @@ a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 button{font:inherit;cursor:pointer}
 
+.essays-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: var(--sp4);
+}
+.essays-head h2 {
+  font-family: var(--display); font-size: var(--text-xl); font-weight: 500;
+}
+.essays-head a { font-size: var(--text-sm); color: var(--muted); }
+.essays-head a:hover { color: var(--gold); }
+.essays-intro {
+  color: var(--muted); font-size: var(--text-sm);
+  margin-bottom: var(--sp8); max-width: 56ch;
+}
+.series-label {
+  font-size: var(--text-xs); letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: var(--sp4);
+}
+.essays-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp5);
+}
+.coming-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+.essay-card {
+  padding: var(--sp5); border: 1px solid var(--border);
+  border-radius: var(--r-xl); background: var(--surf2);
+  display: flex; flex-direction: column; gap: var(--sp3);
+  transition: border-color .18s;
+}
+.essay-card:hover { border-color: var(--gold); }
+.essay-card h3 {
+  font-size: var(--text-base); font-weight: 500;
+  line-height: 1.3; color: var(--text);
+}
+.essay-card p {
+  font-size: var(--text-sm); color: var(--muted);
+  line-height: 1.5; flex: 1; margin: 0;
+}
+.read-link {
+  font-size: var(--text-sm); color: var(--gold);
+  font-weight: 500; margin-top: auto;
+}
+.essay-card--coming {
+  opacity: .55; cursor: default; pointer-events: none;
+}
+.coming-badge {
+  font-size: var(--text-xs); letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted);
+  margin-top: auto;
+}
+@media (max-width: 900px) {
+  .essays-grid, .coming-grid { grid-template-columns: 1fr; }
+}
+
 .problems-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
