@@ -1,818 +1,147 @@
-<!doctype html>
-<html lang="en" data-theme="light">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Why No Moon for Securities on the Blockchain | NADX Markets</title>
-  <meta name="description" content="Why tokenized securities are unlikely to produce crypto-style windfalls, and why the real question is market design rather than speculative upside.">
-  <link rel="preconnect" href="https://api.fontshare.com">
-  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=zodiak@400,500,700&display=swap" rel="stylesheet">
-  <style>
-    :root, [data-theme="light"] {
-      --bg:#f7f6f2; --surface:#faf9f6; --border:#d6d1c8; --divider:#dfdbd4;
-      --text:#25221b; --muted:#6b6862; --primary:#01696f;
-      --font-body:'General Sans', Inter, sans-serif;
-      --font-display:'Zodiak', Georgia, serif;
-      --content:760px;
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Why No Moon for Securities on the Blockchain | NADX Securities</title>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&f[]=zodiak@400,500,600&display=swap" rel="stylesheet">
 
-    .comment-entry-divider {
-  height: 1px;
-  background: rgba(0, 0, 0, 0.1);
-  margin: 18px 0 22px;
+<style>
+:root {
+  --text-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.86rem);
+  --text-sm: clamp(0.88rem, 0.82rem + 0.2vw, 0.98rem);
+  --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.08rem);
+  --text-lg: clamp(1.08rem, 1rem + 0.45vw, 1.32rem);
+  --text-xl: clamp(1.35rem, 1.08rem + 1vw, 1.95rem);
+  --text-2xl: clamp(2rem, 1.45rem + 1.8vw, 3rem);
+  --sp2:.5rem;--sp3:.75rem;--sp4:1rem;--sp5:1.25rem;--sp6:1.5rem;
+  --sp8:2rem;--sp10:2.5rem;--sp12:3rem;--sp16:4rem;
+  --r-full:9999px;--r-xl:1rem;--r-lg:.75rem;
+  --bg:#111111;
+  --surf:#171717;
+  --surf2:#1e1c18;
+  --border:#2f2a22;
+  --divider:#26221c;
+  --text:#f3f0e8;
+  --muted:#c3b79b;
+  --gold:#c8a96b;
+  --gold-h:#b6914d;
+  --white:#ffffff;
+  --shadow:0 12px 28px rgba(0,0,0,.32);
+  --body:"General Sans",Inter,sans-serif;
+  --display:"Zodiak",Georgia,serif;
+  --content:760px;
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);font-size:var(--text-base);line-height:1.7;
+  color:var(--text);background:var(--bg)}
+a{color:inherit;text-decoration:none}
+.container{width:min(calc(100% - 2rem),var(--content));margin:0 auto}
 
-#comment-entry-area {
-  margin-top: 6px;
-}
+/* Header */
+.site-header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 92%,transparent);
+  border-bottom:1px solid var(--divider)}
+.site-header__inner{min-height:60px;display:flex;align-items:center;
+  justify-content:space-between;gap:var(--sp4)}
+.brand{display:inline-flex;align-items:center;gap:var(--sp3);
+  font-size:var(--text-sm);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.brand-mark{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;
+  background:var(--gold);color:#111;font-size:.76rem;font-weight:700}
+.nav{display:flex;align-items:center;gap:var(--sp5)}
+.nav a{font-size:var(--text-sm);color:var(--muted);transition:color .18s}
+.nav a:hover,.nav a.active{color:var(--text)}
 
-#comment-auth-panel,
-#comment-user-panel {
-  margin-top: 18px;
-}
+/* Article layout */
+.article{padding:var(--sp16) 0 var(--sp16)}
+.back{display:inline-flex;align-items:center;gap:var(--sp2);
+  margin-bottom:var(--sp8);font-size:var(--text-sm);color:var(--muted);transition:color .18s}
+.back:hover{color:var(--gold)}
+.eyebrow{font-size:var(--text-xs);letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:var(--sp4)}
+.article h1{font-family:var(--display);font-size:var(--text-2xl);
+  font-weight:500;line-height:1.05;letter-spacing:-.02em;
+  color:var(--white);margin-bottom:var(--sp5);max-width:22ch}
+.dek{font-size:var(--text-lg);color:var(--muted);line-height:1.5;
+  max-width:52ch;margin-bottom:var(--sp6)}
+.meta{padding:var(--sp4) 0 var(--sp6);border-bottom:1px solid var(--divider);
+  margin-bottom:var(--sp8);color:var(--muted);font-size:var(--text-sm)}
+.series-note{display:inline-block;font-size:var(--text-xs);letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:var(--sp2)}
 
-#screen-name-form {
-  margin-bottom: 24px;
-}
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--text);
-      font-family:var(--font-body);
-      line-height:1.7;
-      font-size:1.06rem;
-    }
-    a{color:inherit;text-decoration:none}
-    .container{
-      width:min(calc(100% - 2rem),var(--content));
-      margin:0 auto;
-    }
-    .site-header{
-      position:sticky;
-      top:0;
-      background:color-mix(in srgb,var(--bg) 90%,transparent);
-      backdrop-filter:blur(14px);
-      border-bottom:1px solid var(--divider);
-      z-index:10;
-    }
-    .site-header__inner{
-      min-height:60px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:1rem;
-    }
-    .brand{
-      display:inline-flex;
-      align-items:center;
-      gap:.75rem;
-      font-size:.95rem;
-      font-weight:600;
-      letter-spacing:.05em;
-      text-transform:uppercase;
-    }
-    .nav{
-      display:flex;
-      gap:1.4rem;
-    }
-    .nav a{
-      font-size:.95rem;
-      color:var(--muted);
-    }
-    .nav a:hover{color:var(--text)}
+/* Body text */
+.body{color:var(--text);line-height:1.75}
+.body p{margin-bottom:1.4rem;max-width:68ch}
+.body h2{font-family:var(--display);font-size:var(--text-xl);font-weight:500;
+  color:var(--white);line-height:1.15;letter-spacing:-.02em;
+  margin:var(--sp10) 0 var(--sp4);max-width:26ch}
+.body h3{font-size:var(--text-lg);font-weight:600;color:var(--text);
+  margin:var(--sp8) 0 var(--sp3)}
+.body strong{color:var(--white);font-weight:600}
+.body em{color:var(--gold);font-style:italic}
+.body blockquote{border-left:2px solid var(--gold);padding-left:var(--sp5);
+  margin:var(--sp6) 0;font-family:var(--display);font-size:var(--text-lg);
+  font-style:italic;color:var(--white);line-height:1.4}
 
-    .article{
-      padding:3.5rem 0 5rem;
-    }
-    .back{
-      display:inline-flex;
-      align-items:center;
-      gap:.4rem;
-      margin-bottom:1.25rem;
-      color:var(--muted);
-      font-size:.95rem;
-    }
-    .eyebrow{
-      margin:0 0 .75rem;
-      font-size:.8rem;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
-    h1{
-      margin:0 0 1rem;
-      max-width:16ch;
-      font-family:var(--font-display);
-      font-size:clamp(2.2rem,1.4rem + 2vw,3.2rem);
-      line-height:1.03;
-      font-weight:500;
-    }
-    .dek{
-      margin:0 0 1.5rem;
-      color:var(--muted);
-      max-width:60ch;
-    }
-    .meta{
-      padding:0 0 1.6rem;
-      border-bottom:1px solid var(--divider);
-      margin-bottom:2rem;
-      color:var(--muted);
-      font-size:.95rem;
-    }
-    .body h2{
-      margin:2.3rem 0 .9rem;
-      font-family:var(--font-display);
-      font-size:1.55rem;
-      line-height:1.12;
-      font-weight:500;
-    }
-    .body p{
-      margin:0 0 1.2rem;
-    }
-    .body em{font-style:italic}
+/* Footer */
+.site-footer{border-top:1px solid var(--divider);padding:var(--sp5) 0 var(--sp8);
+  color:var(--muted);font-size:var(--text-sm)}
+.footer-row{display:flex;align-items:center;justify-content:space-between;
+  gap:var(--sp4);flex-wrap:wrap}
 
-    .article-comments {
-      margin-top: 72px;
-      padding-top: 40px;
-      border-top: 1px solid rgba(0, 0, 0, 0.12);
-    }
+/* Nav next/prev */
+.article-nav{display:flex;justify-content:space-between;
+  padding:var(--sp8) 0 0;border-top:1px solid var(--divider);margin-top:var(--sp10)}
+.article-nav a{font-size:var(--text-sm);color:var(--muted);transition:color .18s}
+.article-nav a:hover{color:var(--gold)}
 
-    .article-comments h2 {
-      margin: 0 0 10px 0;
-      font-size: 1.5rem;
-      line-height: 1.2;
-      font-weight: 600;
-    }
+@media(max-width:900px){.nav{display:none}}
+</style>
 
-    .article-comments-intro {
-      margin: 0 0 28px 0;
-      color: rgba(0, 0, 0, 0.68);
-      max-width: 720px;
-    }
-
-    .comments-panel {
-      border: 1px solid rgba(0, 0, 0, 0.12);
-      padding: 24px;
-      margin-bottom: 24px;
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(6px);
-    }
-
-    .comments-panel h3 {
-      margin: 0 0 8px 0;
-      font-size: 1.05rem;
-      line-height: 1.3;
-      font-weight: 600;
-    }
-
-    .comments-panel p {
-      margin: 0 0 16px 0;
-    }
-
-    .comment-field {
-      margin-bottom: 16px;
-    }
-
-    .comment-field label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .comment-field input,
-    .comment-field textarea {
-      width: 100%;
-      border: 1px solid rgba(0, 0, 0, 0.18);
-      background: #fff;
-      color: #111;
-      padding: 12px 14px;
-      font: inherit;
-      line-height: 1.45;
-      border-radius: 0;
-      outline: none;
-      box-sizing: border-box;
-    }
-
-    .comment-field input:focus,
-    .comment-field textarea:focus {
-      border-color: #4a87b9;
-      box-shadow: 0 0 0 1px #4a87b9;
-    }
-
-    .comment-field textarea {
-      min-height: 140px;
-      resize: vertical;
-    }
-
-    .comment-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .comment-button,
-    .comment-secondary-button {
-      appearance: none;
-      border: 1px solid #111;
-      background: #111;
-      color: #fff;
-      font: inherit;
-      padding: 11px 16px;
-      cursor: pointer;
-      transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
-    }
-
-    .comment-button:hover,
-    .comment-button:focus {
-      background: #4a87b9;
-      border-color: #4a87b9;
-    }
-
-    .comment-secondary-button {
-      background: transparent;
-      color: #111;
-    }
-
-    .comment-secondary-button:hover,
-    .comment-secondary-button:focus {
-      color: #4a87b9;
-      border-color: #4a87b9;
-      background: transparent;
-    }
-
-    .comment-status {
-      margin-top: 12px;
-      font-size: 0.95rem;
-    }
-
-    .comment-status.is-error {
-      color: #9d1f1f;
-    }
-
-    .comment-status.is-success {
-      color: #1c6b45;
-    }
-
-    .comment-user-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
-
-    .comment-user-bar p {
-      margin: 0;
-    }
-
-    .comment-help {
-      font-size: 0.94rem;
-      color: rgba(0, 0, 0, 0.68);
-    }
-
-    .comments-list {
-      margin-top: 6px;
-    }
-
-    .comment-item {
-      padding: 18px 0;
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    .comment-item:first-child {
-      border-top: none;
-      padding-top: 0;
-    }
-
-    .comment-meta {
-      display: flex;
-      justify-content: space-between;
-      gap: 14px;
-      align-items: baseline;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
-
-    .comment-author {
-      font-weight: 600;
-    }
-
-    .comment-date {
-      font-size: 0.94rem;
-      color: rgba(0, 0, 0, 0.62);
-    }
-
-    .comment-body {
-      white-space: pre-wrap;
-    }
-
-    .comment-empty {
-      color: rgba(0, 0, 0, 0.68);
-      margin: 0;
-    }
-
-    @media (max-width:900px){
-      .nav{display:none}
-    }
-
-    @media (max-width:720px){
-      .article-comments {
-        margin-top: 56px;
-        padding-top: 32px;
-      }
-
-      .comments-panel {
-        padding: 18px;
-      }
-
-      .comment-user-bar,
-      .comment-meta,
-      .comment-actions {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .comment-button,
-      .comment-secondary-button {
-        width: 100%;
-      }
-    }
-  </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container site-header__inner">
-      <a class="brand" href="/" aria-label="NADX Markets home">
-        <img src="/nadx.png" alt="NADX Markets" style="height:28px; display:block;">
-      </a>
-      <nav class="nav">
-        <a href="/">Overview</a>
-        <a href="/publications.html">Publications</a>
-        <a href="/resources.html">Resources</a>
-      </nav>
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="../index.html" class="brand">
+      <span class="brand-mark">N</span>
+      NADX Securities
+    </a>
+    <nav class="nav">
+      <a href="../index.html">The Case</a>
+      <a href="../publications.html" class="active">Research</a>
+      <a href="../platform.html">Platform</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="article">
+  <div class="container">
+    <a class="back" href="../publications.html">&larr; All publications</a>
+    <p class="series-note">Part 1 of a series on securities markets, blockchain, and the case for structural change.</p>
+    <p class="eyebrow">Publication · Part 1</p>
+    <h1>Why No Moon for Securities on the Blockchain</h1>
+    <p class="dek">Why tokenized securities will not replicate the ICO era — and why the real opportunity is something more durable and more valuable than a price spike.</p>
+    <div class="body">
+      <p>Securities on blockchain rails will not recreate the conditions that drove the ICO era. Regulation, fundamental valuation, and institutional participation change the economics completely.</p>
+<p>The larger argument is not anti-blockchain. It is that blockchain matters only if it delivers a market structure with better execution, lower structural cost, and more credible settlement economics.</p>
+<p>The piece ultimately reframes the issue from hype to ownership of infrastructure: who builds the next market, for whom, and under what incentives?</p>
     </div>
-  </header>
-
-  <main class="article">
-    <article class="container">
-      <a class="back" href="/publications.html">← Back to publications</a>
-      <p class="eyebrow">Publication</p>
-      <h1>Why No Moon for Securities on the Blockchain</h1>
-      <p class="dek">Why tokenized securities are unlikely to produce crypto-style windfalls, and why the real question is market design rather than speculative upside.</p>
-      <div class="meta">Essay · Securities on blockchain · Market structure</div>
-
-      <div class="body">
-        <p><strong>Why No Moon for Securities on the Blockchain</strong></p>
-        <p>Two words that defined an era: <strong>When moon?</strong></p>
-        <p>During the ICO boom of 2017 to 2021, investors didn't measure returns in percentages, but in multiples – 5x, 10x, 50x. The standard playbook: receive 20% of your total token allocation at the token generation event, dump it immediately into the launch-day frenzy, recover your entire investment in the first hours of trading, and ride the remaining 80% for free. It worked. Repeatedly. Until it didn't.</p>
-        <p>Securities on the blockchain will deliver none of that. This article is not a skeptic's obituary for the technology. It is a precise account of what securities on the blockchain will and will not do – and why the “will not” matters as much as the “will.”</p>
-
-        <h2>When Moon! Number Go Up!</h2>
-        <p>Let's be honest about something first: the ICO boom of 2017–18 was extraordinary. Not as a scam, not as a cautionary tale – as a genuine feat of financial engineering that nobody in legacy finance could have imagined.</p>
-        <p>Crypto created a global, 24/7, permissionless market for digital assets accessible to anyone with an internet connection – built entirely outside the architecture of legacy finance. No prime brokers. No clearinghouses. No compliance departments. No correspondent banking relationships. It just worked.</p>
-        <p>And it worked for four compounding reasons. It was <strong>unregulated</strong> – no filing requirements, no accreditation thresholds, no registration. Anyone with an internet connection could participate at pre-launch, launch, and in the secondary market. No broker required. No net worth threshold. No geography. The ICO market was essentially the world.</p>
-        <p>It was driven by <strong>explosive FOMO</strong> – the visible, public, real-time spectacle of ordinary people making life-changing returns created a self-reinforcing wave of participation. It had <strong>network effects</strong> – every new participant made the asset more valuable and the market more liquid, pulling in retail speculation at a scale trad‑fi markets had never seen. And it had <strong>no fundamental anchor</strong> – utility tokens were neither debt nor equity; assets traded on pure sentiment, narrative, and community. There was nothing to tether them.</p>
-        <p>Underlying all of it: trustless transactions and frictionless transfers that let those four forces operate at genuinely global scale.</p>
-        <p>Most importantly, crypto proved something: the old gatekeepers were not indispensable. The market functioned – and thrived – entirely without them.</p>
-        <p>The people asking “when moon?” were not wrong to be excited. They were in the right place at the right time. The reasons it worked, however, are precisely the reasons it cannot be replicated in securities markets.</p>
-
-        <h2>Why No Moon for Securities on the Blockchain</h2>
-        <p>Securities on the blockchain will have none of those four conditions. Remove any one of them and the returns profile changes dramatically. Securities will be missing all four.</p>
-        <p>It will be <strong>regulated</strong> – from day one. KYC. AML. Insider trading rules. Settlement obligations. Every protection that securities law imposes – and every constraint – travels with the asset regardless of what technology underlies it. The relevant market is not the world.</p>
-        <p>Pre-launch private placements are restricted to accredited investors – net worth over $1 million, income over $200,000. The retail crowd that fueled the crypto boom largely isn't invited to the pre‑IPO. Launch‑day and secondary trading, while broader, still require KYC, AML compliance, and a brokerage relationship.</p>
-        <p>There will be no <strong>self‑sustaining FOMO</strong>. Securities can generate it – GameStop proved it – but that required WallStreetBets' social movement. The blockchain wrapper doesn't create one.</p>
-        <p><strong>Network effects</strong> won't save it either. Without significant institutional participation from day one, the loop runs in reverse – thin markets, wide spreads, participants leave. Fewer participants means worse pricing. Worse pricing drives more participants away. Retail participation alone will never break that cycle.</p>
-        <p>And securities have <strong>fundamental anchors</strong>. A tokenized Apple share is worth what Apple is worth. The token is not the asset. It is just the wrapper. Putting a blockchain label on a security changes nothing about its value.</p>
-        <p>The track record confirms it. As of 2026, a handful of entities have put securities on the blockchain in various forms. The result has been, almost without exception, a nothingburger.</p>
-        <p>The blockchain didn't make anyone rich. The absence of regulation did. Securities will have regulation. Ergo: no moon.</p>
-
-        <h2>So Why Bother?</h2>
-        <p>If there's no moon, and retail participation alone can't solve the liquidity problem, the institutional shrug becomes understandable. Most buy‑side firms don't see securities on the blockchain as an opportunity. They see it as a nuisance – one more venue to connect to, one more compliance question to answer, one more flavor of fragmentation in a market already fragmented beyond reason. Another thing their compliance teams will have to figure out.</p>
-        <p>They are right – about what is being proposed now. They are wrong about what is possible.</p>
-        <p>Here is the framing that changes the question: markets always move toward greater efficiency. Trading is virtually free for retail investors today. It was also “more efficient than ever” ten years ago, twenty‑five years ago, fifty years ago. Each generation of infrastructure delivered the next increment of efficiency – and was eventually replaced by something that delivered more.</p>
-        <p>The direction is not in doubt. Only the timing and the architecture are open questions.</p>
-        <p>The next unlock is not blockchain. It is <strong>T‑instant settlement</strong>. Without it, blockchain is just a wrapper – a new label on a process that remains structurally unchanged.</p>
-        <p>SEC Chair Atkins and Larry Fink of BlackRock have both said that blockchain can eliminate clearing costs. They are right. But it will not do that until the clearing and settlement process itself is overhauled – not rebranded. The way securities trade must change.</p>
-        <p>The incumbents are already moving. But they are moving to cement the existing economics onto new rails – preserving the fee structures, the intermediary layers, and the information and power asymmetries that define the current system. Worse yet, their approach risks introducing additional fragmentation into a market that is already paying a steep price for the fragmentation it has.</p>
-        <p>NADX is asking a different question: what would T‑instant settlement actually look like, what would it take to get there, with improved execution quality and costs?</p>
-        <p>The following articles will address those questions.</p>
-
-        <h2>The Real Question</h2>
-        <p>Securities will trade on the blockchain. That is not a prediction – it is already happening, and the direction of travel is not reversible.</p>
-        <p>If the wrong players build it – the incumbents, the exchanges, the clearinghouses – they will replicate every broken feature of the current system on new rails. The HFT advantages that cost institutional investors billions annually will be further entrenched, not eliminated. The fragmentation that destroys execution quality will be extended into a new asset class.</p>
-        <p>The economics that currently flow away from the buy‑side will continue to flow away from the buy‑side, now with a blockchain logo on the letterhead.</p>
-        <p>If the right players build it – the buy‑side – none of that has to be true.</p>
-        <p>The institutions that shrug today are correct about what exists now. They are looking at the right landscape and reaching the right conclusion about the wrong question.</p>
-        <p>The question is not whether today's securities‑on‑blockchain offerings are worth their attention. They are not.</p>
-        <p>The question is who will own the infrastructure when it finally gets built right – and whether the buy‑side will be at that table, or will arrive, as it did with the exchanges, only to discover that its seat was sold while it wasn't paying attention.</p>
-        <p>The buy‑side doesn't need a moon. It needs a market that works. Those are very different things. One is a windfall. The other is thirty years overdue.</p>
-        <p><em>Leuchtkäfer (n.) – German: firefly. Literally, “glowing beetle.”</em></p>
-      </div>
-
-      <section class="article-comments" id="article-comments">
-  <h2>Comments</h2>
-
-  <div class="comments-panel">
-    <div id="comments-list" class="comments-list"></div>
-    <p id="comments-empty" class="comment-empty" hidden>No comments yet.</p>
-
-    <div class="comment-entry-divider"></div>
-
-    <div id="comment-entry-area">
-      <button id="open-comment-box" class="comment-secondary-button" type="button">Leave a comment</button>
-
-      <div id="comment-auth-panel" hidden>
-        <form id="magic-link-form">
-          <div class="comment-field">
-            <label for="comment-email">Email</label>
-            <input id="comment-email" name="email" type="email" autocomplete="email" required>
-          </div>
-
-          <div class="comment-field">
-            <label for="comment-full-name">Full name</label>
-            <input id="comment-full-name" name="full_name" type="text" required>
-          </div>
-
-          <div class="comment-actions">
-            <button class="comment-button" type="submit">Email me a sign-in link</button>
-            <button id="cancel-auth-panel" class="comment-secondary-button" type="button">Cancel</button>
-          </div>
-
-          <p id="magic-link-status" class="comment-status" hidden></p>
-        </form>
-      </div>
-
-      <div id="comment-user-panel" hidden>
-        <div class="comment-user-bar">
-          <p id="logged-in-message"></p>
-          <button id="comment-sign-out" class="comment-secondary-button" type="button">Sign out</button>
-        </div>
-
-        <form id="screen-name-form">
-          <div class="comment-field">
-            <label for="comment-screen-name">Screen name</label>
-            <input id="comment-screen-name" name="screen_name" type="text" maxlength="40">
-          </div>
-
-          <div class="comment-actions">
-            <button class="comment-secondary-button" type="submit">Save display name</button>
-          </div>
-
-          <p id="screen-name-status" class="comment-status" hidden></p>
-        </form>
-
-        <form id="comment-form">
-          <div class="comment-field">
-            <label for="comment-body">Leave a comment</label>
-            <textarea id="comment-body" name="body" maxlength="5000" required></textarea>
-          </div>
-
-          <div class="comment-actions">
-            <button class="comment-button" type="submit">Submit comment</button>
-          </div>
-
-          <p id="comment-submit-status" class="comment-status" hidden></p>
-        </form>
-      </div>
+    <div class="article-nav">
+      <div></div>
+      <div><a href="regulatory-capture.html">Regulatory Capture: Why Markets Never Get Fixed &rarr;</a></div>
     </div>
   </div>
-</section>    </article>
-  </main>
+</main>
 
-  <script type="module">
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+<footer class="site-footer">
+  <div class="container footer-row">
+    <span>&copy; 2026 NADX Securities, Inc. For institutional and accredited investors only.</span>
+    <a href="../contact.html" style="color:var(--muted)">Contact</a>
+  </div>
+</footer>
 
-  const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co'
-  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh'
-  const ARTICLE_SLUG = 'why-no-moon'
-
-  const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
-
-  const ui = {
-    openCommentBox: document.getElementById('open-comment-box'),
-    authPanel: document.getElementById('comment-auth-panel'),
-    cancelAuthPanel: document.getElementById('cancel-auth-panel'),
-    userPanel: document.getElementById('comment-user-panel'),
-    magicLinkForm: document.getElementById('magic-link-form'),
-    magicLinkStatus: document.getElementById('magic-link-status'),
-    emailInput: document.getElementById('comment-email'),
-    fullNameInput: document.getElementById('comment-full-name'),
-    loggedInMessage: document.getElementById('logged-in-message'),
-    signOutButton: document.getElementById('comment-sign-out'),
-    screenNameForm: document.getElementById('screen-name-form'),
-    screenNameInput: document.getElementById('comment-screen-name'),
-    screenNameStatus: document.getElementById('screen-name-status'),
-    commentForm: document.getElementById('comment-form'),
-    commentBody: document.getElementById('comment-body'),
-    commentSubmitStatus: document.getElementById('comment-submit-status'),
-    commentsList: document.getElementById('comments-list'),
-    commentsEmpty: document.getElementById('comments-empty')
-  }
-
-  function setStatus(el, message, type = 'success') {
-    el.hidden = false
-    el.textContent = message
-    el.classList.remove('is-error', 'is-success')
-    el.classList.add(type === 'error' ? 'is-error' : 'is-success')
-  }
-
-  function clearStatus(el) {
-    el.hidden = true
-    el.textContent = ''
-    el.classList.remove('is-error', 'is-success')
-  }
-
-  function escapeHtml(value) {
-    return (value || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;')
-  }
-
-  function deriveFallbackDisplayName(fullName) {
-    const cleaned = (fullName || '').trim().replace(/\s+/g, ' ')
-    if (!cleaned) return 'Verified User'
-    const parts = cleaned.split(' ')
-    const first = parts[0]
-    const lastInitial = parts.length > 1 ? ` ${parts[parts.length - 1][0]}.` : ''
-    return `${first}${lastInitial}`
-  }
-
-  function getPublicName(profile) {
-    if (profile?.screen_name && profile.screen_name.trim() !== '') return profile.screen_name.trim()
-    return deriveFallbackDisplayName(profile?.full_name || '')
-  }
-
-  function showLoggedOutState() {
-    ui.authPanel.hidden = true
-    ui.userPanel.hidden = true
-    ui.openCommentBox.hidden = false
-  }
-
-  function showAuthPanel() {
-    ui.authPanel.hidden = false
-    ui.userPanel.hidden = true
-    ui.openCommentBox.hidden = true
-  }
-
-  function showUserPanel() {
-    ui.authPanel.hidden = true
-    ui.userPanel.hidden = false
-    ui.openCommentBox.hidden = true
-  }
-
-  async function getCurrentSession() {
-    const { data, error } = await supabase.auth.getSession()
-    if (error) throw error
-    return data.session
-  }
-
-  async function getOwnProfile(userId) {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('user_id', userId)
-      .single()
-
-    if (error) throw error
-    return data
-  }
-
-  async function ensureProfile(user) {
-    let profile = await getOwnProfile(user.id)
-    const pendingFullName = (sessionStorage.getItem('pending_full_name') || '').trim()
-
-    if ((!profile.full_name || profile.full_name.trim() === '') && pendingFullName) {
-      const { error } = await supabase
-        .from('profiles')
-        .update({ full_name: pendingFullName, email: user.email })
-        .eq('user_id', user.id)
-
-      if (error) throw error
-      profile = await getOwnProfile(user.id)
-    }
-
-    return profile
-  }
-
-  async function refreshAuthState() {
-    clearStatus(ui.magicLinkStatus)
-    clearStatus(ui.screenNameStatus)
-    clearStatus(ui.commentSubmitStatus)
-
-    const session = await getCurrentSession()
-
-    if (!session?.user) {
-      showLoggedOutState()
-      return null
-    }
-
-    const profile = await ensureProfile(session.user)
-    const displayName = getPublicName(profile)
-
-    ui.loggedInMessage.textContent = `Signed in as ${displayName}`
-    ui.screenNameInput.value = profile.screen_name || ''
-
-    showUserPanel()
-    return { session, profile }
-  }
-
-  async function loadPublishedComments() {
-    const { data: comments, error: commentsError } = await supabase
-      .from('article_comments')
-      .select('id, user_id, body, created_at')
-      .eq('article_slug', ARTICLE_SLUG)
-      .eq('status', 'published')
-      .order('created_at', { ascending: true })
-
-    if (commentsError) {
-      ui.commentsList.innerHTML = '<p>Unable to load comments right now.</p>'
-      ui.commentsEmpty.hidden = true
-      return
-    }
-
-    if (!comments || comments.length === 0) {
-      ui.commentsList.innerHTML = ''
-      ui.commentsEmpty.hidden = false
-      return
-    }
-
-    const authorIds = [...new Set(comments.map(comment => comment.user_id))]
-    let profilesMap = new Map()
-
-    if (authorIds.length > 0) {
-      const { data: profileRows } = await supabase
-        .from('profiles')
-        .select('user_id, full_name, screen_name')
-        .in('user_id', authorIds)
-
-      profilesMap = new Map((profileRows || []).map(profile => [profile.user_id, profile]))
-    }
-
-    ui.commentsEmpty.hidden = true
-    ui.commentsList.innerHTML = comments.map(comment => {
-      const profile = profilesMap.get(comment.user_id)
-      const author = getPublicName(profile)
-      const date = new Date(comment.created_at).toLocaleDateString(undefined, {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      })
-
-      return `
-        <article class="comment-item">
-          <div class="comment-meta">
-            <div class="comment-author">${escapeHtml(author)}</div>
-            <div class="comment-date">${escapeHtml(date)}</div>
-          </div>
-          <div class="comment-body">${escapeHtml(comment.body)}</div>
-        </article>
-      `
-    }).join('')
-  }
-
-  ui.openCommentBox.addEventListener('click', async () => {
-    const session = await getCurrentSession()
-    if (session?.user) {
-      await refreshAuthState()
-    } else {
-      showAuthPanel()
-    }
-  })
-
-  ui.cancelAuthPanel.addEventListener('click', () => {
-    clearStatus(ui.magicLinkStatus)
-    showLoggedOutState()
-  })
-
-  ui.magicLinkForm.addEventListener('submit', async (event) => {
-    event.preventDefault()
-    clearStatus(ui.magicLinkStatus)
-
-    const email = ui.emailInput.value.trim()
-    const fullName = ui.fullNameInput.value.trim()
-
-    if (!email || !fullName) {
-      setStatus(ui.magicLinkStatus, 'Please enter both your email and full name.', 'error')
-      return
-    }
-
-    sessionStorage.setItem('pending_full_name', fullName)
-
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        shouldCreateUser: true,
-        emailRedirectTo: window.location.href
-      }
-    })
-
-    if (error) {
-      setStatus(ui.magicLinkStatus, error.message, 'error')
-      return
-    }
-
-    setStatus(ui.magicLinkStatus, 'Check your email for your sign-in link.')
-  })
-
-  ui.screenNameForm.addEventListener('submit', async (event) => {
-    event.preventDefault()
-    clearStatus(ui.screenNameStatus)
-
-    const session = await getCurrentSession()
-    if (!session?.user) {
-      setStatus(ui.screenNameStatus, 'Please sign in again.', 'error')
-      return
-    }
-
-    const screenName = ui.screenNameInput.value.trim()
-
-    const { error } = await supabase
-      .from('profiles')
-      .update({
-        screen_name: screenName === '' ? null : screenName
-      })
-      .eq('user_id', session.user.id)
-
-    if (error) {
-      setStatus(ui.screenNameStatus, error.message, 'error')
-      return
-    }
-
-    setStatus(ui.screenNameStatus, 'Display name saved.')
-    await refreshAuthState()
-    await loadPublishedComments()
-  })
-
-  ui.commentForm.addEventListener('submit', async (event) => {
-    event.preventDefault()
-    clearStatus(ui.commentSubmitStatus)
-
-    const session = await getCurrentSession()
-    if (!session?.user) {
-      showAuthPanel()
-      setStatus(ui.commentSubmitStatus, 'Please sign in before submitting a comment.', 'error')
-      return
-    }
-
-    const body = ui.commentBody.value.trim()
-
-    if (!body) {
-      setStatus(ui.commentSubmitStatus, 'Please enter a comment.', 'error')
-      return
-    }
-
-    const { error } = await supabase
-      .from('article_comments')
-      .insert([{
-        article_slug: ARTICLE_SLUG,
-        user_id: session.user.id,
-        body,
-        status: 'pending'
-      }])
-
-    if (error) {
-      setStatus(ui.commentSubmitStatus, error.message, 'error')
-      return
-    }
-
-    ui.commentBody.value = ''
-    setStatus(ui.commentSubmitStatus, 'Comment submitted.')
-  })
-
-  ui.signOutButton.addEventListener('click', async () => {
-    await supabase.auth.signOut()
-    sessionStorage.removeItem('pending_full_name')
-    showLoggedOutState()
-  })
-
-  const { data: authListener } = supabase.auth.onAuthStateChange(async () => {
-    try {
-      await refreshAuthState()
-      await loadPublishedComments()
-    } catch (error) {
-      console.error(error)
-    }
-  })
-
-  ;(async function initComments() {
-    try {
-      await refreshAuthState()
-      await loadPublishedComments()
-    } catch (error) {
-      console.error(error)
-    }
-  })()
-
-  window.addEventListener('beforeunload', () => {
-    authListener?.subscription?.unsubscribe?.()
-  })
-</script>
 </body>
 </html>
