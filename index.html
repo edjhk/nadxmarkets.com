@@ -134,8 +134,6 @@ button{font:inherit;cursor:pointer}
   display:flex;flex-direction:column;gap:var(--sp4);
   transition:border-color .18s}
 .essay-card:hover{border-color:var(--gold)}
-.essay-num{font-size:var(--text-xs);letter-spacing:.15em;
-  text-transform:uppercase;color:var(--muted)}
 .essay-card h3{font-family:var(--display);font-size:var(--text-xl);font-weight:500;
   line-height:1.2;color:var(--text)}
 .essay-card p{font-size:var(--text-sm);color:var(--muted);
@@ -182,6 +180,15 @@ button{font:inherit;cursor:pointer}
   .hero h1{font-size:clamp(2rem,8vw,3rem)}
 }
 </style>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3N2N5MTPXZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3N2N5MTPXZ');
+</script>
 </head>
 <body>
 
@@ -292,25 +299,27 @@ button{font:inherit;cursor:pointer}
       <p class="sec-label">The Research</p>
       <h2>Start here. Then <em>form a view.</em></h2>
     </div>
-    <p class="essays-intro">Three essays written for institutional investors who want to understand the structural argument, not just the product pitch.</p>
+    <p class="essays-intro">Four articles written for institutional investors who want to understand the structural argument, not just the product pitch.</p>
     <div class="essays-grid">
       <a href="publications/why-no-moon.html" class="essay-card">
-        <span class="essay-num">Essay 01</span>
         <h3>Why No Moon for Blockchain Securities</h3>
         <p>Why tokenized securities will not replicate the ICO era&nbsp;&mdash; and why the real opportunity is something more durable and more valuable than a price spike.</p>
-        <span class="read-link">Read the essay &rarr;</span>
+        <span class="read-link">Read the article &rarr;</span>
       </a>
       <a href="publications/regulatory-capture.html" class="essay-card">
-        <span class="essay-num">Essay 02</span>
         <h3>Regulatory Capture: Why Markets Never Get Fixed</h3>
         <p>Mancur Olson explained it in 1965. The SEC has confirmed it every decade since. Why concentrated interests defeat diffuse majorities&nbsp;&mdash; every time&nbsp;&mdash; and what that means for the buy-side.</p>
-        <span class="read-link">Read the essay &rarr;</span>
+        <span class="read-link">Read the article &rarr;</span>
       </a>
       <a href="publications/the-compact.html" class="essay-card">
-        <span class="essay-num">Essay 03</span>
         <h3>The Compact That Was Never Honored</h3>
         <p>NYSE demutualization. The specialist system. The Flash Crash. How the original quid pro quo between market privilege and market obligation was quietly broken&nbsp;&mdash; and what it would take to restore it.</p>
-        <span class="read-link">Read the essay &rarr;</span>
+        <span class="read-link">Read the article &rarr;</span>
+      </a>
+      <a href="publications/the-netting-myth.html" class="essay-card">
+        <h3>The Netting Myth</h3>
+        <p>DTCC says T-instant settlement is impossible without netting. That argument presents two options and omits a third. An examination of who benefits from the float&nbsp;&mdash; and why the objection exists at all.</p>
+        <span class="read-link">Read the article &rarr;</span>
       </a>
     </div>
   </div>
