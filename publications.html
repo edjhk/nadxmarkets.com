@@ -1,248 +1,183 @@
-<!doctype html>
-<html lang="en" data-theme="light">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Publications | NADX Markets</title>
-  <meta name="description" content="Publications from NADX Markets on market structure, settlement, and securities infrastructure.">
-  <link rel="preconnect" href="https://api.fontshare.com">
-  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=zodiak@400,500,700&display=swap" rel="stylesheet">
-  <style>
-    :root, [data-theme="light"] {
-      --text-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.86rem);
-      --text-sm: clamp(0.88rem, 0.82rem + 0.2vw, 0.98rem);
-      --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.08rem);
-      --text-lg: clamp(1.08rem, 1rem + 0.45vw, 1.32rem);
-      --text-xl: clamp(1.35rem, 1.08rem + 1vw, 1.95rem);
-      --text-2xl: clamp(2rem, 1.45rem + 1.8vw, 3rem);
-      --space-2: 0.5rem;
-      --space-3: 0.75rem;
-      --space-4: 1rem;
-      --space-5: 1.25rem;
-      --space-6: 1.5rem;
-      --space-8: 2rem;
-      --space-10: 2.5rem;
-      --space-12: 3rem;
-      --radius-xl: 1rem;
-      --color-bg: #f7f6f2;
-      --color-surface: #faf9f6;
-      --color-border: #d6d1c8;
-      --color-divider: #dfdbd4;
-      --color-text: #25221b;
-      --color-text-muted: #6b6862;
-      --color-primary: #01696f;
-      --font-body: 'General Sans', Inter, sans-serif;
-      --font-display: 'Zodiak', Georgia, serif;
-      --content: 1100px;
-    }
-    [data-theme="dark"] {
-      --color-bg: #171614;
-      --color-surface: #1d1c19;
-      --color-border: #393734;
-      --color-divider: #2b2a27;
-      --color-text: #cfcdc8;
-      --color-text-muted: #9a978f;
-      --color-primary: #4f98a3;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--color-bg);
-      color: var(--color-text);
-      font-family: var(--font-body);
-      font-size: var(--text-base);
-      line-height: 1.58;
-    }
-    a { color: inherit; text-decoration: none; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Research | NADX Securities</title>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&f[]=zodiak@400,500,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --text-xs:clamp(0.75rem,0.7rem + 0.2vw,0.86rem);
+  --text-sm:clamp(0.88rem,0.82rem + 0.2vw,0.98rem);
+  --text-base:clamp(1rem,0.96rem + 0.2vw,1.08rem);
+  --text-lg:clamp(1.08rem,1rem + 0.45vw,1.32rem);
+  --text-xl:clamp(1.35rem,1.08rem + 1vw,1.95rem);
+  --text-2xl:clamp(2rem,1.45rem + 1.8vw,3rem);
+  --sp2:.5rem;--sp3:.75rem;--sp4:1rem;--sp5:1.25rem;--sp6:1.5rem;
+  --sp8:2rem;--sp10:2.5rem;--sp12:3rem;--sp16:4rem;
+  --r-xl:1rem;--r-full:9999px;
+  --bg:#111111;--surf:#171717;--surf2:#1e1c18;
+  --border:#2f2a22;--divider:#26221c;
+  --text:#f3f0e8;--muted:#c3b79b;
+  --gold:#c8a96b;--gold-h:#b6914d;--white:#ffffff;
+  --body:"General Sans",Inter,sans-serif;
+  --display:"Zodiak",Georgia,serif;
+  --content:1160px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);font-size:var(--text-base);line-height:1.6;
+  color:var(--text);background:var(--bg)}
+a{color:inherit;text-decoration:none}
+.container{width:min(calc(100% - 2rem),var(--content));margin:0 auto}
 
-    .container {
-      width: min(calc(100% - 2rem), var(--content));
-      margin: 0 auto;
-    }
+.site-header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 92%,transparent);
+  border-bottom:1px solid var(--divider)}
+.site-header__inner{min-height:60px;display:flex;align-items:center;
+  justify-content:space-between;gap:var(--sp4)}
+.brand{display:inline-flex;align-items:center;gap:var(--sp3);
+  font-size:var(--text-sm);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.brand-mark{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;
+  background:var(--gold);color:#111;font-size:.76rem;font-weight:700}
+.nav{display:flex;align-items:center;gap:var(--sp5)}
+.nav a{font-size:var(--text-sm);color:var(--muted);transition:color .18s}
+.nav a:hover,.nav a.active{color:var(--text)}
 
-    .site-header {
-      position: sticky;
-      top: 0;
-      backdrop-filter: blur(14px);
-      background: color-mix(in srgb, var(--color-bg) 90%, transparent);
-      border-bottom: 1px solid var(--color-divider);
-    }
-    .site-header__inner {
-      min-height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: .75rem;
-      font-size: var(--text-sm);
-      font-weight: 600;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-    }
-    .brand-mark {
-      width: 28px;
-      height: 28px;
-      border-radius: 9px;
-      display: grid;
-      place-items: center;
-      background: var(--color-primary);
-      color: white;
-      font-size: .76rem;
-      font-weight: 700;
-    }
-    .nav {
-      display: flex;
-      gap: 1.4rem;
-    }
-    .nav a {
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
-    }
-    .nav a.active,
-    .nav a:hover {
-      color: var(--color-text);
-    }
-    .theme-toggle {
-      border: 1px solid var(--color-border);
-      background: var(--color-surface);
-      color: var(--color-text);
-      border-radius: 9999px;
-      padding: .45rem .8rem;
-      cursor: pointer;
-    }
+.page-hero{padding:var(--sp16) 0 var(--sp10);border-bottom:1px solid var(--divider)}
+.eyebrow{font-size:var(--text-xs);letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:var(--sp4)}
+.page-hero h1{font-family:var(--display);font-size:var(--text-2xl);
+  font-weight:500;line-height:1.05;letter-spacing:-.02em;
+  color:var(--white);max-width:18ch;margin-bottom:var(--sp4)}
+.page-hero p{max-width:56ch;color:var(--muted);line-height:1.65}
 
-    .hero {
-      padding: 4rem 0 1.75rem;
-    }
-    .eyebrow {
-      margin: 0 0 .75rem;
-      font-size: var(--text-xs);
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-    }
-    h1 {
-      margin: 0 0 1rem;
-      max-width: 12ch;
-      font-family: var(--font-display);
-      font-size: var(--text-2xl);
-      line-height: 1;
-      font-weight: 500;
-    }
-    .hero-copy {
-      max-width: 60ch;
-      color: var(--color-text-muted);
-    }
+.series-section{padding:var(--sp10) 0}
+.series-header{margin-bottom:var(--sp6)}
+.series-label{font-size:var(--text-xs);letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:var(--sp2)}
+.series-desc{font-size:var(--text-sm);color:var(--muted);max-width:56ch;margin-top:var(--sp2)}
 
-    .list {
-      display: grid;
-      gap: 1rem;
-      padding: 1.5rem 0 4rem;
-    }
-    .item {
-      padding: 0 0 0.75rem;
-      border-bottom: 1px solid var(--color-border);
-    }
-    .item:last-child {
-      border-bottom: none;
-    }
-    .item-title {
-      margin: 0 0 .3rem;
-      font-size: var(--text-lg);
-      line-height: 1.14;
-    }
-    .item-title a:hover {
-      text-decoration: underline;
-    }
-    .item-blurb {
-      margin: 0;
-      color: var(--color-text-muted);
-      font-size: var(--text-sm);
-    }
+.pub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp5)}
+.pub-card{padding:var(--sp5);border:1px solid var(--border);border-radius:var(--r-xl);
+  background:var(--surf);display:flex;flex-direction:column;gap:var(--sp3);
+  transition:border-color .18s}
+.pub-card:hover{border-color:var(--gold)}
+.pub-num{font-size:var(--text-xs);letter-spacing:.15em;
+  text-transform:uppercase;color:var(--gold)}
+.pub-card h2{font-size:var(--text-base);font-weight:500;
+  line-height:1.3;color:var(--text)}
+.pub-card p{font-size:var(--text-sm);color:var(--muted);
+  line-height:1.5;flex:1;margin:0}
+.read-link{font-size:var(--text-sm);color:var(--gold);
+  font-weight:500;margin-top:auto}
 
-    @media (max-width: 900px) {
-      .nav { display: none; }
-    }
-  </style>
+.pub-card--coming{opacity:.5;cursor:default;pointer-events:none}
+.coming-badge{font-size:var(--text-xs);letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-top:auto}
+
+.site-footer{border-top:1px solid var(--divider);
+  padding:var(--sp5) 0 var(--sp8);color:var(--muted);font-size:var(--text-sm)}
+.footer-row{display:flex;align-items:center;justify-content:space-between;
+  gap:var(--sp4);flex-wrap:wrap}
+
+@media(max-width:900px){
+  .nav{display:none}
+  .pub-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container site-header__inner">
-      <a class="brand" href="/index.html" aria-label="NADX Markets home">
-        <img src="/nadx.png" alt="NADX Markets" style="height:28px; display:block;">
-      </a>
 
-      <nav class="nav">
-        <a href="/index.html">Overview</a>
-        <a class="active" href="/publications.html">Publications</a>
-        <a href="/community.html">Community</a>
-        <a href="/publications.html">About</a>
-      </nav>
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">N</span>
+      NADX Securities
+    </a>
+    <nav class="nav">
+      <a href="index.html">The Case</a>
+      <a href="publications.html" class="active">Research</a>
+      <a href="platform.html">Platform</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
 
-      <button class="theme-toggle" type="button" data-theme-toggle>◐</button>
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Research</p>
+      <h1>The structural argument, in full.</h1>
+      <p>A series on securities markets, blockchain, and the case for structural change. Written for institutional investors who want the argument, not the pitch.</p>
     </div>
-  </header>
+  </section>
 
-  <main>
-    <section class="hero">
-      <div class="container">
-        <p class="eyebrow">Publications</p>
-        <h1>Publications and formal commentary.</h1>
-        <p class="hero-copy">Essays and long-form commentary on market structure, settlement, exchange incentives, and the architecture of securities markets.</p>
+  <!-- The Problem -->
+  <section class="series-section">
+    <div class="container">
+      <div class="series-header">
+        <p class="series-label">The problem</p>
+        <p class="series-desc">How the current market was built, how it was captured, and why thirty years of reform have produced nothing.</p>
       </div>
-    </section>
+      <div class="pub-grid">
+        <a href="publications/why-no-moon.html" class="pub-card">
+          <span class="pub-num">Part 1</span>
+          <h2>Why No Moon for Securities on the Blockchain</h2>
+          <p>Why tokenized securities will not replicate the ICO era — and why the real opportunity is something more durable than a price spike.</p>
+          <span class="read-link">Read &rarr;</span>
+        </a>
+        <a href="publications/regulatory-capture.html" class="pub-card">
+          <span class="pub-num">Part 2</span>
+          <h2>Regulatory Capture: Why Markets Never Get Fixed</h2>
+          <p>Mancur Olson explained it in 1965. The SEC has confirmed it every decade since. Why concentrated interests defeat diffuse majorities — every time.</p>
+          <span class="read-link">Read &rarr;</span>
+        </a>
+        <a href="publications/the-compact.html" class="pub-card">
+          <span class="pub-num">Part 3</span>
+          <h2>The Compact That Was Never Honored</h2>
+          <p>NYSE demutualization. The specialist system. The Flash Crash. How the original quid pro quo between market privilege and market obligation was quietly broken.</p>
+          <span class="read-link">Read &rarr;</span>
+        </a>
+        <a href="publications/the-netting-myth.html" class="pub-card">
+          <span class="pub-num">Part 4</span>
+          <h2>The Netting Myth</h2>
+          <p>DTCC says T-instant settlement is impossible without netting. Neither the liquidity provider argument nor the netting argument holds up under scrutiny.</p>
+          <span class="read-link">Read &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
-    <section>
-      <div class="container list">
-        <div class="item">
-          <h2 class="item-title">
-            <a href="/publications/why-no-moon.html">Why No Moon for Securities on the Blockchain</a>
-          </h2>
-          <p class="item-blurb">Securities on the blockchain only make sense if they are a true change agent for fixing the current market structure.</p>
+  <!-- Coming next -->
+  <section class="series-section" style="border-top:1px solid var(--divider);padding-top:var(--sp10)">
+    <div class="container">
+      <div class="series-header">
+        <p class="series-label">Coming next &mdash; fixing it</p>
+        <p class="series-desc">The next series turns the corner. What real structural change actually looks like — and what would be required to get there.</p>
+      </div>
+      <div class="pub-grid">
+        <div class="pub-card pub-card--coming">
+          <h2>What Settlement Actually Means</h2>
+          <p>Atomic settlement, ghost shares, and what double-entry bookkeeping in 1494 Venice has to do with T-instant.</p>
+          <span class="coming-badge">Coming soon</span>
         </div>
-
-        <div class="item">
-          <h2 class="item-title">
-            <a href="/publications/regulatory-capture.html">Regulatory Capture — Why Markets Never Get Fixed</a>
-          </h2>
-          <p class="item-blurb">The data keeps supporting reform, but a concentrated trading minority keeps winning — not by cheating, but by understanding the structure better than everyone else.</p>
-        </div>
-
-        <div class="item">
-          <h2 class="item-title">
-            <a href="/publications/the-compact.html">The Compact That Was Never Honored</a>
-          </h2>
-          <p class="item-blurb">Market makers inherited the privileges of the old NYSE specialists without the obligations, and the buy‑side quietly moved from owner to product.</p>
-        </div>
-
-        <div class="item">
-          <h2 class="item-title">
-            <a href="/publications/the-netting-myth.html">The Netting Myth</a>
-          </h2>
-          <p class="item-blurb">Claims that T‑instant settlement is impossible without netting are less about capital math and more about protecting the economics of an entrenched clearing franchise.</p>
+        <div class="pub-card pub-card--coming">
+          <h2>What If the Buy-Side Acted Together</h2>
+          <p>The collective action problem runs in both directions. What the outcome could look like if the buy-side used its weight.</p>
+          <span class="coming-badge">Coming soon</span>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+</main>
 
-  <script>
-    (function () {
-      const root = document.documentElement;
-      const toggle = document.querySelector('[data-theme-toggle]');
-      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      root.setAttribute('data-theme', theme);
-      const sync = () => { toggle.textContent = theme === 'dark' ? '☼' : '◐'; };
-      sync();
-      toggle.addEventListener('click', () => {
-        theme = theme === 'dark' ? 'light' : 'dark';
-        root.setAttribute('data-theme', theme);
-        sync();
-      });
-    }());
-  </script>
+<footer class="site-footer">
+  <div class="container footer-row">
+    <span>&copy; 2026 NADX Securities, Inc. For institutional and accredited investors only.</span>
+    <a href="contact.html" style="color:var(--muted)">Contact</a>
+  </div>
+</footer>
+
 </body>
 </html>
