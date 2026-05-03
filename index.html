@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>NADX Securities</title>
+<title>NADX Markets</title>
 <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&f[]=zodiak@400,500,600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -31,92 +31,6 @@ body{font-family:var(--body);font-size:var(--text-base);line-height:1.55;color:v
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 button{font:inherit;cursor:pointer}
-
-.essays-head {
-  display: flex; align-items: baseline; justify-content: space-between;
-  margin-bottom: var(--sp4);
-}
-.essays-head h2 {
-  font-family: var(--display); font-size: var(--text-xl); font-weight: 500;
-}
-.essays-head a { font-size: var(--text-sm); color: var(--muted); }
-.essays-head a:hover { color: var(--gold); }
-.essays-intro {
-  color: var(--muted); font-size: var(--text-sm);
-  margin-bottom: var(--sp8); max-width: 56ch;
-}
-.series-label {
-  font-size: var(--text-xs); letter-spacing: .18em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: var(--sp4);
-}
-.essays-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--sp5);
-}
-.coming-grid {
-  grid-template-columns: repeat(2, 1fr);
-}
-.essay-card {
-  padding: var(--sp5); border: 1px solid var(--border);
-  border-radius: var(--r-xl); background: var(--surf2);
-  display: flex; flex-direction: column; gap: var(--sp3);
-  transition: border-color .18s;
-}
-.essay-card:hover { border-color: var(--gold); }
-.essay-card h3 {
-  font-size: var(--text-base); font-weight: 500;
-  line-height: 1.3; color: var(--text);
-}
-.essay-card p {
-  font-size: var(--text-sm); color: var(--muted);
-  line-height: 1.5; flex: 1; margin: 0;
-}
-.read-link {
-  font-size: var(--text-sm); color: var(--gold);
-  font-weight: 500; margin-top: auto;
-}
-.essay-card--coming {
-  opacity: .55; cursor: default; pointer-events: none;
-}
-.coming-badge {
-  font-size: var(--text-xs); letter-spacing: .12em;
-  text-transform: uppercase; color: var(--muted);
-  margin-top: auto;
-}
-@media (max-width: 900px) {
-  .essays-grid, .coming-grid { grid-template-columns: 1fr; }
-}
-
-.problems-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--sp5);
-}
-.problem-card {
-  padding: var(--sp6);
-  border: 1px solid var(--border);
-  border-radius: var(--r-xl);
-  background: var(--surf2);
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp3);
-}
-.problem-card h3 {
-  font-size: var(--text-base);
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--text);
-}
-.problem-card p {
-  font-size: var(--text-sm);
-  color: var(--muted);
-  line-height: 1.6;
-  margin: 0;
-}
-@media (max-width: 900px) {
-  .problems-grid { grid-template-columns: 1fr; }
-}
 
 .container{width:min(calc(100% - 2rem),var(--content));margin:0 auto}
 
@@ -171,16 +85,9 @@ button{font:inherit;cursor:pointer}
 .sec-body strong{color:var(--text);font-weight:600}
 
 /* Pull quote */
-.pull-quote {
-  font-family: var(--display);
-  font-size: var(--text-xl);
-  line-height: 1.35;
-  font-style: italic;
-  color: var(--text);
-  border-left: 2px solid var(--gold);
-  padding-left: var(--sp5);
-  align-self: center;
-}
+.pull-quote{border-left:2px solid var(--gold);padding-left:var(--sp5);
+  margin:var(--sp6) 0;font-family:var(--display);font-size:var(--text-lg);
+  line-height:1.4;color:var(--text)}
 
 /* Essays */
 .essays{padding:var(--sp12) 0;border-top:1px solid var(--divider)}
@@ -246,15 +153,15 @@ button{font:inherit;cursor:pointer}
 <!-- HEADER -->
 <header class="site-header">
   <div class="container site-header__inner">
-    <a href="index.html" class="brand">
+    <a href="/" class="brand">
       <span class="brand-mark">N</span>
-      NADX Securities
+      NADX Markets
     </a>
     <nav class="nav">
-      <a href="index.html" class="active">The Case</a>
-      <a href="publications">Research</a>
-      <a href="/platform">Platform</a>
-      <a href="/contact">Contact</a>
+      <a href="/" class="active">The Case</a>
+      <a href="publications.html">Research</a>
+      <a href="platform.html">Platform</a>
+      <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
@@ -264,7 +171,7 @@ button{font:inherit;cursor:pointer}
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <p class="eyebrow">NADX Securities</p>
+    <p class="eyebrow">NADX Markets</p>
     <h1>The market<br>is changing.<br><em>Who will own it?</em></h1>
     <p class="hero-copy">
       Securities on the blockchain are <strong>inevitable.</strong>
@@ -275,7 +182,7 @@ button{font:inherit;cursor:pointer}
     </p>
     <div class="actions">
       <a href="#argument" class="btn btn-primary">Read the case</a>
-      <a href="/platform" class="btn btn-secondary">See the platform &rarr;</a>
+      <a href="platform.html" class="btn btn-secondary">See the platform &rarr;</a>
     </div>
   </div>
 </section>
@@ -283,38 +190,29 @@ button{font:inherit;cursor:pointer}
 <!-- THE ARGUMENT -->
 <section class="section" id="argument">
   <div class="container sec-grid">
-    <div class="pull-quote">
-      &ldquo;If you put a frog in boiling water, it jumps out. If you put it in warm water and turn up the heat &mdash; it boils.&rdquo;
+    <div>
+      <p class="sec-label">The argument</p>
+      <h2>The extraction has been gradual enough that no single moment demanded a response.</h2>
     </div>
     <div class="sec-body">
-      <p class="sec-label">— The Argument</p>
-      <p>The extraction from institutional investors has been gradual enough that no single moment demanded a response. Rebates. Latency advantages. Fragmented liquidity. Each incremental change was small. The accumulated cost runs into the billions annually &mdash; invisible, unitemized, simply the difference between the market that exists and the market that should.</p>
-      <p>Now the next phase is arriving. Securities will trade on the blockchain. The only question is <strong>who designs the infrastructure</strong> &mdash; and whether the buy-side will be at the table when it is built, or will arrive afterward to discover its seat was sold while it wasn&rsquo;t paying attention.</p>
-      <p>That is the window NADX is opening. Read the research. Then decide.</p>
+      <p>Rebates. Latency advantages. Fragmented liquidity. Each incremental change was small. The accumulated cost runs into the billions annually&nbsp;&mdash; invisible, unitemized, simply the difference between the market that exists and the market that should.</p>
+      <p>Now the next phase is arriving. Securities will trade on the blockchain. The only question is <strong>who designs the infrastructure</strong>&nbsp;&mdash; and whether the buy-side will be at the table when it is built, or will arrive afterward to discover its seat was sold while it wasn&rsquo;t paying attention.</p>
+      <p>That is the window NADX is opening. Read the case. Then decide.</p>
     </div>
   </div>
 </section>
 
-<!-- WHY THE CURRENT MARKET FAILS YOU -->
+<!-- WHY THE MARKET FAILS YOU -->
 <section class="section section--alt" id="market-fails">
-  <div class="container">
-    <p class="sec-label">— Why the current market fails you</p>
-    <h2 style="font-family:var(--display);font-size:var(--text-2xl);font-weight:500;letter-spacing:-.02em;margin-bottom:var(--sp8);max-width:18ch;">
-      Three problems that <em style="font-style:italic;color:var(--gold)">compound</em> every day
-    </h2>
-    <div class="problems-grid">
-      <div class="problem-card">
-        <h3>Execution quality is structurally broken</h3>
-        <p>Fragmented liquidity. HFTs at the top of the book, never absorbing a loss. Stale quotes that disappear on approach. The rebate structure rewards routing games, not genuine price improvement.</p>
-      </div>
-      <div class="problem-card">
-        <h3>Regulation protects the wrong side</h3>
-        <p>Rule 611 was designed to protect investors. Instead it created mandatory routing that high-speed traders exploit, fragmented markets into dozens of venues, and generated an arms race whose costs are borne entirely by the buy-side.</p>
-      </div>
-      <div class="problem-card">
-        <h3>Reform has a thirty-year losing record</h3>
-        <p>The 2022 equity market structure reforms were the most ambitious overhaul in a generation. All four proposals were withdrawn in June 2025. The concentrated interests that profit from dysfunction are organized, funded, and they always win. Rules alone will not fix this.</p>
-      </div>
+  <div class="container sec-grid">
+    <div>
+      <p class="sec-label">The problem</p>
+      <h2>Why the current market fails you</h2>
+    </div>
+    <div class="sec-body">
+      <p>Fragmented liquidity. HFTs at the top of the book, never absorbing a loss. Stale quotes that disappear on approach. The rebate structure rewards routing games, not genuine price improvement.</p>
+      <p>Rule&nbsp;611 was designed to protect investors. Instead it created mandatory routing that high-speed traders exploit, fragmented markets into dozens of venues, and generated an arms race whose costs are borne entirely by the buy-side.</p>
+      <p>The 2022 equity market structure reforms were the most ambitious overhaul in a generation. All four proposals were withdrawn in June&nbsp;2025. The concentrated interests that profit from dysfunction are organized, funded, and they always win. Rules alone will not fix this.</p>
     </div>
   </div>
 </section>
@@ -324,11 +222,11 @@ button{font:inherit;cursor:pointer}
   <div class="container sec-grid">
     <div>
       <p class="sec-label">The opportunity</p>
-      <h2>Blockchain securities are <em style="font-style:italic;color:var(--gold)">not</em> the moon shot. They are the mechanism.</h2>
+      <h2>Markets always move toward greater efficiency.</h2>
     </div>
     <div class="sec-body">
       <p>Tokenized securities will not replicate the ICO boom. There is no FOMO. No permissionless retail frenzy. No fundamental-free price discovery. The blockchain label does not change the economics of the underlying asset.</p>
-      <p><p>But that is the wrong question. <strong>Markets always move toward greater efficiency.</strong> The next unlock is not the blockchain...</p> The next unlock is not the blockchain. It is T-instant settlement&nbsp;&mdash; and the architectural overhaul required to get there. The incumbents are already building to preserve their fee structures and information advantages on new rails.</p>
+      <p>But that is the wrong question. The next unlock is not the blockchain. It is T-instant settlement&nbsp;&mdash; and the architectural overhaul required to get there. The incumbents are already building to preserve their fee structures and information advantages on new rails.</p>
       <div class="pull-quote">&ldquo;Calling it blockchain without overhauling how clearing and settlement actually occur is the financial equivalent of putting a Tesla badge on a horse.&rdquo;</div>
       <p>NADX is building the alternative. A trading architecture designed for the buy-side, from the structure up&nbsp;&mdash; with auction-based execution that ends the latency arms race, no rebates, no information asymmetry, and a pathway to genuine T-instant settlement.</p>
       <p>The buy-side built the original market. It has the capital, the collective weight, and now the technology to build the next one.</p>
@@ -340,49 +238,29 @@ button{font:inherit;cursor:pointer}
 <section class="essays section--alt" id="research">
   <div class="container">
     <div class="essays-head">
-      <h2>Publications</h2>
-      <a href="publications">View all &rarr;</a>
+      <h2>Research and publications</h2>
+      <a href="publications.html">View all &rarr;</a>
     </div>
-    <p class="essays-intro">A series on securities markets, blockchain, and the case for structural change. Written for institutional investors who want the argument, not the pitch.</p>
-
-    <!-- The Problem -->
-    <p class="series-label">The problem</p>
-    <div class="essays-grid" style="margin-bottom:var(--sp8);">
+    <p class="essays-intro">Three essays written for institutional investors who want to understand the structural argument, not just a product pitch.</p>
+    <div class="essays-grid">
       <a href="publications/why-no-moon.html" class="essay-card">
+        <span class="essay-num">Essay 01</span>
         <h3>Why No Moon for Securities on the Blockchain</h3>
-        <p>Why tokenized securities will not replicate the ICO era — and why the real opportunity is something more durable than a price spike.</p>
-        <span class="read-link">Read &rarr;</span>
+        <p>Why tokenized securities will not replicate the ICO era&nbsp;&mdash; and why the real opportunity is something more durable than a price spike.</p>
+        <span class="read-link">Read the essay &rarr;</span>
       </a>
       <a href="publications/regulatory-capture.html" class="essay-card">
+        <span class="essay-num">Essay 02</span>
         <h3>Regulatory Capture: Why Markets Never Get Fixed</h3>
-        <p>Mancur Olson explained it in 1965. The SEC has confirmed it every decade since. Why concentrated interests defeat diffuse majorities — every time.</p>
-        <span class="read-link">Read &rarr;</span>
+        <p>Mancur Olson explained it in 1965. The SEC has confirmed it every decade since. Why concentrated interests defeat diffuse majorities&nbsp;&mdash; every time.</p>
+        <span class="read-link">Read the essay &rarr;</span>
       </a>
       <a href="publications/the-compact.html" class="essay-card">
+        <span class="essay-num">Essay 03</span>
         <h3>The Compact That Was Never Honored</h3>
         <p>NYSE demutualization. The specialist system. The Flash Crash. How the original quid pro quo between market privilege and market obligation was quietly broken.</p>
-        <span class="read-link">Read &rarr;</span>
+        <span class="read-link">Read the essay &rarr;</span>
       </a>
-      <a href="publications/the-netting-myth.html" class="essay-card">
-        <h3>The Netting Myth</h3>
-        <p>DTCC says T-instant settlement is impossible without netting. Neither the liquidity provider argument nor the netting argument holds up under scrutiny.</p>
-        <span class="read-link">Read &rarr;</span>
-      </a>
-    </div>
-
-    <!-- Coming next -->
-    <p class="series-label">Coming next</p>
-    <div class="essays-grid coming-grid">
-      <div class="essay-card essay-card--coming">
-        <h3>What Settlement Actually Means</h3>
-        <p>Atomic settlement, ghost shares, and what double-entry bookkeeping in 1494 Venice has to do with T-instant.</p>
-        <span class="coming-badge">Coming soon</span>
-      </div>
-      <div class="essay-card essay-card--coming">
-        <h3>What If the Buy-Side Acted Together</h3>
-        <p>The collective action problem runs in both directions. What the outcome could look like if the buy side used its weight.</p>
-        <span class="coming-badge">Coming soon</span>
-      </div>
     </div>
   </div>
 </section>
@@ -395,8 +273,8 @@ button{font:inherit;cursor:pointer}
     <p>The platform mechanics, trading architecture, and details of the NADX model are available to qualified institutional investors. If you have read the essays and want to see what NADX is actually building, request access.</p>
     <p style="font-size:var(--text-sm)">This is not a pitch deck summary. Details are available by request under a standard review process.</p>
     <div class="actions">
-      <a href="/contact" class="btn btn-primary">Request platform access</a>
-      <a href="/contact" class="btn btn-secondary">Schedule a conversation</a>
+      <a href="contact.html" class="btn btn-primary">Request platform access</a>
+      <a href="contact.html" class="btn btn-secondary">Schedule a conversation</a>
     </div>
   </div>
 </section>
@@ -419,8 +297,8 @@ button{font:inherit;cursor:pointer}
 <!-- FOOTER -->
 <footer class="site-footer">
   <div class="container footer-row">
-    <span>&copy; 2026 NADX Securities, Inc. For institutional and accredited investors only.</span>
-    <a href="/contact" style="color:var(--muted)">Contact</a>
+    <span>&copy; 2026 NADX Markets, Inc. For institutional and accredited investors only.</span>
+    <a href="contact.html" style="color:var(--muted)">Contact</a>
   </div>
 </footer>
 
