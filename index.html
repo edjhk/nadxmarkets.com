@@ -32,6 +32,36 @@ a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 button{font:inherit;cursor:pointer}
 
+.problems-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp5);
+}
+.problem-card {
+  padding: var(--sp6);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  background: var(--surf2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp3);
+}
+.problem-card h3 {
+  font-size: var(--text-base);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text);
+}
+.problem-card p {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .problems-grid { grid-template-columns: 1fr; }
+}
+
 .container{width:min(calc(100% - 2rem),var(--content));margin:0 auto}
 
 /* Header */
