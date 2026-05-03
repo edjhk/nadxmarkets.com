@@ -1,253 +1,147 @@
-<!doctype html>
-<html lang="en" data-theme="light">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Regulatory Capture — Why Markets Never Get Fixed | NADX Markets</title>
-  <meta name="description" content="Why structural incentives and the logic of collective action mean equity market reforms repeatedly fail, and why regulation alone will never fix the problem.">
-  <link rel="preconnect" href="https://api.fontshare.com">
-  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=zodiak@400,500,700&display=swap" rel="stylesheet">
-  <style>
-    :root, [data-theme="light"] {
-      --bg:#f7f6f2; --surface:#faf9f6; --border:#d6d1c8; --divider:#dfdbd4;
-      --text:#25221b; --muted:#6b6862; --primary:#01696f;
-      --font-body:'General Sans', Inter, sans-serif;
-      --font-display:'Zodiak', Georgia, serif;
-      --content:760px;
-    }
-    [data-theme="dark"] {
-      --bg:#171614; --surface:#1d1c19; --border:#393734; --divider:#2b2a27;
-      --text:#cfcdc8; --muted:#9a978f; --primary:#4f98a3;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--text);
-      font-family:var(--font-body);
-      line-height:1.7;
-      font-size:1.06rem;
-    }
-    a{color:inherit;text-decoration:none}
-    .container{
-      width:min(calc(100% - 2rem),var(--content));
-      margin:0 auto;
-    }
-    .site-header{
-      position:sticky;
-      top:0;
-      background:color-mix(in srgb,var(--bg) 90%,transparent);
-      backdrop-filter:blur(14px);
-      border-bottom:1px solid var(--divider);
-    }
-    .site-header__inner{
-      min-height:60px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:1rem;
-    }
-    .brand{
-      display:inline-flex;
-      align-items:center;
-      gap:.75rem;
-      font-size:.95rem;
-      font-weight:600;
-      letter-spacing:.05em;
-      text-transform:uppercase;
-    }
-    .brand-mark{
-      width:28px;height:28px;border-radius:9px;
-      display:grid;place-items:center;
-      background:var(--primary);color:white;
-      font-size:.76rem;font-weight:700;
-    }
-    .nav{
-      display:flex;
-      gap:1.4rem;
-    }
-    .nav a{
-      font-size:.95rem;
-      color:var(--muted);
-    }
-    .nav a:hover{color:var(--text)}
-    .theme-toggle{
-      border:1px solid var(--border);
-      background:var(--surface);
-      color:var(--text);
-      border-radius:9999px;
-      padding:.45rem .8rem;
-      cursor:pointer;
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Regulatory Capture: Why Markets Never Get Fixed | NADX Securities</title>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&f[]=zodiak@400,500,600&display=swap" rel="stylesheet">
 
-    .article{
-      padding:3.5rem 0 5rem;
-    }
-    .back{
-      display:inline-flex;
-      align-items:center;
-      gap:.4rem;
-      margin-bottom:1.25rem;
-      color:var(--muted);
-      font-size:.95rem;
-    }
-    .eyebrow{
-      margin:0 0 .75rem;
-      font-size:.8rem;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
-    h1{
-      margin:0 0 1rem;
-      max-width:18ch;
-      font-family:var(--font-display);
-      font-size:clamp(2.2rem,1.4rem + 2vw,3.2rem);
-      line-height:1.03;
-      font-weight:500;
-    }
-    .dek{
-      margin:0 0 1.5rem;
-      color:var(--muted);
-      max-width:60ch;
-    }
-    .meta{
-      padding:0 0 1.6rem;
-      border-bottom:1px solid var(--divider);
-      margin-bottom:2rem;
-      color:var(--muted);
-      font-size:.95rem;
-    }
-    .body h2{
-      margin:2.3rem 0 .9rem;
-      font-family:var(--font-display);
-      font-size:1.55rem;
-      line-height:1.12;
-      font-weight:500;
-    }
-    .body p{
-      margin:0 0 1.2rem;
-    }
-    .body em{font-style:italic}
-    @media (max-width:900px){
-      .nav{display:none}
-    }
-  </style>
+<style>
+:root {
+  --text-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.86rem);
+  --text-sm: clamp(0.88rem, 0.82rem + 0.2vw, 0.98rem);
+  --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.08rem);
+  --text-lg: clamp(1.08rem, 1rem + 0.45vw, 1.32rem);
+  --text-xl: clamp(1.35rem, 1.08rem + 1vw, 1.95rem);
+  --text-2xl: clamp(2rem, 1.45rem + 1.8vw, 3rem);
+  --sp2:.5rem;--sp3:.75rem;--sp4:1rem;--sp5:1.25rem;--sp6:1.5rem;
+  --sp8:2rem;--sp10:2.5rem;--sp12:3rem;--sp16:4rem;
+  --r-full:9999px;--r-xl:1rem;--r-lg:.75rem;
+  --bg:#111111;
+  --surf:#171717;
+  --surf2:#1e1c18;
+  --border:#2f2a22;
+  --divider:#26221c;
+  --text:#f3f0e8;
+  --muted:#c3b79b;
+  --gold:#c8a96b;
+  --gold-h:#b6914d;
+  --white:#ffffff;
+  --shadow:0 12px 28px rgba(0,0,0,.32);
+  --body:"General Sans",Inter,sans-serif;
+  --display:"Zodiak",Georgia,serif;
+  --content:760px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);font-size:var(--text-base);line-height:1.7;
+  color:var(--text);background:var(--bg)}
+a{color:inherit;text-decoration:none}
+.container{width:min(calc(100% - 2rem),var(--content));margin:0 auto}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 92%,transparent);
+  border-bottom:1px solid var(--divider)}
+.site-header__inner{min-height:60px;display:flex;align-items:center;
+  justify-content:space-between;gap:var(--sp4)}
+.brand{display:inline-flex;align-items:center;gap:var(--sp3);
+  font-size:var(--text-sm);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.brand-mark{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;
+  background:var(--gold);color:#111;font-size:.76rem;font-weight:700}
+.nav{display:flex;align-items:center;gap:var(--sp5)}
+.nav a{font-size:var(--text-sm);color:var(--muted);transition:color .18s}
+.nav a:hover,.nav a.active{color:var(--text)}
+
+/* Article layout */
+.article{padding:var(--sp16) 0 var(--sp16)}
+.back{display:inline-flex;align-items:center;gap:var(--sp2);
+  margin-bottom:var(--sp8);font-size:var(--text-sm);color:var(--muted);transition:color .18s}
+.back:hover{color:var(--gold)}
+.eyebrow{font-size:var(--text-xs);letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:var(--sp4)}
+.article h1{font-family:var(--display);font-size:var(--text-2xl);
+  font-weight:500;line-height:1.05;letter-spacing:-.02em;
+  color:var(--white);margin-bottom:var(--sp5);max-width:22ch}
+.dek{font-size:var(--text-lg);color:var(--muted);line-height:1.5;
+  max-width:52ch;margin-bottom:var(--sp6)}
+.meta{padding:var(--sp4) 0 var(--sp6);border-bottom:1px solid var(--divider);
+  margin-bottom:var(--sp8);color:var(--muted);font-size:var(--text-sm)}
+.series-note{display:inline-block;font-size:var(--text-xs);letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:var(--sp2)}
+
+/* Body text */
+.body{color:var(--text);line-height:1.75}
+.body p{margin-bottom:1.4rem;max-width:68ch}
+.body h2{font-family:var(--display);font-size:var(--text-xl);font-weight:500;
+  color:var(--white);line-height:1.15;letter-spacing:-.02em;
+  margin:var(--sp10) 0 var(--sp4);max-width:26ch}
+.body h3{font-size:var(--text-lg);font-weight:600;color:var(--text);
+  margin:var(--sp8) 0 var(--sp3)}
+.body strong{color:var(--white);font-weight:600}
+.body em{color:var(--gold);font-style:italic}
+.body blockquote{border-left:2px solid var(--gold);padding-left:var(--sp5);
+  margin:var(--sp6) 0;font-family:var(--display);font-size:var(--text-lg);
+  font-style:italic;color:var(--white);line-height:1.4}
+
+/* Footer */
+.site-footer{border-top:1px solid var(--divider);padding:var(--sp5) 0 var(--sp8);
+  color:var(--muted);font-size:var(--text-sm)}
+.footer-row{display:flex;align-items:center;justify-content:space-between;
+  gap:var(--sp4);flex-wrap:wrap}
+
+/* Nav next/prev */
+.article-nav{display:flex;justify-content:space-between;
+  padding:var(--sp8) 0 0;border-top:1px solid var(--divider);margin-top:var(--sp10)}
+.article-nav a{font-size:var(--text-sm);color:var(--muted);transition:color .18s}
+.article-nav a:hover{color:var(--gold)}
+
+@media(max-width:900px){.nav{display:none}}
+</style>
+
 </head>
 <body>
-  <header class="site-header">
-    <div class="container site-header__inner">
-      <a class="brand" href="/index.html">
-        <a class="brand" href="/index.html" aria-label="NADX Markets home">
-          <img src="/nadx.png" alt="NADX Markets" style="height:28px; display:block;">
-        </a>
-      <nav class="nav">
-        <a href="/index.html">Overview</a>
-        <a href="/publications.html">Publications</a>
-        <a href="/community.html">Community</a>
-      </nav>
-      <button class="theme-toggle" type="button" data-theme-toggle>◐</button>
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="../index.html" class="brand">
+      <span class="brand-mark">N</span>
+      NADX Securities
+    </a>
+    <nav class="nav">
+      <a href="../index.html">The Case</a>
+      <a href="../publications.html" class="active">Research</a>
+      <a href="../platform.html">Platform</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="article">
+  <div class="container">
+    <a class="back" href="../publications.html">&larr; All publications</a>
+    <p class="series-note">Part 2 of a series on securities markets, blockchain, and the case for structural change.</p>
+    <p class="eyebrow">Publication · Part 2</p>
+    <h1>Regulatory Capture: Why Markets Never Get Fixed</h1>
+    <p class="dek">Mancur Olson explained it in 1965. The SEC has confirmed it every decade since. Why concentrated interests defeat diffuse majorities — every time — and what that means for the buy-side.</p>
+    <div class="body">
+      <p>This essay uses the logic of collective action to explain why concentrated trading interests consistently outperform diffuse investor interests in regulatory contests.</p>
+<p>The core claim is not that regulators are uniquely corrupt or uniquely incompetent. It is that the incentives are structurally misaligned — and have been since the first exchange demutualized.</p>
+<p>The 2022 equity market structure reforms were the most ambitious overhaul in a generation. All four proposals were withdrawn in June 2025. That outcome was not a surprise. It was the predicted result of a system working exactly as designed.</p>
     </div>
-  </header>
+    <div class="article-nav">
+      <div><a href="why-no-moon.html">&larr; Why No Moon for Securities on the Blockchain</a></div>
+      <div><a href="the-compact.html">The Compact That Was Never Honored &rarr;</a></div>
+    </div>
+  </div>
+</main>
 
-  <main class="article">
-    <article class="container">
-      <a class="back" href="/publications.html">← Back to publications</a>
-      <p class="eyebrow">Publication</p>
-      <h1>Regulatory Capture — Why Markets Never Get Fixed</h1>
-      <p class="dek">How the logic of collective action and structural incentives let a concentrated trading minority defeat the diffuse investing majority, over and over again.</p>
-      <div class="meta">Essay · Regulatory capture · Market structure</div>
+<footer class="site-footer">
+  <div class="container footer-row">
+    <span>&copy; 2026 NADX Securities, Inc. For institutional and accredited investors only.</span>
+    <a href="../contact.html" style="color:var(--muted)">Contact</a>
+  </div>
+</footer>
 
-      <div class="body">
-        <p><strong>Regulatory Capture — Why Markets Never Get Fixed</strong></p>
-
-        <p>Some years ago, I owned a restaurant in Washington DC. We occasionally hosted private parties that ran late. A handful of neighbors complained to the local Advisory Neighborhood Commission about noise, seeking to curtail our operating license. Hundreds of monthly diners — from across the city — never showed up to defend us. They just had dinner and went home.</p>
-
-        <p>The ANC commissioners happened to like the restaurant. We survived. But the experience revealed something that has stayed with me: in any adjudicative process, the organized minority defeats the unorganized majority — every time — unless the decision-maker is wise enough to ask who isn’t in the room.</p>
-
-        <p>The US equity market has the same problem. And the SEC is rarely wise enough to ask.</p>
-
-        <h2>The Logic of Collective Action</h2>
-
-        <p>In 1965, economist Mancur Olson published <em>The Logic of Collective Action</em> — one of the most important and least-read books in political economy. His central insight was simple and devastating: <strong>small groups with large individual stakes will always defeat large groups with small individual stakes</strong> in any political or regulatory contest.</p>
-
-        <p>The mechanism is straightforward. If a policy change will make you personally 10 million dollars richer, you will spend considerable time and money fighting for it. If the same policy change will cost 160 million people 10 dollars each — a total harm of 1.6 billion dollars — none of those 160 million people will spend a dollar fighting against it. Their individual stake doesn’t justify the effort.</p>
-
-        <p>The result: regulatory outcomes systematically favor concentrated minorities over diffuse majorities. Not because regulators are corrupt. Not because they are incompetent. Because the incentives are structural. Olson called this “the logic” of collective action — meaning it is not an aberration. It is the rule.</p>
-
-        <h2>The Invisible Tax</h2>
-
-        <p>Now apply Olson’s framework to the US equity market.</p>
-
-        <p>The concentrated minority: a small number of high-speed trading firms whose revenues run into the billions annually. Every basis point of regulatory protection is worth tens of millions of dollars to them personally. They employ former regulators, retain the best securities lawyers, and appear at every SEC roundtable and every congressional hearing. They are organized, funded, and relentless.</p>
-
-        <p>The diffuse majority: 160 million Americans with retirement accounts — 401(k)s, IRAs, pension funds. Each one bears an invisible cost on every equity trade — in the form of price slippage on large orders, adverse selection from quotes that disappear on approach, and the accumulated expense of a speed arms race they never asked to join and cannot opt out of. The total extraction runs into the billions annually. No single account holder feels it enough to act.</p>
-
-        <p>The asymmetry is not accidental. Citadel and Virtu together reported just under one million dollars in direct federal lobbying in 2023 alone — and that is only what the disclosure rules require them to show. It does not include their trade association dues, their revolving-door hires of former SEC and CFTC staff, their sponsored academic research, or their government affairs teams. Jane Street, which earned more than 20 billion dollars in revenue in 2024, does not report lobbying at all.</p>
-
-        <p>The buy-side and sell-side are sometimes described as opposing sides of the same market. They are not equal sides. The sell-side exists to serve the buy-side — to intermediate the capital that the buy-side owns on behalf of the people who saved it. When the intermediary extracts more than the service is worth, it is not a bilateral dispute. It is a principal being overcharged by its agent. That overcharge is invisible by design.</p>
-
-        <p>This is not a tax that appears on any statement. There is no line item. There is no Form 1099. It is simply the difference between the market that participants deserve and the market they have — collected silently, at scale, every trading day.</p>
-
-        <h2>The Reform Graveyard</h2>
-
-        <p>The evidence is not theoretical. It is a 30‑year record.</p>
-
-        <p>In 2005, Regulation NMS was designed to protect investors from inferior executions and create a unified national market. Within months, high-speed trading firms had adapted to exploit its structure — using its own mandates as the mechanism for the very extraction it was meant to prevent.</p>
-
-        <p>After the Flash Crash of May 6, 2010, the SEC and CFTC conducted a joint investigation. Their report found that high-speed trading firms contributed to the crash by “demanding immediacy ahead of other market participants.” It produced circuit breakers. The circuit breakers prevent the largest incidents from becoming catastrophic. They do not prevent the incidents. Mini flash crashes occur hundreds of times per day. The structural conditions that produced May 6 remain intact.</p>
-
-        <p>In 2014, Michael Lewis published <em>Flash Boys</em>. The FBI opened an investigation. The Senate held hearings. The New York Attorney General filed suits. Public outrage was genuine and widespread. Eighteen months later, it had faded. Nothing structural changed.</p>
-
-        <p>Then came the most ambitious attempt of all. In December 2022, the SEC proposed four simultaneous reforms — the most comprehensive equity market structure overhaul in twenty years. The Order Competition Rule would have required retail orders to be exposed to competitive auctions before internalization. The Best Execution Rule would have strengthened broker obligations to retail customers. Access fee caps would have reduced the toll exchanges charge for order routing. Tick size reforms would have improved pricing granularity.</p>
-
-        <p>The buy-side showed up. Vanguard filed. The ICI filed. Pension funds filed a joint letter. Senior traders like Mett Kinak at T. Rowe Price said what needed to be said, publicly, repeatedly. The SEC received tens of thousands of comment letters on the four 2022 market structure proposals, and the data broadly supported reform.</p>
-
-        <p>The sell-side filed too. The difference is that the sell-side also retained lobbyists, funded economic studies designed to challenge the SEC’s analysis, hired former regulators, and maintained a trade association — the Principal Traders Group — whose single purpose is to ensure that market structure works the way they need it to work. Vanguard manages roughly 10 trillion dollars in assets. Vanguard does not have a Principal Traders Group equivalent.</p>
-
-        <p>On June 12, 2025, every single proposal was formally withdrawn.</p>
-
-        <p>The buy-side showed up. The pension funds showed up. The data supported reform.</p>
-
-        <p>The high-speed trading firms won. Again. As they always do.</p>
-
-        <h2>Why Regulation Will Never Fix This</h2>
-
-        <p>The Collective Action Problem has a compounding dimension in financial regulation: the concentrated minority doesn’t just lobby regulators — it employs them.</p>
-
-        <p>This is the definition of regulatory capture: the process by which the agency meant to regulate an industry comes to serve that industry’s interests instead. It doesn’t require corruption. It doesn’t require a single improper conversation. It operates through structure. Regulators who seek future employment in the private sector moderate their positions accordingly. Firms hire former regulators not for their technical expertise but for their relationships and their implicit understanding of where the lines are.</p>
-
-        <p>In April 2014 — one month after <em>Flash Boys</em> was published and the FBI had opened an HFT investigation — the SEC’s Associate Director for market structure research gave a speech arguing that criticism of HFT was “too narrowly focused and myopic.” The industry distributed it widely. He left the SEC the following year. Sixteen months later, he joined Citadel Securities.</p>
-
-        <p>Nobody passed an envelope. The mechanism is subtler.</p>
-
-        <p>The result is an institution that produces rigorous analysis, genuine debate, and — with remarkable consistency — outcomes that favor the marketplace over the market. Not through corruption. Through structure.</p>
-
-        <p>If the problem is structural, then better regulators will not fix it. Better rules will not fix it. Proposed reforms get squashed. It is built into the incentive architecture of the system itself — not into any individual’s misconduct.</p>
-
-        <p>The question is not how to fix the rules.</p>
-
-        <p>The question is how to build a market that doesn’t need them.</p>
-
-        <p><em>“You should not underestimate the widespread and legitimate anger at these firms. Please regulate them.” — R.T. Leuchtkafer, SEC Comment Letter, April 16, 2010</em></p>
-      </div>
-    </article>
-  </main>
-
-  <script>
-    (function () {
-      const root = document.documentElement;
-      const toggle = document.querySelector('[data-theme-toggle]');
-      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      root.setAttribute('data-theme', theme);
-      const sync = () => { toggle.textContent = theme === 'dark' ? '☼' : '◐'; };
-      sync();
-      toggle.addEventListener('click', () => {
-        theme = theme === 'dark' ? 'light' : 'dark';
-        root.setAttribute('data-theme', theme);
-        sync();
-      });
-    }());
-  </script>
 </body>
 </html>
