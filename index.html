@@ -26,6 +26,46 @@
   --display:"Zodiak",Georgia,serif;
   --content:1160px;
 }
+.menu-toggle{
+  display:none;
+  flex-direction:column;
+  gap:5px;
+  padding:var(--sp2);
+  background:none;
+  border:none;
+  cursor:pointer;
+}
+
+.menu-toggle span{
+  display:block;
+  width:22px;
+  height:2px;
+  background:var(--text);
+}
+
+.mobile-nav{
+  display:none;
+  flex-direction:column;
+  gap:0;
+  border-top:1px solid var(--divider);
+  background:var(--bg);
+}
+
+.mobile-nav a{
+  padding:var(--sp4);
+  font-size:var(--text-base);
+  color:var(--muted);
+  border-bottom:1px solid var(--divider);
+}
+
+.mobile-nav a:hover,
+.mobile-nav a.active{
+  color:var(--text);
+}
+
+.mobile-nav.open{
+  display:flex;
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--body);font-size:var(--text-base);line-height:1.55;color:var(--text);background:var(--bg)}
@@ -177,7 +217,12 @@ button{font:inherit;cursor:pointer}
   .opportunity h2{font-size:clamp(2rem,8vw,3.5rem)}
 }
 @media(max-width:600px){
+  .hero{padding:var(--sp10) 0 var(--sp8)}
   .hero h1{font-size:clamp(2rem,8vw,3rem)}
+  .actions{flex-direction:column}
+  .actions .btn{width:100%;justify-content:center}
+  .nl-form{flex-direction:column}
+  .nl-form input[type=email]{width:100%}
 }
 </style>
   <!-- Google tag (gtag.js) -->
@@ -199,13 +244,28 @@ button{font:inherit;cursor:pointer}
       <span class="brand-mark">N</span>
       NADX Markets
     </a>
+
     <nav class="nav">
       <a href="/" class="active">The Case</a>
       <a href="publications.html">Research</a>
       <a href="platform.html">Platform</a>
       <a href="contact.html">Contact</a>
     </nav>
+
+    <button class="menu-toggle" aria-label="Open menu"
+      onclick="document.querySelector('.mobile-nav').classList.toggle('open')">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
+
+  <nav class="mobile-nav">
+    <a href="/" class="active">The Case</a>
+    <a href="publications.html">Research</a>
+    <a href="platform.html">Platform</a>
+    <a href="contact.html">Contact</a>
+  </nav>
 </header>
 
 <main>
