@@ -328,7 +328,7 @@
       <div class="gate-eyebrow">NADX Securities · Access required</div>
       <h1>Petition Review</h1>
       <p>Enter your approved email address to access the article.</p>
-      <p>You will receive a link by email. After you sign in, the page will open and you can comment normally without another email unless your session expires.</p>
+      <p>You will receive a magic link by email. After you sign in, the page will open and you can comment normally without another email unless your session expires. [web:107][web:332]</p>
       <div class="form-row">
         <label for="gateEmail"><strong>Email address</strong></label>
         <input id="gateEmail" type="email" placeholder="you@example.com" autocomplete="email" />
@@ -670,17 +670,21 @@
         setStatus(gateStatus, 'Enter your approved email address.', 'error');
         return;
       }
+      gateSubmit.disabled = true;
+      gateSubmit.textContent = 'Sending...';
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
           shouldCreateUser: false,
-          emailRedirectTo: window.location.href.split('#')[0]
+          emailRedirectTo: 'https://nadxmarkets.com/publications/petition-review.html'
         }
       });
+      gateSubmit.disabled = false;
+      gateSubmit.textContent = 'Email me a sign-in link';
       if (error) {
         setStatus(gateStatus, error.message, 'error');
       } else {
-        setStatus(gateStatus, 'Magic link sent. Check your email.', 'success');
+        setStatus(gateStatus, 'Check your email for a sign-in link.', 'success');
       }
     }
 
@@ -717,16 +721,20 @@
       await loadComments();
     }
 
-    async function checkAuth() {
-      const { data } = await supabase.auth.getUser();
-      const user = data?.user;
-      if (user) {
-        await showPageForUser(user);
-      } else {
-        pageContent.classList.add('hidden');
-        authGate.classList.remove('hidden');
-      }
+    function showGate() {
+      pageContent.classList.add('hidden');
+      authGate.classList.remove('hidden');
     }
+
+    // Primary auth handler — fires on every auth state change including
+    // INITIAL_SESSION (page load) and SIGNED_IN (after magic link redirect)
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session && session.user) {
+        await showPageForUser(session.user);
+      } else {
+        showGate();
+      }
+    });
 
     async function postComment() {
       const body = commentInput.value.trim();
@@ -734,14 +742,15 @@
         setStatus(commentStatus, 'Write a comment first.', 'error');
         return;
       }
-      const { data } = await supabase.auth.getUser();
-      const user = data?.user;
+      const { data: { session } } = await supabase.auth.getSession();
+      const user = session?.user;
       if (!user) {
-        setStatus(commentStatus, 'Your session expired. Sign in again.', 'error');
-        pageContent.classList.add('hidden');
-        authGate.classList.remove('hidden');
+        setStatus(commentStatus, 'Your session expired. Please sign in again.', 'error');
+        showGate();
         return;
       }
+      postCommentBtn.disabled = true;
+      postCommentBtn.textContent = 'Submitting...';
       const { error } = await supabase
         .from('petition_comments')
         .insert({
@@ -750,6 +759,8 @@
           user_email: user.email,
           body
         });
+      postCommentBtn.disabled = false;
+      postCommentBtn.textContent = 'Submit';
       if (error) {
         setStatus(commentStatus, error.message, 'error');
         return;
@@ -761,16 +772,13 @@
 
     async function signOut() {
       await supabase.auth.signOut();
-      pageContent.classList.add('hidden');
-      authGate.classList.remove('hidden');
-      setStatus(gateStatus, '', '');
+      showGate();
     }
 
     gateSubmit.addEventListener('click', sendMagicLink);
     postCommentBtn.addEventListener('click', postComment);
     signOutBtn.addEventListener('click', signOut);
-    supabase.auth.onAuthStateChange(() => checkAuth());
-    checkAuth();
+    gateEmail.addEventListener('keydown', e => { if (e.key === 'Enter') sendMagicLink(); });
   </script>
 </body>
 </html>
