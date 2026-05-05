@@ -1,20 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Complete your profile | NADX Markets</title>
+<meta name="description" content="Complete your profile to continue commenting on NADX Markets research." />
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&f[]=zodiak@400,500,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --text-xs:clamp(0.75rem,0.7rem + 0.2vw,0.86rem);
+  --text-sm:clamp(0.88rem,0.82rem + 0.2vw,0.98rem);
+  --text-base:clamp(1rem,0.96rem + 0.2vw,1.08rem);
+  --text-lg:clamp(1.08rem,1rem + 0.45vw,1.32rem);
+  --text-xl:clamp(1.35rem,1.08rem + 1vw,1.95rem);
+  --text-2xl:clamp(2rem,1.45rem + 1.8vw,3rem);
+  --sp2:.5rem;--sp3:.75rem;--sp4:1rem;--sp5:1.25rem;--sp6:1.5rem;
+  --sp8:2rem;--sp10:2.5rem;--sp12:3rem;--sp16:4rem;
+  --r-md:.5rem;--r-xl:1rem;--r-full:9999px;
+  --bg:#111111;--surf:#171717;--surf2:#1e1c18;
+  --border:#2f2a22;--divider:#26221c;
+  --text:#f3f0e8;--muted:#c3b79b;
+  --gold:#c8a96b;--gold-h:#b6914d;--white:#ffffff;
+  --body:'General Sans',Inter,sans-serif;
+  --display:'Zodiak',Georgia,serif;
+  --content:560px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);font-size:var(--text-base);line-height:1.6;color:var(--text);background:var(--bg)}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+.container{width:min(calc(100% - 2rem),var(--content));margin:0 auto}
+.profile-complete{min-height:100dvh;display:flex;align-items:center;padding:var(--sp16) 0}
+.profile-card{background:var(--surf2);border:1px solid var(--border);border-radius:var(--r-xl);padding:var(--sp8)}
+.eyebrow{font-size:var(--text-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:var(--sp3)}
+h1{font-family:var(--display);font-size:var(--text-2xl);font-weight:500;line-height:1.05;letter-spacing:-.02em;color:var(--white);margin-bottom:var(--sp4)}
+.sub{color:var(--muted);margin-bottom:var(--sp6)}
+#comment-profile-form{display:flex;flex-direction:column;gap:var(--sp5)}
+label{display:flex;flex-direction:column;gap:var(--sp2);font-size:var(--text-sm);color:var(--muted)}
+input{width:100%;padding:.9rem 1rem;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surf);color:var(--text);outline:none}
+input:focus{border-color:var(--gold)}
+.hint{font-size:var(--text-xs);color:var(--muted);margin-top:-0.25rem}
+button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.8rem 1.2rem;border-radius:var(--r-full);border:none;background:var(--gold);color:#111;font-size:var(--text-sm);font-weight:600;cursor:pointer}
+button:hover{background:var(--gold-h)}
+.status{margin-top:var(--sp4);font-size:var(--text-sm);color:var(--muted);min-height:1.25rem}
+.status.error{color:#f0b4b4}
+.status.success{color:#b7d9b1}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
 <main class="profile-complete">
   <div class="container">
-    <h1>Complete your profile</h1>
-    <p>Add your name to continue. You can also choose a screen name for public comments.</p>
+    <div class="profile-card">
+      <p class="eyebrow">NADX Markets</p>
+      <h1>Complete your profile</h1>
+      <p class="sub">Add your name to continue. You can also choose a screen name for public comments.</p>
 
-    <form id="comment-profile-form">
-      <label>
-        Name
-        <input type="text" id="profile-name" required />
-      </label>
+      <form id="comment-profile-form">
+        <label>
+          Name
+          <input type="text" id="profile-name" required />
+        </label>
 
-      <label>
-        Screen name (optional)
-        <input type="text" id="profile-username" />
-      </label>
+        <label>
+          Screen name (optional)
+          <input type="text" id="profile-username" />
+        </label>
+        <p class="hint">Name is required. Screen name is optional and can be used publicly instead of your name.</p>
 
-      <button type="submit">Continue</button>
-    </form>
+        <button type="submit">Continue</button>
+      </form>
+
+      <p id="profile-status" class="status"></p>
+    </div>
   </div>
 </main>
+
+<script>
+const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+const form = document.getElementById('comment-profile-form');
+const statusEl = document.getElementById('profile-status');
+
+async function getSignedInUser() {
+  const { data, error } = await supabaseClient.auth.getUser();
+  if (error) return null;
+  return data?.user || null;
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  statusEl.textContent = '';
+  statusEl.className = 'status';
+
+  const name = document.getElementById('profile-name').value.trim();
+  const username = document.getElementById('profile-username').value.trim();
+
+  if (!name) {
+    statusEl.textContent = 'Name is required.';
+    statusEl.classList.add('error');
+    return;
+  }
+
+  const user = await getSignedInUser();
+  if (!user) {
+    statusEl.textContent = 'Your session was not found. Please return to the article and try again.';
+    statusEl.classList.add('error');
+    return;
+  }
+
+  const payload = {
+    id: user.id,
+    name,
+    username: username || null,
+    email: user.email || null,
+    updated_at: new Date().toISOString()
+  };
+
+  const { error } = await supabaseClient
+    .from('profiles')
+    .upsert(payload, { onConflict: 'id' });
+
+  if (error) {
+    statusEl.textContent = 'Could not save your profile yet. Check that the profiles table exists and try again.';
+    statusEl.classList.add('error');
+    return;
+  }
+
+  statusEl.textContent = 'Profile saved. Returning you to the article...';
+  statusEl.classList.add('success');
+
+  const returnTo = sessionStorage.getItem('commentReturnTo') || '/publications/why-no-moon.html';
+  window.location.href = returnTo;
+});
+
+(async function init() {
+  const user = await getSignedInUser();
+  if (!user) {
+    statusEl.textContent = 'Open this page from the email sign-in link after starting a comment.';
+    statusEl.classList.add('error');
+  }
+})();
+</script>
+</body>
+</html>
