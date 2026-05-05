@@ -47,6 +47,55 @@
   --display:'Zodiak',Georgia,serif;
   --content:740px;
 }
+.comments-box{
+  margin-top:var(--sp12);
+  padding:var(--sp6);
+  border:1px solid var(--border);
+  border-radius:var(--r-xl);
+  background:var(--surf2);
+}
+.comments-box h2{
+  font-family:var(--display);
+  font-size:var(--text-xl);
+  font-weight:500;
+  color:var(--white);
+  margin-bottom:var(--sp4);
+}
+.comment-entry{
+  display:flex;
+  flex-direction:column;
+  gap:var(--sp3);
+  margin-bottom:var(--sp6);
+}
+.comment-entry textarea{
+  width:100%;
+  min-height:140px;
+  padding:1rem;
+  border:1px solid var(--border);
+  border-radius:0.75rem;
+  background:var(--surf);
+  color:var(--text);
+  font:inherit;
+  resize:vertical;
+  outline:none;
+}
+.comment-entry textarea:focus{
+  border-color:var(--gold);
+}
+.comment-submit{
+  align-self:flex-start;
+  min-height:42px;
+  padding:.7rem 1.2rem;
+  border:none;
+  border-radius:var(--r-full);
+  background:var(--gold);
+  color:#111;
+  font-size:var(--text-sm);
+  font-weight:600;
+}
+.comment-submit:hover{
+  opacity:.92;
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--body);font-size:var(--text-base);line-height:1.75;color:var(--text);background:var(--bg)}
@@ -128,6 +177,23 @@ a{color:inherit;text-decoration:none}
   gtag('config', 'G-3N2N5MTPXZ');
 </script>
 </head>
+<script>
+document.getElementById('comment-entry')?.addEventListener('submit', async function(e){
+  e.preventDefault();
+
+  const comment = document.getElementById('comment-text').value.trim();
+  if(!comment) return;
+
+  window.pendingComment = comment;
+
+  if (window.startCommentAuth) {
+    window.startCommentAuth(comment);
+    return;
+  }
+
+  alert('Connect the Supabase comment auth flow here so email sign-in opens after comment entry.');
+});
+</script>  
 <body>
 <header class="site-header">
   <div class="container--wide site-header__inner">
@@ -185,6 +251,14 @@ a{color:inherit;text-decoration:none}
 <p>The question is not whether today&rsquo;s securities-on-blockchain offerings are worth their attention. They are not. The question is who will own the infrastructure when it finally gets built right &mdash; and whether the buy-side will be at that table, or will arrive, as it did with the exchanges, only to discover that its seat was sold while it wasn&rsquo;t paying attention.</p>
 <p>The buy-side doesn&rsquo;t need a moon. It needs a market that works. Those are very different things. One is a windfall. The other is thirty years overdue.</p>
     </div>
+    <section class="comments-box">
+  <h2>Comments</h2>
+  <form id="comment-entry" class="comment-entry">
+    <textarea id="comment-text" placeholder="Write a comment..." rows="5" required></textarea>
+    <button type="submit" class="comment-submit">Post comment</button>
+  </form>
+  <div id="comments-mount"></div>
+</section>
     <div class="article-nav">
       <span></span>
       <a class="nav-next" href="regulatory-capture.html">Regulatory Capture: Why Markets Never Get Fixed &rarr;</a>
@@ -196,13 +270,6 @@ a{color:inherit;text-decoration:none}
     <span>&copy; 2026 NADX Markets, Inc. For institutional and accredited investors only.</span>
     <a href="../contact.html" style="color:var(--muted)">Contact</a>
   </div>
-</footer>
-  <section class="comments">
-  <div class="container">
-    <h2>Comments and responses</h2>
-    <p class="comments-intro">Join the conversation. Questions, challenges, and additional perspectives from institutional market participants are welcome.</p>
-    <div id="comments-mount"></div>
-  </div>
-</section>  
+</footer> 
 </body>
 </html>
