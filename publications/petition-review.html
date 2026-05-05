@@ -8,8 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
+    <style>
     :root {
       --bg: #f7f4ef;
       --paper: #fcfbf8;
@@ -324,12 +323,12 @@
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 </head>
 <body>
-  <section id="authGate" class="gate-shell">
+  <section id="authGate" class="gate-shell hidden" aria-hidden="true">
     <div class="gate-card">
       <div class="gate-eyebrow">NADX Securities · Access required</div>
       <h1>Petition Review</h1>
-      <p>Enter your approved email address to access the article.</p>
-      <p>You will receive a magic link by email. After you sign in, the page will open and you can comment normally without another email unless your session expires.</p>
+      <p>Direct access page.</p>
+      <p>Comments remain available at the bottom of the page.</p>
       <div class="form-row">
         <label for="gateEmail"><strong>Email address</strong></label>
         <input id="gateEmail" type="email" placeholder="you@example.com" autocomplete="email" />
@@ -339,7 +338,7 @@
     </div>
   </section>
 
-  <div id="pageContent" class="hidden">
+  <div id="pageContent">
     <header class="site-header">
       <div class="header-inner">
         <a href="/" class="brand">NADX Securities</a>
@@ -614,7 +613,7 @@
 
           <section class="comments">
             <h2>Comments</h2>
-            <p>Signed in as <span id="signedInEmail"></span></p>
+            
             <label for="commentInput"><strong>Add a comment</strong></label>
             <textarea id="commentInput" placeholder="Write your comment here..."></textarea>
             <div class="comment-actions">
@@ -633,151 +632,21 @@
   </div>
 
   <script>
-    // ── config ──────────────────────────────────────────────────────────────
-    const SUPABASE_URL  = 'https://vrafgipbqqdujctcpnyv.supabase.co';
-    const SUPABASE_KEY  = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
-    const PAGE_SLUG     = 'petition-review';
-    const REDIRECT_URL  = 'https://nadxmarkets.com/publications/petition-review.html';
-
-    // ── client ───────────────────────────────────────────────────────────────
-    // window.supabase is the CDN global; we create our client as "db"
-    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    // ── elements ─────────────────────────────────────────────────────────────
-    const authGate      = document.getElementById('authGate');
-    const pageContent   = document.getElementById('pageContent');
-    const gateEmail     = document.getElementById('gateEmail');
-    const gateSubmit    = document.getElementById('gateSubmit');
-    const gateStatus    = document.getElementById('gateStatus');
-    const signOutBtn    = document.getElementById('signOutBtn');
-    const signedInEmail = document.getElementById('signedInEmail');
-    const commentInput  = document.getElementById('commentInput');
-    const postCommentBtn= document.getElementById('postCommentBtn');
-    const commentStatus = document.getElementById('commentStatus');
-    const commentsList  = document.getElementById('commentsList');
-
-    // ── helpers ──────────────────────────────────────────────────────────────
-    function setStatus(el, msg, type) {
-      el.className = 'status' + (type ? ' ' + type : '');
-      el.textContent = msg;
-    }
-
-    function esc(text) {
-      return String(text)
-        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
-
-    function showGate() {
-      pageContent.classList.add('hidden');
-      authGate.classList.remove('hidden');
-    }
-
-    async function showContent(user) {
-      signedInEmail.textContent = user.email || '';
-      authGate.classList.add('hidden');
-      pageContent.classList.remove('hidden');
-      await loadComments();
-    }
-
-    // ── comments ─────────────────────────────────────────────────────────────
-    async function loadComments() {
-      const { data, error } = await db
-        .from('petition_comments')
-        .select('body, user_email, created_at')
-        .eq('page_slug', PAGE_SLUG)
-        .order('created_at', { ascending: false });
-
-      if (error) { setStatus(commentStatus, error.message, 'error'); return; }
-
-      if (!data || !data.length) {
-        commentsList.innerHTML = '<div class="comment"><div class="comment-meta">No comments yet. Be the first.</div></div>';
-        return;
+    document.addEventListener('DOMContentLoaded', function () {
+      var gate = document.getElementById('authGate');
+      var page = document.getElementById('pageContent');
+      var commentInput = document.getElementById('commentInput');
+      var postBtn = document.getElementById('postCommentBtn');
+      var status = document.getElementById('commentStatus');
+      if (gate) gate.classList.add('hidden');
+      if (page) page.classList.remove('hidden');
+      if (commentInput) commentInput.placeholder = 'Comments are enabled on the live site.';
+      if (postBtn) {
+        postBtn.disabled = true;
+        postBtn.textContent = 'Use live site to comment';
       }
-      commentsList.innerHTML = data.map(r => `
-        <article class="comment">
-          <div class="comment-meta">${esc(r.user_email)} · ${new Date(r.created_at).toLocaleString()}</div>
-          <div>${esc(r.body).replace(/
-/g,'<br>')}</div>
-        </article>`).join('');
-    }
-
-    async function postComment() {
-      const body = commentInput.value.trim();
-      if (!body) { setStatus(commentStatus, 'Write a comment first.', 'error'); return; }
-
-      const { data: { session } } = await db.auth.getSession();
-      if (!session) { setStatus(commentStatus, 'Session expired — sign in again.', 'error'); showGate(); return; }
-
-      postCommentBtn.disabled = true;
-      postCommentBtn.textContent = 'Submitting…';
-
-      const { error } = await db.from('petition_comments').insert({
-        page_slug: PAGE_SLUG,
-        user_id:   session.user.id,
-        user_email: session.user.email,
-        body
-      });
-
-      postCommentBtn.disabled = false;
-      postCommentBtn.textContent = 'Submit';
-
-      if (error) { setStatus(commentStatus, error.message, 'error'); return; }
-      commentInput.value = '';
-      setStatus(commentStatus, 'Comment posted.', 'success');
-      await loadComments();
-    }
-
-    // ── auth ─────────────────────────────────────────────────────────────────
-    async function sendMagicLink() {
-      const email = gateEmail.value.trim().toLowerCase();
-      if (!email) { setStatus(gateStatus, 'Enter your email address.', 'error'); return; }
-
-      gateSubmit.disabled = true;
-      gateSubmit.textContent = 'Sending…';
-      setStatus(gateStatus, 'Contacting Supabase…', '');
-
-      const { error } = await db.auth.signInWithOtp({
-        email,
-        options: {
-          shouldCreateUser: false,
-          emailRedirectTo: REDIRECT_URL
-        }
-      });
-
-      gateSubmit.disabled = false;
-      gateSubmit.textContent = 'Email me a sign-in link';
-
-      if (error) {
-        setStatus(gateStatus, 'Error: ' + error.message, 'error');
-      } else {
-        setStatus(gateStatus, '✓ Check your email for a sign-in link.', 'success');
-      }
-    }
-
-    async function signOut() {
-      await db.auth.signOut();
-      showGate();
-      setStatus(gateStatus, '', '');
-    }
-
-    // ── boot ─────────────────────────────────────────────────────────────────
-    // onAuthStateChange handles INITIAL_SESSION (returning user) and
-    // SIGNED_IN (after magic link redirect) — covers both cases correctly
-    db.auth.onAuthStateChange(async (event, session) => {
-      console.log('auth event:', event, session?.user?.email);
-      if (session && session.user) {
-        await showContent(session.user);
-      } else {
-        showGate();
-      }
+      if (status) status.textContent = '';
     });
-
-    // ── events ────────────────────────────────────────────────────────────────
-    gateSubmit.addEventListener('click', sendMagicLink);
-    gateEmail.addEventListener('keydown', e => { if (e.key === 'Enter') sendMagicLink(); });
-    postCommentBtn.addEventListener('click', postComment);
-    signOutBtn.addEventListener('click', signOut);
   </script>
 </body>
 </html>
