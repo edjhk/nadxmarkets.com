@@ -1,1 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Petition for Rulemaking | NADX Securities</title>
+  <meta name="description" content="Petition for Rulemaking — Abolition of Rule 611 of Regulation NMS and Adoption of a Market-Based Real Execution Reporting Framework." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --paper: #fbfaf7;
+      --card: #f2ede6;
+      --line: #ddd5cb;
+      --text: #211d18;
+      --muted: #70685f;
+      --accent: #0d5c63;
+      --accent-2: #123f45;
+      --success: #2f6b2f;
+      --error: #8b2f45;
+      --max: 1180px;
+      --narrow: 760px;
+      --shadow: 0 10px 30px rgba(33, 29, 24, 0.08);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+    }
+    a { color: var(--accent); }
+    .site-header {
+      border-bottom: 1px solid var(--line);
+      background: rgba(251,250,247,.85);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand {
+      font-size: 14px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted);
+      background: var(--paper);
+    }
+    .hero {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 72px 24px 36px;
+    }
+    .eyebrow {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+    h1 {
+      margin: 0;
+      font-family: "Instrument Serif", serif;
+      font-size: clamp(42px, 6vw, 76px);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      max-width: 12ch;
+      font-weight: 400;
+    }
+    .dek {
+      margin-top: 20px;
+      font-size: clamp(18px, 2.4vw, 24px);
+      color: var(--muted);
+      max-width: 36ch;
+    }
+    .meta {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .layout {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 48px;
+      align-items: start;
+    }
+    .article-wrap {
+      min-width: 0;
+    }
+    .article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 44px;
+    }
+    .article-inner {
+      max-width: var(--narrow);
+    }
+    .article h2,
+    .article h3 {
+      font-family: "Instrument Serif", serif;
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 54px 0 18px;
+    }
+    .article h2 { font-size: clamp(30px, 3vw, 42px); }
+    .article h3 { font-size: clamp(24px, 2.2vw, 32px); }
+    .article p { margin: 0 0 18px; font-size: 18px; }
+    .article .lede {
+      font-size: 21px;
+      color: #3b342d;
+    }
+    .article .letterhead {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 28px;
+    }
+    .article hr {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: 34px 0;
+    }
+    .article ol,
+    .article ul {
+      padding-left: 22px;
+      margin: 0 0 24px;
+    }
+    .article li {
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    blockquote {
+      margin: 28px 0;
+      padding: 20px 24px;
+      border-left: 3px solid var(--accent);
+      background: #f3efe8;
+      border-radius: 0 14px 14px 0;
+      color: #3a332b;
+    }
+    .footnotes {
+      font-size: 15px;
+      color: var(--muted);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0 28px;
+      font-size: 15px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      display: block;
+    }
+    thead, tbody, tr { width: 100%; display: table; table-layout: fixed; }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 14px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      background: #f7f3ed;
+    }
+    .sidebar {
+      position: sticky;
+      top: 92px;
+      display: grid;
+      gap: 18px;
+    }
+    .side-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+    .side-card h4 {
+      margin: 0 0 10px;
+      font-size: 13px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .side-card p, .side-card li {
+      font-size: 15px;
+      margin: 0 0 10px;
+      color: #403831;
+    }
+    .comment-gate {
+      margin-top: 46px;
+      background: #f4efe8;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 26px;
+    }
+    .comment-gate h3 {
+      margin-top: 0;
+    }
+    .auth-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    input[type="email"], textarea {
+      width: 100%;
+      border: 1px solid #cfc4b7;
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font: inherit;
+      color: var(--text);
+    }
+    textarea {
+      min-height: 160px;
+      resize: vertical;
+    }
+    button {
+      border: 0;
+      border-radius: 12px;
+      background: var(--accent);
+      color: white;
+      padding: 13px 18px;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.secondary {
+      background: #e7ddd1;
+      color: var(--text);
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .status.error { color: var(--error); }
+    .status.success { color: var(--success); }
+    .comments-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .comment {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 18px;
+    }
+    .comment-meta {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .site-footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px 70px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .hidden { display: none !important; }
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+    @media (max-width: 720px) {
+      .hero { padding-top: 46px; }
+      .article { padding: 26px 20px; border-radius: 22px; }
+      .article p, .article li { font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/">NADX Securities</a>
+      <div class="pill">Unlisted Review Copy</div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">Publications · Petition Review</div>
+    <h1>Petition for Rulemaking</h1>
+    <p class="dek">Abolition of Rule 611 of Regulation NMS and Adoption of a Market-Based Real Execution Reporting Framework</p>
+    <div class="meta">
+      <span>NADX Securities, Inc.</span>
+      <span>May 2026</span>
+      <span>Direct link only</span>
+    </div>
+  </section>
+
+  <main class="layout">
+    <div class="article-wrap">
+      <article class="article">
+        <div class="article-inner">
+          <div class="letterhead">
+            <strong>The Honorable Paul S. Atkins</strong><br>
+            Chairman<br>
+            U.S. Securities and Exchange Commission<br>
+            100 F Street, N.E.<br>
+            Washington, D.C. 20549<br><br>
+
+            <strong>The Honorable Hester M. Peirce</strong><br>
+            Commissioner<br>
+            U.S. Securities and Exchange Commission<br>
+            100 F Street, N.E.<br>
+            Washington, D.C. 20549<br><br>
+
+            <strong>The Honorable Mark T. Uyeda</strong><br>
+            Commissioner<br>
+            U.S. Securities and Exchange Commission<br>
+            100 F Street, N.E.<br>
+            Washington, D.C. 20549<br><br>
+
+            Submitted via: rule-comments@sec.gov
+          </div>
+
+          <p class="lede"><strong>Re:</strong> Petition for Rulemaking — Abolition of Rule 611 of Regulation NMS and Adoption of a Market-Based Real Execution Reporting Framework</p>
+
+          <hr>
+
+          <p>Dear Chairman Atkins, Commissioner Peirce, and Commissioner Uyeda:</p>
+
+          <p>NADX Securities, Inc. (“NADX”) respectfully submits this petition for rulemaking pursuant to Rule 192 of the Commission’s Rules of Practice. NADX is developing a next-generation institutional securities trading platform designed to deliver genuine execution quality improvement, T-instant settlement, and market structure reform for the benefit of the buy-side and the investing public. We submit this petition in that capacity.</p>
+
+          <p>We petition the Commission to repeal Rule 611 of Regulation NMS — the Order Protection Rule — and replace it with a market-based framework that achieves what Rule 611 promised but never delivered: true competition among trading venues on the basis of actual execution quality. We refer to this framework as a Real Execution system, or Real-Ex, though it might equally be called a Post-Execution system, or Post-Ex — reflecting that its benchmark is derived from actual post-trade prices rather than pre-trade displayed quotes.</p>
+
+          <h2>I. Rule 611 Has Failed Its Purpose</h2>
+
+          <p>Rule 611 was adopted in 2005 with a straightforward goal: protect investors by ensuring their orders receive the best available price across all trading venues. Twenty years later, the rule has produced the opposite of what was intended. It has fragmented U.S. equity markets into seventeen exchanges and more than forty alternative trading systems, entrenched a rebate structure that distorts order routing, and generated a latency-driven infrastructure whose costs are borne entirely by the investors the rule was designed to protect.</p>
+
+          <p>The Commission’s own roundtables in September and December 2025 surfaced the same diagnosis from participants across the industry. Chairman Atkins, who dissented from Rule 611’s original adoption, has described it as “by far the most problematic provision” of Regulation NMS and noted that it has caused “market distortion and resulting gamesmanship.” We agree — and we submit that the solution is not to reform the rule at the margins but to replace it with a framework that lets markets do what markets do best.</p>
+
+          <p><strong>First,</strong> it entrenched a competitive dynamic that rewards the attraction of liquidity providers over the quality of executions produced. Exchanges compete primarily for the liquidity providers — market makers, dealers, and high-frequency trading firms — whose posted quotes make a venue viable. The maker-taker rebate model, the proliferation of special order types, preferential access to co-location facilities, and the sale of proprietary data products are all instruments in this competition.</p>
+
+          <p><strong>Second,</strong> the quotes it protects are frequently not genuine offers to trade. The National Best Bid and Offer includes a significant proportion of quotes posted through order types designed to execute only passively. Sub-millisecond quote cancellations mean that the “protected” quote has often disappeared before any order can reach it. Intermarket Sweep Order exceptions mean that sophisticated institutional traders already route around Rule 611’s requirements on large orders.</p>
+
+          <p><strong>Third,</strong> it produces locked and crossed markets — the very dysfunction it was meant to prevent. Locked markets, where the bid on one exchange equals the ask on another, are substantially a product of the rebate structure that Rule 611 entrenched. The rule that was supposed to prevent market dysfunction is one of its persistent causes.</p>
+
+          <h2>II. The Invisible Retail Investor</h2>
+
+          <p>Before describing the proposed framework, the Commission’s attention is respectfully directed to a foundational issue of scope that bears on how every element of this proposal should be evaluated: the definition of retail investor and who, in practice, bears the costs of the market structure Rule 611 created.</p>
+
+          <p>There are approximately 165 million Americans who own equities — directly, through mutual funds, through ETFs, or through defined contribution retirement plans. The overwhelming majority are passive, long-horizon participants who experience the equity market entirely through the compounded returns generated by funds trading on their behalf. A one-basis-point improvement in average execution quality, compounded across a 30-year investment horizon, is worth thousands of dollars per retirement account. The aggregate impact across 165 million investors is measured in billions of dollars annually.</p>
+
+          <p>The current market structure is largely invisible to these investors. They do not receive confirmations that compare their execution to a contemporaneous market benchmark. They do not know which venue their fund’s trades were routed to, or why, or what execution quality was produced. Real-Ex changes this by creating a framework in which execution quality becomes visible, comparable, and actionable.</p>
+
+          <div class="footnotes">
+            <p><em>Sources referenced in the petition include the Federal Reserve’s Survey of Consumer Finances, Gallup, the Investment Company Institute, BestBrokers.com, and SEC Division of Economic and Risk Analysis materials as cited in the underlying document.</em></p>
+          </div>
+
+          <h2>III. The Proposed Framework</h2>
+
+          <p>We propose that the Commission repeal Rule 611 and replace it with five interconnected elements that together constitute a Real Execution framework.</p>
+
+          <ol>
+            <li><strong>Abolish mandatory routing.</strong> Brokers should be free to execute orders on any venue without an obligation to route to the venue displaying the best quote.</li>
+            <li><strong>Universal post-trade reporting.</strong> Every venue that executes a trade in an NMS security should report every execution to a single unified post-trade reporting system within five seconds, with venue identification on every print.</li>
+            <li><strong>Unique transaction identifier.</strong> Every execution should be assigned a unique transaction identifier that appears on the venue report and both sides’ confirmations.</li>
+            <li><strong>Execution quality disclosure on confirmations.</strong> Every trade confirmation should disclose the customer’s fill price, the contemporaneous market benchmark, and the difference between them.</li>
+            <li><strong>Public venue scoring.</strong> The unified system should produce publicly available rolling execution quality scores for every venue, including wholesalers.</li>
+          </ol>
+
+          <blockquote>
+            The trade-weighted average of actual prints is a more accurate and harder-to-manipulate benchmark than the NBBO. Displayed quotes can be posted and withdrawn in microseconds. Actual prints are facts.
+          </blockquote>
+
+          <h2>IV. The Benchmark — Tiered Liquidity Framework</h2>
+
+          <p>The five-second trade-weighted average benchmark described above is calibrated for securities with continuous, high-frequency trading activity. For less liquid securities, a fixed five-second window may contain too few prints to produce a meaningful benchmark. The Commission should adopt a tiered liquidity classification system that adjusts the benchmark window to the actual trading characteristics of each security.</p>
+
+          <h3>The Tiered Structure</h3>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Tier</th>
+                <th>Securities</th>
+                <th>30-Day CADV</th>
+                <th>Benchmark Window</th>
+                <th>Minimum Prints</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>S&amp;P 500, Russell 1000, large ETPs</td>
+                <td>&gt; $2M</td>
+                <td>5 seconds</td>
+                <td>N/A</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Active mid-cap, active small-cap</td>
+                <td>$200K–$2M</td>
+                <td>60 seconds</td>
+                <td>10 prints</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Small-cap, thinly traded</td>
+                <td>$20K–$200K</td>
+                <td>10 minutes</td>
+                <td>5 prints</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Micro-cap, illiquid</td>
+                <td>&lt; $20K</td>
+                <td>Last 20 verified prints</td>
+                <td>3 prints</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>Where the minimum print threshold is not satisfied within the designated window, the system should automatically expand the lookback period until the minimum is reached. Every customer confirmation for an execution in a sub-minimum print security should include a plain-language “thin market execution” disclosure.</p>
+
+          <h3>Manipulation Resistance Across Tiers</h3>
+
+          <p>The tiered framework is designed with manipulation resistance as a first-order constraint. In Tier 1 securities, trade density makes benchmark manipulation effectively impossible without market-moving capital. In Tier 4 securities, any attempt to move the benchmark through artificial transactions would itself constitute a reportable execution, with a unique transaction identifier cross-referenced independently by venue, buyer, and seller.</p>
+
+          <h2>V. Why the Framework Works</h2>
+
+          <p><strong>Price discovery is preserved.</strong> Every exchange retains its Central Limit Order Book with fully displayed limit orders. Prices remain visible. Markets remain open.</p>
+
+          <p><strong>Arbitrage enforces price consistency across venues.</strong> Without a routing obligation, a concern arises that prices could diverge across venues. In practice, this cannot persist. The same technology that created the latency arms race will collapse any price dispersion almost immediately.</p>
+
+          <p><strong>Weaker venues face market consequences, not regulatory protection.</strong> Venues that produce worse execution scores should lose order flow to venues that perform. Real-Ex removes the subsidy of mandatory routing and lets competition work through execution quality.</p>
+
+          <p><strong>Real-Ex creates structural incentives for more genuine posted liquidity.</strong> Under the current system, phantom liquidity often satisfies the technical requirements of Rule 611 while providing no genuine willingness to trade. Under Real-Ex, venues populated by quotes that cancel before execution would produce poor execution scores and lose business.</p>
+
+          <p><strong>Rebates lose their primacy as a routing incentive.</strong> Maker-taker rebates and payment for order flow are affected differently, but both become more accountable when execution quality is made transparent and measurable across venues.</p>
+
+          <p><strong>The NBBO becomes vestigial — and can be replaced.</strong> Without a routing obligation, the NBBO loses its legal significance as a mandatory benchmark. A trade-weighted average of actual prints across all venues is more accurate and more manipulation-resistant than displayed quotes.</p>
+
+          <h2>VI. Interoperability — Regulation SHO, Rule 605, and the SIP Revenue Formula</h2>
+
+          <p>Repeal of Rule 611 does not operate in isolation. Three interconnected areas of existing regulation incorporate the NBBO or the current SIP infrastructure in ways that require companion treatment.</p>
+
+          <h3>A. Regulation SHO — The Alternative Uptick Rule</h3>
+          <p>Under Real-Ex, the Commission should consider replacing the national best bid in Rule 201’s price test with the most recent verified execution price in the security, as reported to the unified system. The petition argues this would strengthen the rule by using a benchmark that is harder to manipulate than displayed quotes.</p>
+
+          <h3>B. Rule 605 of Regulation NMS — Order Execution Quality Disclosure</h3>
+          <p>The petition argues that the unified post-trade reporting system would render much of Rule 605 redundant while improving on it, because the system would capture every execution across every venue in real time using actual transaction prices rather than displayed quotes.</p>
+
+          <h3>C. The SIP Revenue Formula</h3>
+          <p>The petition argues that the quoting-share formula exists to reward the behavior that Rule 611 requires. Remove the routing mandate, and the policy rationale for paying exchanges to post at the NBBO disappears with it.</p>
+
+          <h2>VII. Elimination of the Consolidated Audit Trail</h2>
+
+          <p>The petition argues that the unique transaction identifier requirement would render CAT unnecessary by creating three independent records of every execution — at the venue, the buyer, and the seller — that can be cross-referenced without centralized aggregation.</p>
+
+          <h2>VIII. Regulation SCI</h2>
+
+          <p>The unified reporting requirement may also justify revisiting the scope of Regulation SCI, particularly surveillance and reporting obligations that would be substantially duplicated by a real-time execution reporting system.</p>
+
+          <h2>IX. A Note on the Comment Process</h2>
+
+          <p>NADX anticipates that this petition will generate substantive opposition from participants whose business models depend, in whole or in part, on the market structure that Rule 611 created and entrenched. The Commission and the public are encouraged to engage with those arguments on their merits and to distinguish between harms to investors and harms to business models.</p>
+
+          <h2>X. Conclusion</h2>
+
+          <p>Rule 611 was built on a sound instinct — that investors deserve the best available price, and that venues should compete to provide it. The instinct was right. The mechanism was wrong. Mandatory routing did not create competition; it entrenched a routing incentive structure and amplified a rebate model whose costs are borne by long-term investors.</p>
+
+          <p>Real-Ex — a post-execution, market-based framework built on universal reporting, unique transaction identifiers, and transparent public scoring — seeks to achieve what Rule 611 promised by letting markets compete on actual execution quality. NADX respectfully petitions the Commission to initiate rulemaking to repeal Rule 611 of Regulation NMS and adopt a market-based real execution reporting framework along the lines described in the petition.</p>
+
+          <hr>
+
+          <p><strong>Respectfully submitted,</strong><br><br>
+          Edward Jacobson<br>
+          Chief Executive Officer<br>
+          NADX Securities, Inc.<br>
+          389 Osceola Ave.<br>
+          Kingston, PA 18704<br>
+          &lt;edward@nadxmarkets.com&gt;<br>
+          570-540-3515</p>
+
+          <section class="comment-gate" id="discussion">
+            <h3>Private discussion</h3>
+            <p>This discussion area is available only to pre-approved readers. Sign in with your approved email to read comments and leave your own.</p>
+
+            <div id="signedOutState">
+              <label for="emailInput"><strong>Email address</strong></label>
+              <div class="auth-row">
+                <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="email" />
+                <button id="sendLinkBtn">Email me a sign-in link</button>
+              </div>
+              <div id="authStatus" class="status"></div>
+            </div>
+
+            <div id="signedInState" class="hidden">
+              <p id="welcomeText"></p>
+              <div class="auth-row">
+                <button id="signOutBtn" class="secondary">Sign out</button>
+              </div>
+
+              <label for="commentInput"><strong>Add a comment</strong></label>
+              <textarea id="commentInput" placeholder="Write your comment here..."></textarea>
+              <div class="auth-row">
+                <button id="postCommentBtn">Post comment</button>
+              </div>
+              <div id="commentStatus" class="status"></div>
+
+              <div class="comments-list" id="commentsList"></div>
+            </div>
+          </section>
+        </div>
+      </article>
+    </div>
+
+    <aside class="sidebar">
+      <div class="side-card">
+        <h4>Status</h4>
+        <p>Unlisted review page.</p>
+        <p>Share only by direct link.</p>
+      </div>
+      <div class="side-card">
+        <h4>Access</h4>
+        <p>Reading is available by direct link. Comments are limited to approved users who sign in with magic link.</p>
+      </div>
+      <div class="side-card">
+        <h4>Implementation notes</h4>
+        <ul>
+          <li>Replace the Supabase URL and anon key in the script.</li>
+          <li>Ensure the approved_users and petition_comments tables are already created.</li>
+          <li>Keep this page out of navigation.</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <p>NADX Securities · Petition review copy</p>
+  </footer>
+
+  <script>
+    const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co';
+    const SUPABASE_ANON_KEY = 'YOUR-ANON-KEY';
+    const PAGE_SLUG = 'petition-review';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const emailInput = document.getElementById('emailInput');
+    const sendLinkBtn = document.getElementById('sendLinkBtn');
+    const authStatus = document.getElementById('authStatus');
+    const signedOutState = document.getElementById('signedOutState');
+    const signedInState = document.getElementById('signedInState');
+    const welcomeText = document.getElementById('welcomeText');
+    const signOutBtn = document.getElementById('signOutBtn');
+    const commentInput = document.getElementById('commentInput');
+    const postCommentBtn = document.getElementById('postCommentBtn');
+    const commentStatus = document.getElementById('commentStatus');
+    const commentsList = document.getElementById('commentsList');
+
+    function setStatus(el, message, type = '') {
+      el.className = 'status' + (type ? ' ' + type : '');
+      el.textContent = message;
+    }
+
+    async function sendMagicLink() {
+      const email = emailInput.value.trim().toLowerCase();
+      if (!email) {
+        setStatus(authStatus, 'Enter your approved email address.', 'error');
+        return;
+      }
+
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: false,
+          emailRedirectTo: window.location.href.split('#')[0]
+        }
+      });
+
+      if (error) {
+        setStatus(authStatus, error.message, 'error');
+      } else {
+        setStatus(authStatus, 'Magic link sent. Check your email.', 'success');
+      }
+    }
+
+    async function loadComments(user) {
+      commentsList.innerHTML = '';
+      const { data, error } = await supabase
+        .from('petition_comments')
+        .select('body, user_email, created_at')
+        .eq('page_slug', PAGE_SLUG)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        setStatus(commentStatus, error.message, 'error');
+        return;
+      }
+
+      if (!data || !data.length) {
+        commentsList.innerHTML = '<div class="comment"><div class="comment-meta">No comments yet.</div><div>Be the first approved reader to comment.</div></div>';
+        return;
+      }
+
+      commentsList.innerHTML = data.map(item => `
+        <article class="comment">
+          <div class="comment-meta">${item.user_email} · ${new Date(item.created_at).toLocaleString()}</div>
+          <div>${item.body.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')}</div>
+        </article>
+      `).join('');
+    }
+
+    async function refreshAuth() {
+      const { data } = await supabase.auth.getUser();
+      const user = data?.user;
+
+      if (!user) {
+        signedOutState.classList.remove('hidden');
+        signedInState.classList.add('hidden');
+        return;
+      }
+
+      signedOutState.classList.add('hidden');
+      signedInState.classList.remove('hidden');
+      welcomeText.textContent = `Signed in as ${user.email}`;
+      await loadComments(user);
+    }
+
+    async function postComment() {
+      const body = commentInput.value.trim();
+      if (!body) {
+        setStatus(commentStatus, 'Write a comment first.', 'error');
+        return;
+      }
+
+      const { data } = await supabase.auth.getUser();
+      const user = data?.user;
+      if (!user) {
+        setStatus(commentStatus, 'You must sign in first.', 'error');
+        return;
+      }
+
+      const { error } = await supabase
+        .from('petition_comments')
+        .insert({
+          page_slug: PAGE_SLUG,
+          user_id: user.id,
+          user_email: user.email,
+          body
+        });
+
+      if (error) {
+        setStatus(commentStatus, error.message, 'error');
+        return;
+      }
+
+      commentInput.value = '';
+      setStatus(commentStatus, 'Comment posted.', 'success');
+      await loadComments(user);
+    }
+
+    async function signOut() {
+      await supabase.auth.signOut();
+      await refreshAuth();
+    }
+
+    sendLinkBtn.addEventListener('click', sendMagicLink);
+    postCommentBtn.addEventListener('click', postComment);
+    signOutBtn.addEventListener('click', signOut);
+    supabase.auth.onAuthStateChange(() => refreshAuth());
+    refreshAuth();
+  </script>
+</body>
+</html>
 
