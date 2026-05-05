@@ -44,111 +44,76 @@ body{font-family:var(--body);font-size:var(--text-base);line-height:1.75;color:v
 a{color:inherit;text-decoration:none}
 .container{width:min(calc(100% - 2rem),var(--content));margin:0 auto}
 .container--wide{width:min(calc(100% - 2rem),1160px);margin:0 auto}
-.site-header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
-  background:color-mix(in srgb,var(--bg) 92%,transparent);
-  border-bottom:1px solid var(--divider)}
-.site-header__inner{min-height:60px;display:flex;align-items:center;
-  justify-content:space-between;gap:var(--sp4)}
-.brand{display:inline-flex;align-items:center;gap:var(--sp3);
-  font-size:var(--text-sm);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-.brand-mark{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;
-  background:var(--gold);color:#111;font-size:.76rem;font-weight:700}
+.site-header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 92%,transparent);border-bottom:1px solid var(--divider)}
+.site-header__inner{min-height:60px;display:flex;align-items:center;justify-content:space-between;gap:var(--sp4)}
+.brand{display:inline-flex;align-items:center;gap:var(--sp3);font-size:var(--text-sm);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.brand-mark{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--gold);color:#111;font-size:.76rem;font-weight:700}
 .nav{display:flex;align-items:center;gap:var(--sp5)}
 .nav a{font-size:var(--text-sm);color:var(--muted);transition:color .18s}
 .nav a:hover,.nav a.active{color:var(--text)}
 .article{padding:var(--sp16) 0 var(--sp16)}
-.back{display:inline-flex;align-items:center;gap:var(--sp2);
-  margin-bottom:var(--sp8);font-size:var(--text-sm);color:var(--muted);transition:color .18s}
+.back{display:inline-flex;align-items:center;gap:var(--sp2);margin-bottom:var(--sp8);font-size:var(--text-sm);color:var(--muted);transition:color .18s}
 .back:hover{color:var(--gold)}
-.series-note{font-size:var(--text-xs);letter-spacing:.12em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:var(--sp3)}
-.article h1{font-family:var(--display);font-size:var(--text-2xl);font-weight:500;
-  line-height:1.05;letter-spacing:-.02em;color:var(--white);
-  margin-bottom:var(--sp5);max-width:22ch}
-.dek{font-size:var(--text-lg);color:var(--muted);line-height:1.5;
-  max-width:52ch;margin-bottom:var(--sp8);padding-bottom:var(--sp8);
-  border-bottom:1px solid var(--divider)}
+.series-note{font-size:var(--text-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:var(--sp3)}
+.article h1{font-family:var(--display);font-size:var(--text-2xl);font-weight:500;line-height:1.05;letter-spacing:-.02em;color:var(--white);margin-bottom:var(--sp5);max-width:22ch}
+.dek{font-size:var(--text-lg);color:var(--muted);line-height:1.5;max-width:52ch;margin-bottom:var(--sp8);padding-bottom:var(--sp8);border-bottom:1px solid var(--divider)}
 .body{color:var(--text);line-height:1.8}
 .body p{margin-bottom:1.4rem;max-width:68ch}
 .body p:last-child{margin-bottom:0}
-.body h2{font-family:var(--display);font-size:var(--text-xl);font-weight:500;
-  color:var(--white);line-height:1.15;letter-spacing:-.02em;
-  margin:var(--sp10) 0 var(--sp4);max-width:26ch}
+.body h2{font-family:var(--display);font-size:var(--text-xl);font-weight:500;color:var(--white);line-height:1.15;letter-spacing:-.02em;margin:var(--sp10) 0 var(--sp4);max-width:26ch}
 .body strong{color:var(--white);font-weight:600}
 .body em{font-style:italic}
-.body blockquote{border-left:2px solid var(--gold);padding-left:var(--sp5);
-  margin:var(--sp8) 0;font-family:var(--display);font-size:var(--text-lg);
-  font-style:italic;color:var(--white);line-height:1.5}
+.body blockquote{border-left:2px solid var(--gold);padding-left:var(--sp5);margin:var(--sp8) 0;font-family:var(--display);font-size:var(--text-lg);font-style:italic;color:var(--white);line-height:1.5}
 .body hr{border:none;border-top:1px solid var(--divider);margin:var(--sp10) 0}
-.article-nav{display:flex;justify-content:space-between;
-  padding:var(--sp8) 0 0;border-top:1px solid var(--divider);margin-top:var(--sp12)}
+.article-nav{display:flex;justify-content:space-between;padding:var(--sp8) 0 0;border-top:1px solid var(--divider);margin-top:var(--sp12)}
 .article-nav a{font-size:var(--text-sm);color:var(--muted);transition:color .18s;max-width:40ch}
 .article-nav a:hover{color:var(--gold)}
 .article-nav .nav-next{text-align:right}
 .site-footer{border-top:1px solid var(--divider);padding:var(--sp5) 0 var(--sp8);color:var(--muted);font-size:var(--text-sm)}
 .footer-row{display:flex;align-items:center;justify-content:space-between;gap:var(--sp4);flex-wrap:wrap}
 @media(max-width:900px){.nav{display:none}}
-
-/* COMMENTS */
 .comments-section{margin-top:var(--sp12);border-top:1px solid var(--divider);padding-top:var(--sp10)}
 .comments-section h2{font-family:var(--display);font-size:var(--text-xl);font-weight:500;color:var(--white);margin-bottom:var(--sp6)}
-#signedInBar{display:none;align-items:center;justify-content:space-between;
-  padding:var(--sp3) var(--sp5);border:1px solid var(--border);border-radius:var(--r-xl);
-  background:var(--surf2);margin-bottom:var(--sp4);font-size:var(--text-sm)}
+#signedInBar{display:none;align-items:center;justify-content:space-between;padding:var(--sp3) var(--sp5);border:1px solid var(--border);border-radius:var(--r-xl);background:var(--surf2);margin-bottom:var(--sp4);font-size:var(--text-sm)}
 #signedInBar.visible{display:flex}
 #signedInBar span{color:var(--muted)}
 #signedInBar strong{color:var(--gold)}
 .comment-write{margin-bottom:var(--sp8)}
-.comment-write textarea{width:100%;min-height:120px;padding:1rem;border:1px solid var(--border);
-  border-radius:.75rem;background:var(--surf);color:var(--text);font:inherit;resize:vertical;outline:none;margin-bottom:var(--sp3)}
-.comment-write textarea:focus{border-color:var(--gold)}
-.comment-write textarea::placeholder{color:var(--muted)}
+.comment-write textarea{width:100%;min-height:120px;padding:1rem;border:1px solid var(--border);border-radius:.75rem;background:var(--surf);color:var(--text);font:inherit;resize:vertical;outline:none;margin-bottom:var(--sp3)}
+.comment-write textarea:focus,.modal-box input:focus{border-color:var(--gold)}
+.comment-write textarea::placeholder,.modal-box input::placeholder{color:var(--muted)}
 .form-row{display:flex;align-items:center;gap:var(--sp3);flex-wrap:wrap}
-.btn-gold{padding:.7rem 1.4rem;border:none;border-radius:var(--r-full);background:var(--gold);
-  color:#111;font-size:var(--text-sm);font-weight:600;cursor:pointer;white-space:nowrap}
+.btn-gold{padding:.7rem 1.4rem;border:none;border-radius:var(--r-full);background:var(--gold);color:#111;font-size:var(--text-sm);font-weight:600;cursor:pointer;white-space:nowrap}
 .btn-gold:hover{opacity:.88}
-.btn-ghost{padding:.7rem 1.4rem;border:1px solid var(--border);border-radius:var(--r-full);
-  background:transparent;color:var(--muted);font-size:var(--text-sm);cursor:pointer}
+.btn-ghost{padding:.7rem 1.4rem;border:1px solid var(--border);border-radius:var(--r-full);background:transparent;color:var(--muted);font-size:var(--text-sm);cursor:pointer}
 .btn-ghost:hover{color:var(--text);border-color:var(--muted)}
 .status-msg{font-size:var(--text-sm);min-height:1.4em}
-.status-msg.error{color:#e07070}
-.status-msg.ok{color:#7ec47e}
+.status-msg.error{color:#e07070}.status-msg.ok{color:#7ec47e}
 .comment-item{padding:var(--sp5) 0;border-bottom:1px solid var(--divider)}
 .comment-item:last-child{border-bottom:none}
 .comment-meta{font-size:var(--text-xs);color:var(--muted);margin-bottom:var(--sp2)}
 .comment-meta strong{color:var(--gold)}
 .comment-body{color:var(--text);line-height:1.7;white-space:pre-wrap}
 .no-comments{color:var(--muted);font-size:var(--text-sm);padding:var(--sp4) 0}
-
-/* MODALS */
-.modal-bg{display:none;position:fixed;inset:0;z-index:200;
-  background:rgba(0,0,0,.78);backdrop-filter:blur(4px);
-  align-items:center;justify-content:center;padding:1rem}
+.modal-bg{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem}
 .modal-bg.open{display:flex}
-.modal-box{background:var(--surf2);border:1px solid var(--border);border-radius:var(--r-xl);
-  padding:var(--sp8);width:min(440px,calc(100vw - 2rem));text-align:center}
+.modal-box{background:var(--surf2);border:1px solid var(--border);border-radius:var(--r-xl);padding:var(--sp8);width:min(460px,calc(100vw - 2rem));text-align:center}
 .modal-box h3{font-family:var(--display);font-size:var(--text-xl);color:var(--white);margin-bottom:var(--sp3)}
 .modal-box p{color:var(--muted);font-size:var(--text-sm);margin-bottom:var(--sp5);line-height:1.6;max-width:none}
-.modal-box input{width:100%;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.75rem;
-  background:var(--surf);color:var(--text);font:inherit;outline:none;margin-bottom:var(--sp4)}
-.modal-box input:focus{border-color:var(--gold)}
-.modal-box input::placeholder{color:var(--muted)}
-.modal-btns{display:flex;gap:var(--sp3);flex-wrap:wrap}
-.modal-btns .btn-gold{flex:1}
-.modal-status{font-size:var(--text-sm);margin-top:var(--sp3);min-height:1.2em}
-.modal-status.error{color:#e07070}
-.modal-status.ok{color:#7ec47e}
+.modal-box input{width:100%;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.75rem;background:var(--surf);color:var(--text);font:inherit;outline:none;margin-bottom:var(--sp4)}
+.modal-btns{display:flex;gap:var(--sp3);flex-wrap:wrap}.modal-btns .btn-gold{flex:1}
+.modal-status{font-size:var(--text-sm);margin-top:var(--sp3);min-height:1.2em}.modal-status.error{color:#e07070}.modal-status.ok{color:#7ec47e}
+.hidden{display:none !important}
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3N2N5MTPXZ"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-3N2N5MTPXZ');
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-3N2N5MTPXZ');
 </script>
 </head>
 <body>
-
 <header class="site-header">
   <div class="container--wide site-header__inner">
     <a href="../index.html" class="brand"><span class="brand-mark">N</span>NADX Markets</a>
@@ -160,7 +125,6 @@ a{color:inherit;text-decoration:none}
     </nav>
   </div>
 </header>
-
 <main class="article">
   <div class="container">
     <a class="back" href="../publications.html">&larr; All research</a>
@@ -197,8 +161,6 @@ a{color:inherit;text-decoration:none}
 <p>The question is not whether today&rsquo;s securities-on-blockchain offerings are worth their attention. They are not. The question is who will own the infrastructure when it finally gets built right &mdash; and whether the buy-side will be at that table, or will arrive, as it did with the exchanges, only to discover that its seat was sold while it wasn&rsquo;t paying attention.</p>
 <p>The buy-side doesn&rsquo;t need a moon. It needs a market that works. Those are very different things. One is a windfall. The other is thirty years overdue.</p>
     </div>
-
-    <!-- COMMENTS -->
     <section class="comments-section">
       <h2>Comments</h2>
       <div id="signedInBar">
@@ -214,217 +176,269 @@ a{color:inherit;text-decoration:none}
       </div>
       <div id="commentsList"><div class="no-comments">Loading comments...</div></div>
     </section>
-
     <div class="article-nav">
       <span></span>
       <a class="nav-next" href="regulatory-capture.html">Regulatory Capture: Why Markets Never Get Fixed &rarr;</a>
     </div>
   </div>
 </main>
-
-<!-- EMAIL MODAL: appears when unauthenticated user clicks Post -->
-<div id="emailModal" class="modal-bg">
+<div id="authModal" class="modal-bg">
   <div class="modal-box">
-    <h3>Sign in to post</h3>
-    <p>Enter your email and we&rsquo;ll send a one-click sign-in link. Your comment will be waiting when you return.</p>
-    <input type="email" id="modalEmailInput" placeholder="your@email.com" autocomplete="email"/>
-    <div class="modal-btns">
-      <button class="btn-gold" id="modalSendBtn">Send sign-in link</button>
-      <button class="btn-ghost" id="modalCancelBtn">Cancel</button>
+    <div id="stepEmail">
+      <h3>Sign in to post</h3>
+      <p>Enter your email and we&rsquo;ll send a one-time code. You&rsquo;ll stay on this page.</p>
+      <input type="email" id="authEmailInput" placeholder="your@email.com" autocomplete="email"/>
+      <div class="modal-btns">
+        <button class="btn-gold" id="sendCodeBtn">Send code</button>
+        <button class="btn-ghost" id="cancelAuthBtn">Cancel</button>
+      </div>
+      <div class="modal-status" id="emailStepStatus"></div>
     </div>
-    <div class="modal-status" id="modalStatus"></div>
+    <div id="stepCode" class="hidden">
+      <h3>Enter code</h3>
+      <p>We sent a 6-digit code to <strong id="codeEmailLabel"></strong>.</p>
+      <input type="text" id="authCodeInput" placeholder="6-digit code" inputmode="numeric" autocomplete="one-time-code" maxlength="6"/>
+      <div class="modal-btns">
+        <button class="btn-gold" id="verifyCodeBtn">Verify code</button>
+        <button class="btn-ghost" id="backToEmailBtn">Back</button>
+      </div>
+      <div class="modal-status" id="codeStepStatus"></div>
+    </div>
+    <div id="stepProfile" class="hidden">
+      <h3>Choose a display name</h3>
+      <p>This is the name that will appear next to your comments.</p>
+      <input type="text" id="profileNameInput" placeholder="Your name or screen name" maxlength="40"/>
+      <div class="modal-btns">
+        <button class="btn-gold" id="saveProfileBtn">Save and continue</button>
+      </div>
+      <div class="modal-status" id="profileStepStatus"></div>
+    </div>
   </div>
 </div>
-
-<!-- PROFILE MODAL: appears once after first sign-in -->
-<div id="profileModal" class="modal-bg">
-  <div class="modal-box">
-    <h3>Welcome</h3>
-    <p>Choose a display name for your comments. You can use your real name or a handle.</p>
-    <input type="text" id="profileNameInput" placeholder="Your name or screen name" maxlength="40"/>
-    <button class="btn-gold" id="profileSaveBtn" style="width:100%">Save and continue</button>
-    <div class="modal-status" id="profileStatus"></div>
-  </div>
-</div>
-
 <footer class="site-footer">
   <div class="container--wide footer-row">
     <span>&copy; 2026 NADX Markets, Inc. For institutional and accredited investors only.</span>
     <a href="../contact.html" style="color:var(--muted)">Contact</a>
   </div>
 </footer>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
 <script>
 (function(){
-  const URL_  = 'https://vrafgipbqqdujctcpnyv.supabase.co';
-  const KEY_  = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
-  const SLUG  = 'why-no-moon';
-  const REDIR = 'https://nadxmarkets.com/publications/why-no-moon.html';
+  const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
+  const PAGE_SLUG = 'why-no-moon';
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  const db = window.supabase.createClient(URL_, KEY_, {
-    auth: { detectSessionInUrl: true, persistSession: true, autoRefreshToken: true }
-  });
-
-  // Elements
-  const commentInput  = document.getElementById('commentInput');
-  const postBtn       = document.getElementById('postBtn');
-  const commentStatus = document.getElementById('commentStatus');
-  const commentsList  = document.getElementById('commentsList');
-  const signedInBar   = document.getElementById('signedInBar');
+  const signedInBar = document.getElementById('signedInBar');
   const displayNameEl = document.getElementById('displayName');
-  const signOutBtn    = document.getElementById('signOutBtn');
-  const emailModal    = document.getElementById('emailModal');
-  const modalEmailInput = document.getElementById('modalEmailInput');
-  const modalSendBtn  = document.getElementById('modalSendBtn');
-  const modalCancelBtn= document.getElementById('modalCancelBtn');
-  const modalStatus   = document.getElementById('modalStatus');
-  const profileModal  = document.getElementById('profileModal');
+  const signOutBtn = document.getElementById('signOutBtn');
+  const commentInput = document.getElementById('commentInput');
+  const postBtn = document.getElementById('postBtn');
+  const commentStatus = document.getElementById('commentStatus');
+  const commentsList = document.getElementById('commentsList');
+
+  const authModal = document.getElementById('authModal');
+  const stepEmail = document.getElementById('stepEmail');
+  const stepCode = document.getElementById('stepCode');
+  const stepProfile = document.getElementById('stepProfile');
+  const authEmailInput = document.getElementById('authEmailInput');
+  const sendCodeBtn = document.getElementById('sendCodeBtn');
+  const cancelAuthBtn = document.getElementById('cancelAuthBtn');
+  const emailStepStatus = document.getElementById('emailStepStatus');
+  const codeEmailLabel = document.getElementById('codeEmailLabel');
+  const authCodeInput = document.getElementById('authCodeInput');
+  const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+  const backToEmailBtn = document.getElementById('backToEmailBtn');
+  const codeStepStatus = document.getElementById('codeStepStatus');
   const profileNameInput = document.getElementById('profileNameInput');
-  const profileSaveBtn= document.getElementById('profileSaveBtn');
-  const profileStatus = document.getElementById('profileStatus');
+  const saveProfileBtn = document.getElementById('saveProfileBtn');
+  const profileStepStatus = document.getElementById('profileStepStatus');
 
-  let session = null;
-  let displayName = null;
+  let currentSession = null;
+  let currentDisplayName = null;
+  let pendingEmail = '';
 
-  function esc(t){ const d=document.createElement('div'); d.textContent=t??''; return d.innerHTML; }
-  function setStatus(el,msg,cls){ el.textContent=msg||''; el.className='status-msg'+(cls?' '+cls:''); }
-  function setMStatus(el,msg,cls){ el.textContent=msg||''; el.className='modal-status'+(cls?' '+cls:''); }
-
-  // ── LOAD COMMENTS (always, no auth needed) ───────────────────────────────
-  async function loadComments(){
-    const {data,error} = await db
-      .from('petition_comments')
-      .select('id,body,display_name,created_at')
-      .eq('page_slug', SLUG)
-      .order('created_at',{ascending:false});
-    if(error){ commentsList.innerHTML='<div class="no-comments">Could not load comments.</div>'; return; }
-    if(!data||!data.length){ commentsList.innerHTML='<div class="no-comments">No comments yet. Be the first.</div>'; return; }
-    commentsList.innerHTML = data.map(r=>`
-      <article class="comment-item">
-        <div class="comment-meta"><strong>${esc(r.display_name||'Member')}</strong> &middot; ${esc(new Date(r.created_at).toLocaleString())}</div>
-        <div class="comment-body">${esc(r.body)}</div>
-      </article>`).join('');
+  function esc(text){ const div=document.createElement('div'); div.textContent=text ?? ''; return div.innerHTML; }
+  function setStatus(el,msg,type){ el.textContent=msg || ''; el.className=(el.className.includes('modal-status') ? 'modal-status' : 'status-msg') + (type ? ' ' + type : ''); }
+  function showStep(name){
+    stepEmail.classList.add('hidden');
+    stepCode.classList.add('hidden');
+    stepProfile.classList.add('hidden');
+    if(name==='email') stepEmail.classList.remove('hidden');
+    if(name==='code') stepCode.classList.remove('hidden');
+    if(name==='profile') stepProfile.classList.remove('hidden');
+  }
+  function openAuthModal(){ authModal.classList.add('open'); }
+  function closeAuthModal(){ authModal.classList.remove('open'); }
+  function showSignedIn(){
+    displayNameEl.textContent = currentDisplayName || 'Member';
+    signedInBar.classList.add('visible');
+  }
+  function clearModalStatuses(){
+    setStatus(emailStepStatus,'');
+    setStatus(codeStepStatus,'');
+    setStatus(profileStepStatus,'');
   }
 
-  // ── PROFILE ──────────────────────────────────────────────────────────────
-  async function fetchDisplayName(uid){
-    const {data} = await db.from('profiles').select('display_name').eq('user_id',uid).maybeSingle();
+  async function loadComments(){
+    const { data, error } = await db
+      .from('petition_comments')
+      .select('id, body, display_name, created_at')
+      .eq('page_slug', PAGE_SLUG)
+      .order('created_at', { ascending: false });
+    if(error){
+      commentsList.innerHTML = '<div class="no-comments">Could not load comments.</div>';
+      return;
+    }
+    if(!data || !data.length){
+      commentsList.innerHTML = '<div class="no-comments">No comments yet. Be the first.</div>';
+      return;
+    }
+    commentsList.innerHTML = data.map(row => `
+      <article class="comment-item">
+        <div class="comment-meta"><strong>${esc(row.display_name || 'Member')}</strong> &middot; ${esc(new Date(row.created_at).toLocaleString())}</div>
+        <div class="comment-body">${esc(row.body)}</div>
+      </article>
+    `).join('');
+  }
+
+  async function fetchProfile(userId){
+    const { data, error } = await db
+      .from('profiles')
+      .select('display_name')
+      .eq('user_id', userId)
+      .maybeSingle();
+    if(error) return null;
     return data?.display_name || null;
   }
 
-  async function onSignedIn(s){
-    session = s;
-    displayName = await fetchDisplayName(s.user.id);
-    if(!displayName){
-      // First time: show profile modal
-      profileModal.classList.add('open');
-      profileNameInput.value='';
-      setMStatus(profileStatus,'');
-      setTimeout(()=>profileNameInput.focus(),80);
-    } else {
-      showSignedInBar();
-      // Auto-post pending comment if any
-      const pending = sessionStorage.getItem('pendingComment');
-      if(pending){ commentInput.value=pending; sessionStorage.removeItem('pendingComment'); await doPost(); }
+  async function refreshAuthUi(){
+    const { data: { session } } = await db.auth.getSession();
+    currentSession = session || null;
+    if(!currentSession){
+      currentDisplayName = null;
+      signedInBar.classList.remove('visible');
+      displayNameEl.textContent = '';
+      return;
+    }
+    currentDisplayName = await fetchProfile(currentSession.user.id);
+    if(currentDisplayName){
+      showSignedIn();
     }
   }
 
-  function showSignedInBar(){
-    displayNameEl.textContent = displayName;
-    signedInBar.classList.add('visible');
+  async function sendOtp(){
+    const email = (authEmailInput.value || '').trim();
+    if(!email){ setStatus(emailStepStatus,'Enter an email address.','error'); return; }
+    pendingEmail = email;
+    sendCodeBtn.disabled = true;
+    setStatus(emailStepStatus,'Sending code...','');
+    const { error } = await db.auth.signInWithOtp({ email });
+    sendCodeBtn.disabled = false;
+    if(error){ setStatus(emailStepStatus, error.message || 'Could not send code.','error'); return; }
+    codeEmailLabel.textContent = email;
+    setStatus(emailStepStatus,'');
+    showStep('code');
+    authCodeInput.value = '';
+    authCodeInput.focus();
   }
 
-  profileSaveBtn.addEventListener('click', async ()=>{
-    const name = profileNameInput.value.trim();
-    if(!name){ setMStatus(profileStatus,'Enter a name.','error'); return; }
-    profileSaveBtn.disabled=true;
-    const {error} = await db.from('profiles').upsert({user_id:session.user.id,display_name:name},{onConflict:'user_id'});
-    profileSaveBtn.disabled=false;
-    if(error){ setMStatus(profileStatus,error.message,'error'); return; }
-    displayName = name;
-    profileModal.classList.remove('open');
-    showSignedInBar();
-    // Post pending comment now
-    const pending = sessionStorage.getItem('pendingComment');
-    if(pending){ commentInput.value=pending; sessionStorage.removeItem('pendingComment'); await doPost(); }
-  });
+  async function verifyOtp(){
+    const token = (authCodeInput.value || '').trim();
+    if(!pendingEmail){ setStatus(codeStepStatus,'Enter your email again.','error'); showStep('email'); return; }
+    if(!/^\d{6}$/.test(token)){ setStatus(codeStepStatus,'Enter the 6-digit code.','error'); return; }
+    verifyCodeBtn.disabled = true;
+    setStatus(codeStepStatus,'Verifying code...','');
+    const { data, error } = await db.auth.verifyOtp({ email: pendingEmail, token, type: 'email' });
+    verifyCodeBtn.disabled = false;
+    if(error){ setStatus(codeStepStatus, error.message || 'Invalid code.','error'); return; }
+    currentSession = data.session || null;
+    if(!currentSession){ setStatus(codeStepStatus,'Sign-in did not complete. Try again.','error'); return; }
+    currentDisplayName = await fetchProfile(currentSession.user.id);
+    if(currentDisplayName){
+      showSignedIn();
+      closeAuthModal();
+      setStatus(commentStatus,'Signed in. You can post now.','ok');
+      await tryPostComment();
+      return;
+    }
+    showStep('profile');
+    profileNameInput.value = '';
+    profileNameInput.focus();
+  }
 
-  profileNameInput.addEventListener('keydown', e=>{ if(e.key==='Enter') profileSaveBtn.click(); });
+  async function saveProfile(){
+    const name = (profileNameInput.value || '').trim();
+    if(!name){ setStatus(profileStepStatus,'Enter a display name.','error'); return; }
+    if(!currentSession){ setStatus(profileStepStatus,'Session expired. Start again.','error'); return; }
+    saveProfileBtn.disabled = true;
+    const { error } = await db
+      .from('profiles')
+      .upsert({ user_id: currentSession.user.id, display_name: name }, { onConflict: 'user_id' });
+    saveProfileBtn.disabled = false;
+    if(error){ setStatus(profileStepStatus, error.message || 'Could not save name.','error'); return; }
+    currentDisplayName = name;
+    showSignedIn();
+    closeAuthModal();
+    setStatus(commentStatus,'Signed in. Posting your comment...','ok');
+    await tryPostComment();
+  }
 
-  // ── SIGN OUT ─────────────────────────────────────────────────────────────
-  signOutBtn.addEventListener('click', async ()=>{
-    await db.auth.signOut();
-    session=null; displayName=null;
-    signedInBar.classList.remove('visible');
-    displayNameEl.textContent='';
-    setStatus(commentStatus,'');
-  });
-
-  // ── EMAIL MODAL ───────────────────────────────────────────────────────────
-  modalCancelBtn.addEventListener('click',()=>emailModal.classList.remove('open'));
-
-  modalSendBtn.addEventListener('click', async ()=>{
-    const email=(modalEmailInput.value||'').trim();
-    if(!email){ setMStatus(modalStatus,'Enter an email address.','error'); return; }
-    modalSendBtn.disabled=true;
-    setMStatus(modalStatus,'');
-    const {error} = await db.auth.signInWithOtp({email,options:{emailRedirectTo:REDIR}});
-    modalSendBtn.disabled=false;
-    if(error){ setMStatus(modalStatus,error.message||'Could not send link.','error'); }
-    else { setMStatus(modalStatus,'Check your email for the sign-in link.','ok'); }
-  });
-
-  modalEmailInput.addEventListener('keydown',e=>{ if(e.key==='Enter') modalSendBtn.click(); });
-
-  // ── POST COMMENT ──────────────────────────────────────────────────────────
-  async function doPost(){
-    const body=commentInput.value.trim();
+  async function tryPostComment(){
+    const body = (commentInput.value || '').trim();
     if(!body){ setStatus(commentStatus,'Write a comment first.','error'); return; }
-    postBtn.disabled=true;
+    if(!currentSession){
+      clearModalStatuses();
+      showStep('email');
+      openAuthModal();
+      authEmailInput.focus();
+      return;
+    }
+    if(!currentDisplayName){
+      clearModalStatuses();
+      showStep('profile');
+      openAuthModal();
+      profileNameInput.focus();
+      return;
+    }
+    postBtn.disabled = true;
     setStatus(commentStatus,'Posting...','');
-    const {error} = await db.from('petition_comments').insert({
-      page_slug:SLUG, user_id:session.user.id, display_name:displayName, body
-    });
-    postBtn.disabled=false;
-    if(error){ setStatus(commentStatus,error.message||'Could not post.','error'); return; }
-    commentInput.value='';
+    const { error } = await db
+      .from('petition_comments')
+      .insert({
+        page_slug: PAGE_SLUG,
+        user_id: currentSession.user.id,
+        display_name: currentDisplayName,
+        body
+      });
+    postBtn.disabled = false;
+    if(error){ setStatus(commentStatus, error.message || 'Could not post comment.','error'); return; }
+    commentInput.value = '';
     setStatus(commentStatus,'Comment posted.','ok');
     await loadComments();
   }
 
-  postBtn.addEventListener('click', async ()=>{
-    const body = commentInput.value.trim();
-    if(!body){ setStatus(commentStatus,'Write a comment first.','error'); return; }
-    if(!session){
-      // Save draft, open email modal
-      sessionStorage.setItem('pendingComment', body);
-      modalEmailInput.value='';
-      setMStatus(modalStatus,'');
-      emailModal.classList.add('open');
-      setTimeout(()=>modalEmailInput.focus(),80);
-      return;
-    }
-    await doPost();
+  postBtn.addEventListener('click', tryPostComment);
+  sendCodeBtn.addEventListener('click', sendOtp);
+  verifyCodeBtn.addEventListener('click', verifyOtp);
+  saveProfileBtn.addEventListener('click', saveProfile);
+  cancelAuthBtn.addEventListener('click', closeAuthModal);
+  backToEmailBtn.addEventListener('click', () => { showStep('email'); authEmailInput.focus(); });
+  authEmailInput.addEventListener('keydown', e => { if(e.key==='Enter'){ e.preventDefault(); sendOtp(); } });
+  authCodeInput.addEventListener('keydown', e => { if(e.key==='Enter'){ e.preventDefault(); verifyOtp(); } });
+  profileNameInput.addEventListener('keydown', e => { if(e.key==='Enter'){ e.preventDefault(); saveProfile(); } });
+  signOutBtn.addEventListener('click', async () => {
+    await db.auth.signOut();
+    currentSession = null;
+    currentDisplayName = null;
+    signedInBar.classList.remove('visible');
+    displayNameEl.textContent = '';
+    setStatus(commentStatus,'You have signed out.','');
   });
 
-  commentInput.addEventListener('keydown', e=>{ if(e.ctrlKey&&e.key==='Enter') postBtn.click(); });
-
-  // ── INIT ──────────────────────────────────────────────────────────────────
-  loadComments();
-
-  db.auth.onAuthStateChange(async (event, s)=>{
-    if(event==='SIGNED_IN' && s && !session){
-      await onSignedIn(s);
-    }
-    if(event==='SIGNED_OUT'){
-      session=null; displayName=null;
-    }
-  });
-
-  (async ()=>{
-    const {data:{session:s}} = await db.auth.getSession();
-    if(s) await onSignedIn(s);
+  (async function init(){
+    await refreshAuthUi();
+    await loadComments();
   })();
 })();
 </script>
