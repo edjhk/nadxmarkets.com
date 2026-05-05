@@ -278,134 +278,76 @@ a{color:inherit;text-decoration:none}
 <script>
 const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
-const PAGE_SLUG    = 'why-no-moon';
+const PAGE_SLUG = 'why-no-moon';
 const REDIRECT_URL = 'https://nadxmarkets.com/publications/why-no-moon.html';
 
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Elements
-const authGate       = document.getElementById('authGate');
-const gateEmail      = document.getElementById('gateEmail');
-const gateSubmit     = document.getElementById('gateSubmit');
-const gateStatus     = document.getElementById('gateStatus');
-const signedInBar    = document.getElementById('signedInBar');
-const displayName    = document.getElementById('displayName');
-const signOutBtn     = document.getElementById('signOutBtn');
-const commentForm    = document.getElementById('commentForm');
-const commentInput   = document.getElementById('commentInput');
-const postCommentBtn = document.getElementById('postCommentBtn');
-const commentStatus  = document.getElementById('commentStatus');
-const commentsList   = document.getElementById('commentsList');
-const profileOverlay = document.getElementById('profileOverlay');
-const profileNameInput = document.getElementById('profileNameInput');
-const profileSaveBtn = document.getElementById('profileSaveBtn');
-const profileStatus  = document.getElementById('profileStatus');
+const commentForm = document.getElementById('comment-entry');
+const commentText = document.getElementById('comment-text');
+const commentsMount = document.getElementById('comments-mount');
 
-function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
-function setStatus(el, msg, type){
-  el.textContent = msg;
-  el.className = 'status-msg' + (type ? ' ' + type : '');
+function esc(value) {
+  const div = document.createElement('div');
+  div.textContent = value ?? '';
+  return div.innerHTML;
 }
 
-// ── BOOT ──────────────────────────────────────────────────────────────────
-db.auth.onAuthStateChange(async (event, session) => {
-  if (session && session.user) {
-    await onSignedIn(session.user);
-  } else {
-    showGate();
+function ensureUi() {
+  let status = document.getElementById('comment-status');
+  if (!status) {
+    status = document.createElement('div');
+    status.id = 'comment-status';
+    status.style.marginTop = '0.75rem';
+    status.style.color = 'var(--muted)';
+    commentForm.appendChild(status);
   }
-});
 
-function showGate() {
-  authGate.style.display = '';
-  signedInBar.classList.remove('visible');
-  commentForm.classList.remove('visible');
-}
+  let modal = document.getElementById('email-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'email-modal';
+    modal.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9999;align-items:center;justify-content:center;padding:1rem;';
+    modal.innerHTML = `
+      <div style="width:min(460px,100%);background:var(--surf2);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;color:var(--text)">
+        <h3 style="font-family:var(--display);font-size:var(--text-xl);margin-bottom:.75rem;color:var(--white)">Sign in to post</h3>
+        <p style="color:var(--muted);margin-bottom:1rem;line-height:1.6">Enter your email and we’ll send you a secure sign-in link. After you click it, you’ll come right back here and your comment will still be waiting.</p>
+        <input id="modal-email" type="email" placeholder="you@example.com" style="width:100%;padding:.85rem 1rem;border:1px solid var(--border);border-radius:.8rem;background:var(--surf);color:var(--text);font:inherit;outline:none;margin-bottom:.85rem;" />
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;">
+          <button id="modal-send" type="button" class="comment-submit">Send sign-in link</button>
+          <button id="modal-cancel" type="button" style="padding:.7rem 1.1rem;border-radius:9999px;border:1px solid var(--border);background:transparent;color:var(--muted);font:inherit;">Cancel</button>
+        </div>
+        <div id="modal-status" style="margin-top:.75rem;color:var(--muted);min-height:1.2rem"></div>
+      </div>`;
+    document.body.appendChild(modal);
 
-async function onSignedIn(user) {
-  // Check if profile exists
-  const { data: profile } = await db
-    .from('profiles')
-    .select('screen_name, full_name, use_screen_name')
-    .eq('user_id', user.id)
-    .maybeSingle();
+    document.getElementById('modal-cancel').addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
 
-  if (!profile || (!profile.screen_name && !profile.full_name)) {
-    // First time — show profile setup overlay
-    profileOverlay.classList.add('active');
-    profileSaveBtn.onclick = () => saveProfile(user);
-  } else {
-    const name = profile.use_screen_name && profile.screen_name
-      ? profile.screen_name
-      : (profile.full_name || user.email);
-    showComments(name);
+    document.getElementById('modal-send').addEventListener('click', sendMagicLink);
+    document.getElementById('modal-email').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendMagicLink();
+    });
   }
 }
 
-async function saveProfile(user) {
-  const name = profileNameInput.value.trim();
-  if (!name) { setStatus(profileStatus, 'Please enter a name.', 'error'); return; }
-
-  profileSaveBtn.disabled = true;
-  profileSaveBtn.textContent = 'Saving…';
-
-  const { error } = await db.from('profiles').upsert({
-    user_id: user.id,
-    email: user.email,
-    screen_name: name,
-    use_screen_name: true,
-    full_name: name,
-    updated_at: new Date().toISOString()
-  }, { onConflict: 'user_id' });
-
-  profileSaveBtn.disabled = false;
-  profileSaveBtn.textContent = 'Save and continue';
-
-  if (error) { setStatus(profileStatus, error.message, 'error'); return; }
-
-  profileOverlay.classList.remove('active');
-  showComments(name);
+function setStatus(message, color) {
+  const status = document.getElementById('comment-status');
+  if (status) {
+    status.textContent = message || '';
+    status.style.color = color || 'var(--muted)';
+  }
 }
 
-function showComments(name) {
-  authGate.style.display = 'none';
-  displayName.textContent = name;
-  signedInBar.classList.add('visible');
-  commentForm.classList.add('visible');
-  loadComments();
+function setModalStatus(message, color) {
+  const el = document.getElementById('modal-status');
+  if (el) {
+    el.textContent = message || '';
+    el.style.color = color || 'var(--muted)';
+  }
 }
 
-// ── MAGIC LINK ────────────────────────────────────────────────────────────
-gateSubmit.addEventListener('click', sendMagicLink);
-gateEmail.addEventListener('keydown', e => { if (e.key === 'Enter') sendMagicLink(); });
-
-async function sendMagicLink() {
-  const email = gateEmail.value.trim();
-  if (!email) { setStatus(gateStatus, 'Please enter your email.', 'error'); return; }
-  gateSubmit.disabled = true;
-  gateSubmit.textContent = 'Sending…';
-  setStatus(gateStatus, '', '');
-
-  const { error } = await db.auth.signInWithOtp({
-    email,
-    options: { emailRedirectTo: REDIRECT_URL }
-  });
-
-  gateSubmit.disabled = false;
-  gateSubmit.textContent = 'Send link';
-
-  if (error) { setStatus(gateStatus, error.message, 'error'); return; }
-  setStatus(gateStatus, 'Check your email for the sign-in link.', 'success');
-}
-
-// ── SIGN OUT ──────────────────────────────────────────────────────────────
-signOutBtn.addEventListener('click', async () => {
-  await db.auth.signOut();
-  showGate();
-  commentsList.innerHTML = '';
-});
-
-// ── LOAD COMMENTS ─────────────────────────────────────────────────────────
 async function loadComments() {
   const { data, error } = await db
     .from('petition_comments')
@@ -413,50 +355,119 @@ async function loadComments() {
     .eq('page_slug', PAGE_SLUG)
     .order('created_at', { ascending: false });
 
-  if (error) { commentsList.innerHTML = '<div class="no-comments">Could not load comments.</div>'; return; }
-  if (!data || !data.length) {
-    commentsList.innerHTML = '<div class="no-comments">No comments yet. Be the first.</div>';
+  if (error) {
+    commentsMount.innerHTML = '<div class="comment"><div class="comment-meta">Could not load comments.</div></div>';
     return;
   }
-  commentsList.innerHTML = data.map(r => `
-    <div class="comment-item">
-      <div class="comment-meta"><strong>${esc(r.user_email)}</strong> &middot; ${new Date(r.created_at).toLocaleString()}</div>
-      <div class="comment-body">${esc(r.body)}</div>
-    </div>`).join('');
+
+  if (!data || !data.length) {
+    commentsMount.innerHTML = '<div class="comment"><div class="comment-meta">No comments yet. Be the first.</div></div>';
+    return;
+  }
+
+  commentsMount.innerHTML = data.map(row => `
+    <article class="comment" style="padding:1rem 0;border-top:1px solid var(--divider)">
+      <div class="comment-meta" style="color:var(--muted);font-size:var(--text-sm);margin-bottom:.35rem;">${esc(row.user_email || 'Member')} · ${new Date(row.created_at).toLocaleString()}</div>
+      <div style="color:var(--text);line-height:1.75;">${esc(row.body).replace(/\n/g, '<br>')}</div>
+    </article>
+  `).join('');
 }
 
-// ── POST COMMENT ──────────────────────────────────────────────────────────
-postCommentBtn.addEventListener('click', postComment);
-commentInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) postComment();
-});
+async function sendMagicLink() {
+  const emailInput = document.getElementById('modal-email');
+  const sendBtn = document.getElementById('modal-send');
+  const email = (emailInput?.value || '').trim();
+
+  if (!email) {
+    setModalStatus('Please enter your email.', '#ff8f8f');
+    return;
+  }
+
+  sendBtn.disabled = true;
+  sendBtn.textContent = 'Sending…';
+  setModalStatus('');
+
+  localStorage.setItem('pendingComment', commentText.value || '');
+
+  const { error } = await db.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: REDIRECT_URL
+    }
+  });
+
+  sendBtn.disabled = false;
+  sendBtn.textContent = 'Send sign-in link';
+
+  if (error) {
+    setModalStatus(error.message, '#ff8f8f');
+    return;
+  }
+
+  setModalStatus('Check your email for the sign-in link.', '#8fd48f');
+}
 
 async function postComment() {
-  const body = commentInput.value.trim();
-  if (!body) { setStatus(commentStatus, 'Write something first.', 'error'); return; }
+  const body = commentText.value.trim();
+  if (!body) {
+    setStatus('Write a comment first.', '#ff8f8f');
+    return;
+  }
 
   const { data: { session } } = await db.auth.getSession();
-  if (!session) { setStatus(commentStatus, 'Session expired — sign in again.', 'error'); showGate(); return; }
 
-  postCommentBtn.disabled = true;
-  postCommentBtn.textContent = 'Posting…';
-  setStatus(commentStatus, '', '');
+  if (!session) {
+    localStorage.setItem('pendingComment', body);
+    document.getElementById('email-modal').style.display = 'flex';
+    setModalStatus('');
+    return;
+  }
+
+  const submitBtn = commentForm.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Posting…';
+  setStatus('');
 
   const { error } = await db.from('petition_comments').insert({
     page_slug: PAGE_SLUG,
-    user_id:   session.user.id,
+    user_id: session.user.id,
     user_email: session.user.email,
     body
   });
 
-  postCommentBtn.disabled = false;
-  postCommentBtn.textContent = 'Post comment';
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Post comment';
 
-  if (error) { setStatus(commentStatus, error.message, 'error'); return; }
-  commentInput.value = '';
-  setStatus(commentStatus, 'Posted!', 'success');
+  if (error) {
+    setStatus(error.message, '#ff8f8f');
+    return;
+  }
+
+  commentText.value = '';
+  localStorage.removeItem('pendingComment');
+  setStatus('Comment posted.', '#8fd48f');
   await loadComments();
 }
+
+commentForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  await postComment();
+});
+
+ensureUi();
+loadComments();
+
+window.addEventListener('load', async () => {
+  const pending = localStorage.getItem('pendingComment');
+  if (pending && !commentText.value) commentText.value = pending;
+
+  const { data: { session } } = await db.auth.getSession();
+  if (session && pending) {
+    setStatus('You are signed in. Click “Post comment” to submit your saved comment.', '#8fd48f');
+    const modal = document.getElementById('email-modal');
+    if (modal) modal.style.display = 'none';
+  }
+});
 </script>
 </body>
 </html>
