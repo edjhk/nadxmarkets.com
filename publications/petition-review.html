@@ -696,8 +696,7 @@
       commentsList.innerHTML = data.map(r => `
         <article class="comment">
           <div class="comment-meta">${esc(r.user_email)} · ${new Date(r.created_at).toLocaleString()}</div>
-          <div>${esc(r.body).replace(/
-/g,'<br>')}</div>
+          <div>${esc(r.body).split('\n').join('<br>')}</div>
         </article>`).join('');
     }
 
