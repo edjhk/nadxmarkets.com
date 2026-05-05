@@ -171,7 +171,7 @@ gtag('config', 'G-3N2N5MTPXZ');
       <div class="comment-write">
         <textarea id="commentInput" placeholder="Share your thoughts..."></textarea>
         <div class="form-row">
-          <button class="btn-gold" id="postBtn">Post comment</button>
+          <button type="button" class="btn-gold" id="postBtn">Post comment</button>
           <span class="status-msg" id="commentStatus"></span>
         </div>
       </div>
@@ -192,8 +192,8 @@ gtag('config', 'G-3N2N5MTPXZ');
     <p>This will appear next to your comment. You only need to do this once.</p>
     <input type="text" id="screenNameInput" placeholder="Your name or screen name" maxlength="40" autocomplete="nickname"/>
     <div class="modal-btns">
-      <button class="btn-gold" id="saveNameBtn">Post comment</button>
-      <button class="btn-ghost" id="cancelNameBtn">Cancel</button>
+      <button type="button" class="btn-gold" id="saveNameBtn">Post comment</button>
+      <button type="button" class="btn-ghost" id="cancelNameBtn">Cancel</button>
     </div>
     <div class="modal-status" id="nameModalStatus"></div>
   </div>
@@ -206,107 +206,141 @@ gtag('config', 'G-3N2N5MTPXZ');
   </div>
 </footer>
 
-<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 (function(){
   const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
-  const PAGE_SLUG    = 'why-no-moon';
-  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  console.log('Supabase client ready', db);
+  const PAGE_SLUG = 'why-no-moon';
+  const API_URL = `${SUPABASE_URL}/rest/v1/article_comments`;
 
-  // --- DOM refs ---
-  const commentInput    = document.getElementById('commentInput');
-  const postBtn         = document.getElementById('postBtn');
-  const commentStatus   = document.getElementById('commentStatus');
-  const commentsList    = document.getElementById('commentsList');
-  const nameModal       = document.getElementById('nameModal');
+  const commentInput = document.getElementById('commentInput');
+  const postBtn = document.getElementById('postBtn');
+  const commentStatus = document.getElementById('commentStatus');
+  const commentsList = document.getElementById('commentsList');
+  const nameModal = document.getElementById('nameModal');
   const screenNameInput = document.getElementById('screenNameInput');
-  const saveNameBtn     = document.getElementById('saveNameBtn');
-  const cancelNameBtn   = document.getElementById('cancelNameBtn');
+  const saveNameBtn = document.getElementById('saveNameBtn');
+  const cancelNameBtn = document.getElementById('cancelNameBtn');
   const nameModalStatus = document.getElementById('nameModalStatus');
 
-  // Screen name stored in memory for the session
   let sessionName = null;
   let pendingBody = null;
 
-  // --- Helpers ---
-  function esc(t){ const d=document.createElement('div'); d.textContent=t??''; return d.innerHTML; }
-  function setStatus(el,msg,type){ el.textContent=msg||''; el.className='status-msg'+(type?' '+type:''); }
-  function openModal(){ nameModal.classList.add('open'); screenNameInput.focus(); }
-  function closeModal(){ nameModal.classList.remove('open'); nameModalStatus.textContent=''; }
-
-  // --- Load comments ---
-  async function loadComments(){
-    const { data, error } = await db
-      .from('article_comments')
-      .select('id, body, display_name, created_at')
-      .eq('page_slug', PAGE_SLUG)
-      .order('created_at', { ascending: false });
-
-    if(error){
-      commentsList.innerHTML = '<div class="no-comments">Could not load comments.</div>';
-      return;
-    }
-    if(!data || !data.length){
-      commentsList.innerHTML = '<div class="no-comments">No comments yet. Be the first.</div>';
-      return;
-    }
-    commentsList.innerHTML = data.map(row=>`
-      <article class="comment-item">
-        <div class="comment-meta">
-          <strong>${esc(row.display_name||'Anonymous')}</strong>
-          &middot; ${esc(new Date(row.created_at).toLocaleString())}
-        </div>
-        <div class="comment-body">${esc(row.body)}</div>
-      </article>
-    `).join('');
+  function esc(text){
+    const div = document.createElement('div');
+    div.textContent = text ?? '';
+    return div.innerHTML;
   }
 
-  // --- Post a comment ---
+  function setStatus(el, msg, type){
+    el.textContent = msg || '';
+    el.className = 'status-msg' + (type ? ' ' + type : '');
+  }
+
+  function setModalStatus(msg, type){
+    nameModalStatus.textContent = msg || '';
+    nameModalStatus.className = 'modal-status' + (type ? ' ' + type : '');
+  }
+
+  function openModal(){
+    setModalStatus('', '');
+    nameModal.classList.add('open');
+    screenNameInput.focus();
+  }
+
+  function closeModal(){
+    nameModal.classList.remove('open');
+    setModalStatus('', '');
+  }
+
+  async function loadComments(){
+    commentsList.innerHTML = '<div class="no-comments">Loading comments...</div>';
+    try {
+      const url = `${API_URL}?select=id,page_slug,display_name,body,created_at&page_slug=eq.${encodeURIComponent(PAGE_SLUG)}&order=created_at.desc`;
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`
+        }
+      });
+      const text = await res.text();
+      if (!res.ok) throw new Error(text || 'Could not load comments.');
+      const data = JSON.parse(text);
+
+      if (!data || !data.length){
+        commentsList.innerHTML = '<div class="no-comments">No comments yet. Be the first.</div>';
+        return;
+      }
+
+      commentsList.innerHTML = data.map(row => `
+        <article class="comment-item">
+          <div class="comment-meta"><strong>${esc(row.display_name || 'Anonymous')}</strong> &middot; ${esc(new Date(row.created_at).toLocaleString())}</div>
+          <div class="comment-body">${esc(row.body)}</div>
+        </article>
+      `).join('');
+    } catch (err) {
+      commentsList.innerHTML = '<div class="no-comments">Could not load comments.</div>';
+      setStatus(commentStatus, err.message || 'Could not load comments.', 'error');
+    }
+  }
+
   async function submitComment(name, body){
-    const { error } = await db
-      .from('article_comments')
-      .insert({
-        page_slug:    PAGE_SLUG,
-        display_name: name,
-        body:         body,
-        user_id:      null
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=representation'
+        },
+        body: JSON.stringify({
+          page_slug: PAGE_SLUG,
+          display_name: name,
+          body: body
+        })
       });
 
-    if(error){
-      setStatus(commentStatus, error.message || 'Could not post comment.', 'error');
-      postBtn.disabled = false;
-      return;
-    }
+      const text = await res.text();
+      if (!res.ok) throw new Error(text || 'Could not post comment.');
 
-    commentInput.value = '';
-    setStatus(commentStatus, 'Comment posted!', 'ok');
-    await loadComments();
-    postBtn.disabled = false;
+      commentInput.value = '';
+      setStatus(commentStatus, 'Comment posted!', 'ok');
+      postBtn.disabled = false;
+      await loadComments();
+    } catch (err) {
+      setStatus(commentStatus, err.message || 'Could not post comment.', 'error');
+      postBtn.disabled = false;
+    }
   }
 
-  // --- Post button ---
-  postBtn.addEventListener('click', async () => {
+  postBtn.addEventListener('click', async function(){
     const body = (commentInput.value || '').trim();
-    if(!body){ setStatus(commentStatus, 'Write a comment first.', 'error'); return; }
+    if (!body){
+      setStatus(commentStatus, 'Write a comment first.', 'error');
+      return;
+    }
 
     pendingBody = body;
 
-    if(sessionName){
+    if (sessionName){
       postBtn.disabled = true;
       setStatus(commentStatus, 'Posting...', '');
       await submitComment(sessionName, pendingBody);
-    } else {
-      screenNameInput.value = '';
-      openModal();
+      return;
     }
+
+    screenNameInput.value = '';
+    openModal();
   });
 
-  // --- Save name and post ---
-  saveNameBtn.addEventListener('click', async () => {
+  saveNameBtn.addEventListener('click', async function(){
     const name = (screenNameInput.value || '').trim();
-    if(!name){ nameModalStatus.textContent='Enter a screen name.'; nameModalStatus.className='modal-status error'; return; }
+    if (!name){
+      setModalStatus('Enter a screen name.', 'error');
+      return;
+    }
 
     sessionName = name;
     closeModal();
@@ -315,16 +349,20 @@ gtag('config', 'G-3N2N5MTPXZ');
     await submitComment(sessionName, pendingBody);
   });
 
-  cancelNameBtn.addEventListener('click', closeModal);
-
-  // Enter key in name input
-  screenNameInput.addEventListener('keydown', e => {
-    if(e.key === 'Enter'){ e.preventDefault(); saveNameBtn.click(); }
+  cancelNameBtn.addEventListener('click', function(){
+    closeModal();
   });
 
-  // --- Init ---
+  screenNameInput.addEventListener('keydown', function(e){
+    if (e.key === 'Enter'){
+      e.preventDefault();
+      saveNameBtn.click();
+    }
+  });
+
   loadComments();
 })();
 </script>
+
 </body>
 </html>
