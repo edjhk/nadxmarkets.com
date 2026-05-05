@@ -281,192 +281,295 @@ const SUPABASE_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
 const PAGE_SLUG = 'why-no-moon';
 const REDIRECT_URL = 'https://nadxmarkets.com/publications/why-no-moon.html';
 
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const commentForm = document.getElementById('comment-entry');
-const commentText = document.getElementById('comment-text');
-const commentsMount = document.getElementById('comments-mount');
+// DOM references
+const authGate       = document.getElementById('authGate');
+const gateEmail      = document.getElementById('gateEmail');
+const gateSubmit     = document.getElementById('gateSubmit');
+const gateStatus     = document.getElementById('gateStatus');
 
-function esc(value) {
+const signedInBar    = document.getElementById('signedInBar');
+const displayNameEl  = document.getElementById('displayName');
+const signOutBtn     = document.getElementById('signOutBtn');
+
+const commentForm    = document.getElementById('commentForm');
+const commentInput   = document.getElementById('commentInput');
+const postCommentBtn = document.getElementById('postCommentBtn');
+const commentStatus  = document.getElementById('commentStatus');
+
+const commentsList   = document.getElementById('commentsList');
+
+const profileOverlay    = document.getElementById('profileOverlay');
+const profileNameInput  = document.getElementById('profileNameInput');
+const profileSaveBtn    = document.getElementById('profileSaveBtn');
+const profileStatus     = document.getElementById('profileStatus');
+
+// Helpers
+function esc(text) {
   const div = document.createElement('div');
-  div.textContent = value ?? '';
+  div.textContent = text ?? '';
   return div.innerHTML;
 }
 
-function ensureUi() {
-  let status = document.getElementById('comment-status');
-  if (!status) {
-    status = document.createElement('div');
-    status.id = 'comment-status';
-    status.style.marginTop = '0.75rem';
-    status.style.color = 'var(--muted)';
-    commentForm.appendChild(status);
-  }
-
-  let modal = document.getElementById('email-modal');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'email-modal';
-    modal.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9999;align-items:center;justify-content:center;padding:1rem;';
-    modal.innerHTML = `
-      <div style="width:min(460px,100%);background:var(--surf2);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;color:var(--text)">
-        <h3 style="font-family:var(--display);font-size:var(--text-xl);margin-bottom:.75rem;color:var(--white)">Sign in to post</h3>
-        <p style="color:var(--muted);margin-bottom:1rem;line-height:1.6">Enter your email and we’ll send you a secure sign-in link. After you click it, you’ll come right back here and your comment will still be waiting.</p>
-        <input id="modal-email" type="email" placeholder="you@example.com" style="width:100%;padding:.85rem 1rem;border:1px solid var(--border);border-radius:.8rem;background:var(--surf);color:var(--text);font:inherit;outline:none;margin-bottom:.85rem;" />
-        <div style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;">
-          <button id="modal-send" type="button" class="comment-submit">Send sign-in link</button>
-          <button id="modal-cancel" type="button" style="padding:.7rem 1.1rem;border-radius:9999px;border:1px solid var(--border);background:transparent;color:var(--muted);font:inherit;">Cancel</button>
-        </div>
-        <div id="modal-status" style="margin-top:.75rem;color:var(--muted);min-height:1.2rem"></div>
-      </div>`;
-    document.body.appendChild(modal);
-
-    document.getElementById('modal-cancel').addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
-
-    document.getElementById('modal-send').addEventListener('click', sendMagicLink);
-    document.getElementById('modal-email').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') sendMagicLink();
-    });
-  }
+function setGateStatus(msg, type) {
+  gateStatus.textContent = msg || '';
+  gateStatus.className = 'status-msg' + (type ? ' ' + type : '');
 }
 
-function setStatus(message, color) {
-  const status = document.getElementById('comment-status');
-  if (status) {
-    status.textContent = message || '';
-    status.style.color = color || 'var(--muted)';
-  }
+function setCommentStatus(msg, type) {
+  commentStatus.textContent = msg || '';
+  commentStatus.className = 'status-msg' + (type ? ' ' + type : '');
 }
 
-function setModalStatus(message, color) {
-  const el = document.getElementById('modal-status');
-  if (el) {
-    el.textContent = message || '';
-    el.style.color = color || 'var(--muted)';
-  }
+function setProfileStatus(msg, type) {
+  profileStatus.textContent = msg || '';
+  profileStatus.className = 'status-msg' + (type ? ' ' + type : '');
 }
 
+// Comments loading — PUBLIC
 async function loadComments() {
-  const { data, error } = await db
+  const { data, error } = await supabase
     .from('petition_comments')
-    .select('body, user_email, created_at')
+    .select('id, body, display_name, created_at')
     .eq('page_slug', PAGE_SLUG)
     .order('created_at', { ascending: false });
 
   if (error) {
-    commentsMount.innerHTML = '<div class="comment"><div class="comment-meta">Could not load comments.</div></div>';
+    commentsList.innerHTML = '<div class="no-comments">Could not load comments.</div>';
     return;
   }
 
-  if (!data || !data.length) {
-    commentsMount.innerHTML = '<div class="comment"><div class="comment-meta">No comments yet. Be the first.</div></div>';
+  if (!data || data.length === 0) {
+    commentsList.innerHTML = '<div class="no-comments">No comments yet. Be the first.</div>';
     return;
   }
 
-  commentsMount.innerHTML = data.map(row => `
-    <article class="comment" style="padding:1rem 0;border-top:1px solid var(--divider)">
-      <div class="comment-meta" style="color:var(--muted);font-size:var(--text-sm);margin-bottom:.35rem;">${esc(row.user_email || 'Member')} · ${new Date(row.created_at).toLocaleString()}</div>
-      <div style="color:var(--text);line-height:1.75;">${esc(row.body).replace(/\n/g, '<br>')}</div>
-    </article>
-  `).join('');
+  commentsList.innerHTML = data.map(row => {
+    const name = row.display_name || 'Member';
+    const when = new Date(row.created_at).toLocaleString();
+    return `
+      <article class="comment-item">
+        <div class="comment-meta"><strong>${esc(name)}</strong> &middot; ${esc(when)}</div>
+        <div class="comment-body">${esc(row.body)}</div>
+      </article>
+    `;
+  }).join('');
 }
 
-async function sendMagicLink() {
-  const emailInput = document.getElementById('modal-email');
-  const sendBtn = document.getElementById('modal-send');
-  const email = (emailInput?.value || '').trim();
+// Profile fetch/create
+async function getOrCreateProfile(user) {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('display_name')
+    .eq('user_id', user.id)
+    .maybeSingle();
 
-  if (!email) {
-    setModalStatus('Please enter your email.', '#ff8f8f');
+  if (error && error.code !== 'PGRST116') {
+    console.error('profile fetch error', error);
+  }
+
+  if (data && data.display_name) {
+    return data.display_name;
+  }
+
+  // No profile yet — force modal open
+  profileOverlay.classList.add('active');
+  profileNameInput.focus();
+
+  return null;
+}
+
+async function saveProfileName(user) {
+  const name = profileNameInput.value.trim();
+  if (!name) {
+    setProfileStatus('Enter a display name.', 'error');
     return;
   }
 
-  sendBtn.disabled = true;
-  sendBtn.textContent = 'Sending…';
-  setModalStatus('');
+  profileSaveBtn.disabled = true;
 
-  localStorage.setItem('pendingComment', commentText.value || '');
+  const { error } = await supabase
+    .from('profiles')
+    .upsert({ user_id: user.id, display_name: name }, { onConflict: 'user_id' });
 
-  const { error } = await db.auth.signInWithOtp({
-    email,
-    options: {
-      emailRedirectTo: REDIRECT_URL
-    }
-  });
-
-  sendBtn.disabled = false;
-  sendBtn.textContent = 'Send sign-in link';
+  profileSaveBtn.disabled = false;
 
   if (error) {
-    setModalStatus(error.message, '#ff8f8f');
+    setProfileStatus(error.message, 'error');
     return;
   }
 
-  setModalStatus('Check your email for the sign-in link.', '#8fd48f');
+  setProfileStatus('');
+  profileOverlay.classList.remove('active');
+  displayNameEl.textContent = name;
+  signedInBar.classList.add('visible');
 }
 
-async function postComment() {
-  const body = commentText.value.trim();
-  if (!body) {
-    setStatus('Write a comment first.', '#ff8f8f');
-    return;
-  }
-
-  const { data: { session } } = await db.auth.getSession();
+// Auth UI wiring
+async function refreshAuthUi() {
+  const { data: { session } } = await supabase.auth.getSession();
 
   if (!session) {
-    localStorage.setItem('pendingComment', body);
-    document.getElementById('email-modal').style.display = 'flex';
-    setModalStatus('');
+    // Not signed in: show gate, hide bar and form
+    authGate.style.display = 'block';
+    signedInBar.classList.remove('visible');
+    commentForm.classList.remove('visible');
+    displayNameEl.textContent = '';
     return;
   }
 
-  const submitBtn = commentForm.querySelector('button[type="submit"]');
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Posting…';
-  setStatus('');
+  // Signed in: hide gate, show bar and form
+  authGate.style.display = 'none';
+  commentForm.classList.add('visible');
 
-  const { error } = await db.from('petition_comments').insert({
-    page_slug: PAGE_SLUG,
-    user_id: session.user.id,
-    user_email: session.user.email,
-    body
+  const user = session.user;
+  const displayName = await getOrCreateProfile(user);
+
+  if (displayName) {
+    displayNameEl.textContent = displayName;
+    signedInBar.classList.add('visible');
+  }
+}
+
+// Start magic-link login from either the gate or the popup
+async function startEmailSignIn(email) {
+  email = (email || '').trim();
+  if (!email) {
+    setGateStatus('Enter an email address.', 'error');
+    return;
+  }
+
+  setGateStatus('Sending link…', '');
+  gateSubmit.disabled = true;
+
+  // Keep any in-progress comment
+  localStorage.setItem('pendingComment', commentInput.value || '');
+
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: REDIRECT_URL }
   });
 
-  submitBtn.disabled = false;
-  submitBtn.textContent = 'Post comment';
+  gateSubmit.disabled = false;
 
   if (error) {
-    setStatus(error.message, '#ff8f8f');
+    setGateStatus(error.message || 'Could not send link.', 'error');
     return;
   }
 
-  commentText.value = '';
+  setGateStatus('Check your email for the one-click link.', 'success');
+}
+
+// Post comment (requires session + display_name)
+async function postComment() {
+  const body = commentInput.value.trim();
+  if (!body) {
+    setCommentStatus('Write a comment first.', 'error');
+    return;
+  }
+
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    // No session: fall back to email gate
+    authGate.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    gateEmail.focus();
+    setGateStatus('Sign in first. We’ll remember your comment.', 'error');
+    localStorage.setItem('pendingComment', body);
+    return;
+  }
+
+  // Ensure we have a profile name
+  const profile = await supabase
+    .from('profiles')
+    .select('display_name')
+    .eq('user_id', session.user.id)
+    .maybeSingle();
+
+  if (!profile.data || !profile.data.display_name) {
+    // force profile modal
+    profileOverlay.classList.add('active');
+    profileNameInput.focus();
+    localStorage.setItem('pendingComment', body);
+    setCommentStatus('Choose a display name first.', 'error');
+    return;
+  }
+
+  postCommentBtn.disabled = true;
+  setCommentStatus('Posting…', '');
+
+  const { error } = await supabase
+    .from('petition_comments')
+    .insert({
+      page_slug: PAGE_SLUG,
+      user_id: session.user.id,
+      display_name: profile.data.display_name,
+      body
+    });
+
+  postCommentBtn.disabled = false;
+
+  if (error) {
+    setCommentStatus(error.message || 'Could not post comment.', 'error');
+    return;
+  }
+
+  commentInput.value = '';
   localStorage.removeItem('pendingComment');
-  setStatus('Comment posted.', '#8fd48f');
+  setCommentStatus('Comment posted.', 'success');
   await loadComments();
 }
 
-commentForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+// Event listeners
+gateSubmit.addEventListener('click', () => startEmailSignIn(gateEmail.value));
+gateEmail.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    startEmailSignIn(gateEmail.value);
+  }
+});
+
+postCommentBtn.addEventListener('click', async () => {
   await postComment();
 });
 
-ensureUi();
-loadComments();
+signOutBtn.addEventListener('click', async () => {
+  await supabase.auth.signOut();
+  displayNameEl.textContent = '';
+  signedInBar.classList.remove('visible');
+  commentForm.classList.remove('visible');
+  authGate.style.display = 'block';
+  setGateStatus('You have signed out.', '');
+});
 
+// Profile save
+profileSaveBtn.addEventListener('click', async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) return;
+  await saveProfileName(session.user);
+
+  // If we had a pending comment, try posting it now
+  const pending = localStorage.getItem('pendingComment');
+  if (pending) {
+    commentInput.value = pending;
+    await postComment();
+  }
+});
+
+// On load: restore pending, pick up session after magic link
 window.addEventListener('load', async () => {
   const pending = localStorage.getItem('pendingComment');
-  if (pending && !commentText.value) commentText.value = pending;
-
-  const { data: { session } } = await db.auth.getSession();
-  if (session && pending) {
-    setStatus('You are signed in. Click “Post comment” to submit your saved comment.', '#8fd48f');
-    const modal = document.getElementById('email-modal');
-    if (modal) modal.style.display = 'none';
+  if (pending && !commentInput.value) {
+    commentInput.value = pending;
   }
+
+  await refreshAuthUi();
+  await loadComments();
+
+  // Watch for auth changes in case Supabase sets session after redirect
+  supabase.auth.onAuthStateChange(async (_event, _session) => {
+    await refreshAuthUi();
+  });
 });
 </script>
 </body>
