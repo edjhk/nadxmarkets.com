@@ -637,7 +637,7 @@
     const SUPABASE_ANON_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
     const PAGE_SLUG = 'petition-review';
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const authGate = document.getElementById('authGate');
     const pageContent = document.getElementById('pageContent');
@@ -677,7 +677,7 @@
       console.log('Attempting OTP for:', email);
       console.log('Supabase URL:', SUPABASE_URL);
       try {
-        const { data, error } = await supabase.auth.signInWithOtp({
+        const { data, error } = await sbClient.auth.signInWithOtp({
           email,
           options: {
             shouldCreateUser: false,
@@ -741,7 +741,7 @@
 
     // Primary auth handler — fires on every auth state change including
     // INITIAL_SESSION (page load) and SIGNED_IN (after magic link redirect)
-    supabase.auth.onAuthStateChange(async (event, session) => {
+    sbClient.auth.onAuthStateChange(async (event, session) => {
       if (session && session.user) {
         await showPageForUser(session.user);
       } else {
@@ -755,7 +755,7 @@
         setStatus(commentStatus, 'Write a comment first.', 'error');
         return;
       }
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await sbClient.auth.getSession();
       const user = session?.user;
       if (!user) {
         setStatus(commentStatus, 'Your session expired. Please sign in again.', 'error');
@@ -784,7 +784,7 @@
     }
 
     window.signOut = async function signOut() {
-      await supabase.auth.signOut();
+      await sbClient.auth.signOut();
       showGate();
     }
 
