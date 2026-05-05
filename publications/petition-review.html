@@ -11,34 +11,114 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
-      --bg: #f6f3ee;
-      --paper: #fbfaf7;
-      --card: #f2ede6;
+      --bg: #f7f4ef;
+      --paper: #fcfbf8;
+      --soft: #f1ece5;
       --line: #ddd5cb;
+      --line-2: #cfc5b8;
       --text: #211d18;
-      --muted: #70685f;
+      --muted: #72695f;
       --accent: #0d5c63;
-      --accent-2: #123f45;
-      --success: #2f6b2f;
-      --error: #8b2f45;
-      --max: 1180px;
-      --narrow: 760px;
-      --shadow: 0 10px 30px rgba(33, 29, 24, 0.08);
-      --radius: 18px;
+      --accent-dark: #0a4449;
+      --success: #336e2f;
+      --error: #8f3047;
+      --max: 1120px;
+      --reading: 760px;
+      --radius: 22px;
+      --shadow: 0 20px 40px rgba(33,29,24,.07);
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font-family: Inter, sans-serif;
-      color: var(--text);
+      min-height: 100vh;
       background: var(--bg);
-      line-height: 1.7;
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      line-height: 1.75;
     }
     a { color: var(--accent); }
+    .hidden { display: none !important; }
+
+    .gate-shell {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 32px 20px;
+    }
+    .gate-card {
+      width: min(640px, 100%);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 40px 32px;
+      text-align: left;
+    }
+    .gate-eyebrow {
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .gate-card h1 {
+      margin: 0 0 16px;
+      font-family: "Instrument Serif", serif;
+      font-weight: 400;
+      line-height: 1.02;
+      letter-spacing: -.02em;
+      font-size: clamp(38px, 6vw, 62px);
+    }
+    .gate-card p {
+      margin: 0 0 14px;
+      font-size: 18px;
+      color: #3b342d;
+    }
+    .form-row {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+    input[type="email"], textarea {
+      width: 100%;
+      border: 1px solid var(--line-2);
+      background: white;
+      color: var(--text);
+      border-radius: 14px;
+      padding: 15px 16px;
+      font: inherit;
+    }
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 14px;
+      background: var(--accent);
+      color: white;
+      padding: 14px 18px;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.secondary {
+      background: var(--soft);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+    .status {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+    .status.success { color: var(--success); }
+    .status.error { color: var(--error); }
+
     .site-header {
       border-bottom: 1px solid var(--line);
-      background: rgba(251,250,247,.85);
+      background: rgba(252,251,248,.85);
       backdrop-filter: blur(10px);
       position: sticky;
       top: 0;
@@ -54,98 +134,95 @@
       gap: 16px;
     }
     .brand {
-      font-size: 14px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 13px;
       letter-spacing: .16em;
       text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
       font-weight: 600;
     }
-    .pill {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .12em;
+    .signout-link {
+      font-size: 14px;
       color: var(--muted);
-      background: var(--paper);
+      background: none;
+      border: 0;
+      padding: 0;
     }
+
     .hero {
       max-width: var(--max);
       margin: 0 auto;
-      padding: 72px 24px 36px;
+      padding: 76px 24px 34px;
     }
     .eyebrow {
       font-size: 12px;
+      letter-spacing: .15em;
       text-transform: uppercase;
-      letter-spacing: .16em;
       color: var(--muted);
       margin-bottom: 18px;
     }
-    h1 {
+    .hero h1 {
       margin: 0;
       font-family: "Instrument Serif", serif;
-      font-size: clamp(42px, 6vw, 76px);
-      line-height: 1.02;
-      letter-spacing: -0.02em;
-      max-width: 12ch;
       font-weight: 400;
+      line-height: 1.02;
+      letter-spacing: -.025em;
+      font-size: clamp(46px, 8vw, 88px);
+      max-width: 10ch;
     }
     .dek {
-      margin-top: 20px;
-      font-size: clamp(18px, 2.4vw, 24px);
+      margin-top: 18px;
+      font-size: clamp(19px, 2.4vw, 26px);
       color: var(--muted);
-      max-width: 36ch;
+      max-width: 34ch;
     }
     .meta {
-      margin-top: 28px;
+      margin-top: 26px;
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 12px 18px;
       color: var(--muted);
       font-size: 14px;
     }
-    .layout {
+
+    .article-shell {
       max-width: var(--max);
       margin: 0 auto;
-      padding: 0 24px 80px;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 300px;
-      gap: 48px;
-      align-items: start;
+      padding: 0 24px 84px;
     }
-    .article-wrap {
-      min-width: 0;
-    }
-    .article {
+    .article-card {
       background: var(--paper);
       border: 1px solid var(--line);
-      border-radius: 28px;
+      border-radius: 30px;
       box-shadow: var(--shadow);
       padding: 44px;
     }
-    .article-inner {
-      max-width: var(--narrow);
+    .article {
+      max-width: var(--reading);
+      margin: 0 auto;
     }
     .article h2,
     .article h3 {
       font-family: "Instrument Serif", serif;
       font-weight: 400;
       line-height: 1.1;
-      letter-spacing: -0.02em;
+      letter-spacing: -.02em;
       margin: 54px 0 18px;
     }
     .article h2 { font-size: clamp(30px, 3vw, 42px); }
-    .article h3 { font-size: clamp(24px, 2.2vw, 32px); }
-    .article p { margin: 0 0 18px; font-size: 18px; }
+    .article h3 { font-size: clamp(24px, 2vw, 32px); }
+    .article p,
+    .article li {
+      font-size: 18px;
+      margin: 0 0 18px;
+    }
     .article .lede {
       font-size: 21px;
-      color: #3b342d;
+      color: #3c352e;
     }
     .article .letterhead {
-      font-size: 16px;
       color: var(--muted);
+      font-size: 16px;
       line-height: 1.9;
       margin-bottom: 28px;
     }
@@ -154,135 +231,73 @@
       border-top: 1px solid var(--line);
       margin: 34px 0;
     }
-    .article ol,
-    .article ul {
-      padding-left: 22px;
-      margin: 0 0 24px;
+    .article ul,
+    .article ol {
+      padding-left: 24px;
+      margin: 0 0 22px;
     }
-    .article li {
-      margin-bottom: 10px;
-      font-size: 18px;
-    }
-    blockquote {
-      margin: 28px 0;
-      padding: 20px 24px;
+    .article blockquote {
+      margin: 26px 0;
+      padding: 22px 24px;
+      background: #f4efe8;
       border-left: 3px solid var(--accent);
-      background: #f3efe8;
-      border-radius: 0 14px 14px 0;
-      color: #3a332b;
+      border-radius: 0 16px 16px 0;
+      color: #3c352e;
     }
-    .footnotes {
-      font-size: 15px;
+    .article em.note {
+      display: block;
       color: var(--muted);
+      font-size: 15px;
+      margin: 14px 0;
     }
     table {
       width: 100%;
       border-collapse: collapse;
       margin: 24px 0 28px;
-      font-size: 15px;
       background: #fff;
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 18px;
       overflow: hidden;
       display: block;
     }
     thead, tbody, tr { width: 100%; display: table; table-layout: fixed; }
     th, td {
-      border-bottom: 1px solid var(--line);
       padding: 14px 12px;
-      text-align: left;
+      border-bottom: 1px solid var(--line);
       vertical-align: top;
+      text-align: left;
+      font-size: 15px;
     }
     th {
+      background: #f7f3ed;
+      color: var(--muted);
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: .08em;
-      color: var(--muted);
-      background: #f7f3ed;
     }
-    .sidebar {
-      position: sticky;
-      top: 92px;
-      display: grid;
-      gap: 18px;
+    .comments {
+      margin-top: 54px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
     }
-    .side-card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      padding: 22px;
-      box-shadow: var(--shadow);
-    }
-    .side-card h4 {
-      margin: 0 0 10px;
-      font-size: 13px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .side-card p, .side-card li {
-      font-size: 15px;
-      margin: 0 0 10px;
-      color: #403831;
-    }
-    .comment-gate {
-      margin-top: 46px;
-      background: #f4efe8;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      padding: 26px;
-    }
-    .comment-gate h3 {
+    .comments h2 {
       margin-top: 0;
     }
-    .auth-row {
+    .comment-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin: 16px 0;
+      margin: 14px 0 0;
     }
-    input[type="email"], textarea {
-      width: 100%;
-      border: 1px solid #cfc4b7;
-      background: #fff;
-      border-radius: 12px;
-      padding: 14px 16px;
-      font: inherit;
-      color: var(--text);
-    }
-    textarea {
-      min-height: 160px;
-      resize: vertical;
-    }
-    button {
-      border: 0;
-      border-radius: 12px;
-      background: var(--accent);
-      color: white;
-      padding: 13px 18px;
-      font: inherit;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    button.secondary {
-      background: #e7ddd1;
-      color: var(--text);
-    }
-    .status {
-      margin-top: 10px;
-      font-size: 14px;
-    }
-    .status.error { color: var(--error); }
-    .status.success { color: var(--success); }
     .comments-list {
       display: grid;
       gap: 14px;
-      margin-top: 22px;
+      margin-top: 24px;
     }
     .comment {
-      background: white;
+      background: #fff;
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 16px 18px;
     }
     .comment-meta {
@@ -290,48 +305,60 @@
       color: var(--muted);
       margin-bottom: 8px;
     }
-    .site-footer {
+    .footer {
       max-width: var(--max);
       margin: 0 auto;
       padding: 0 24px 70px;
       color: var(--muted);
       font-size: 14px;
     }
-    .hidden { display: none !important; }
-    @media (max-width: 980px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar { position: static; }
-    }
-    @media (max-width: 720px) {
-      .hero { padding-top: 46px; }
-      .article { padding: 26px 20px; border-radius: 22px; }
-      .article p, .article li { font-size: 17px; }
+
+    @media (max-width: 760px) {
+      .gate-card,
+      .article-card { padding: 28px 20px; }
+      .hero { padding-top: 44px; }
+      .article p,
+      .article li { font-size: 17px; }
     }
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="/">NADX Securities</a>
-      <div class="pill">Unlisted Review Copy</div>
-    </div>
-  </header>
-
-  <section class="hero">
-    <div class="eyebrow">Publications · Petition Review</div>
-    <h1>Petition for Rulemaking</h1>
-    <p class="dek">Abolition of Rule 611 of Regulation NMS and Adoption of a Market-Based Real Execution Reporting Framework</p>
-    <div class="meta">
-      <span>NADX Securities, Inc.</span>
-      <span>May 2026</span>
-      <span>Direct link only</span>
+  <section id="authGate" class="gate-shell">
+    <div class="gate-card">
+      <div class="gate-eyebrow">NADX Securities · Access required</div>
+      <h1>Petition Review</h1>
+      <p>Enter your approved email address to access the article.</p>
+      <p>You will receive a link by email. After you sign in, the page will open and you can comment normally without another email unless your session expires. [web:107][web:332]</p>
+      <div class="form-row">
+        <label for="gateEmail"><strong>Email address</strong></label>
+        <input id="gateEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+        <button id="gateSubmit">Email me a sign-in link</button>
+      </div>
+      <div id="gateStatus" class="status"></div>
     </div>
   </section>
 
-  <main class="layout">
-    <div class="article-wrap">
-      <article class="article">
-        <div class="article-inner">
+  <div id="pageContent" class="hidden">
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="/" class="brand">NADX Securities</a>
+        <button id="signOutBtn" class="signout-link">Sign out</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">Publications</div>
+      <h1>Petition for Rulemaking</h1>
+      <p class="dek">Abolition of Rule 611 of Regulation NMS and Adoption of a Market-Based Real Execution Reporting Framework</p>
+      <div class="meta">
+        <span>NADX Securities, Inc.</span>
+        <span>May 2026</span>
+      </div>
+    </section>
+
+    <main class="article-shell">
+      <div class="article-card">
+        <article class="article">
           <div class="letterhead">
             <strong>The Honorable Paul S. Atkins</strong><br>
             Chairman<br>
@@ -362,7 +389,7 @@
 
           <p>NADX Securities, Inc. (“NADX”) respectfully submits this petition for rulemaking pursuant to Rule 192 of the Commission’s Rules of Practice. NADX is developing a next-generation institutional securities trading platform designed to deliver genuine execution quality improvement, T-instant settlement, and market structure reform for the benefit of the buy-side and the investing public. We submit this petition in that capacity.</p>
 
-          <p>We petition the Commission to repeal Rule 611 of Regulation NMS — the Order Protection Rule — and replace it with a market-based framework that achieves what Rule 611 promised but never delivered: true competition among trading venues on the basis of actual execution quality. We refer to this framework as a Real Execution system, or Real-Ex, though it might equally be called a Post-Execution system, or Post-Ex — reflecting that its benchmark is derived from actual post-trade prices rather than pre-trade displayed quotes.</p>
+          <p>We petition the Commission to repeal Rule 611 of Regulation NMS — the Order Protection Rule — and replace it with a market-based framework that achieves what Rule 611 promised but never delivered: true competition among trading venues on the basis of actual execution quality. We refer to this framework as a Real Execution system, or Real-Ex, though it might equally be called a Post-Execution system, or Post-Ex — reflecting that its benchmark is derived from actual post-trade prices rather than pre-trade displayed quotes. We raise both names here and invite the Commission and the public to weigh in on terminology; what matters is the substance.</p>
 
           <h2>I. Rule 611 Has Failed Its Purpose</h2>
 
@@ -370,45 +397,65 @@
 
           <p>The Commission’s own roundtables in September and December 2025 surfaced the same diagnosis from participants across the industry. Chairman Atkins, who dissented from Rule 611’s original adoption, has described it as “by far the most problematic provision” of Regulation NMS and noted that it has caused “market distortion and resulting gamesmanship.” We agree — and we submit that the solution is not to reform the rule at the margins but to replace it with a framework that lets markets do what markets do best.</p>
 
-          <p><strong>First,</strong> it entrenched a competitive dynamic that rewards the attraction of liquidity providers over the quality of executions produced. Exchanges compete primarily for the liquidity providers — market makers, dealers, and high-frequency trading firms — whose posted quotes make a venue viable. The maker-taker rebate model, the proliferation of special order types, preferential access to co-location facilities, and the sale of proprietary data products are all instruments in this competition.</p>
+          <p>The structural failure of Rule 611 has three distinct dimensions.</p>
 
-          <p><strong>Second,</strong> the quotes it protects are frequently not genuine offers to trade. The National Best Bid and Offer includes a significant proportion of quotes posted through order types designed to execute only passively. Sub-millisecond quote cancellations mean that the “protected” quote has often disappeared before any order can reach it. Intermarket Sweep Order exceptions mean that sophisticated institutional traders already route around Rule 611’s requirements on large orders.</p>
+          <p><strong>First,</strong> it entrenched a competitive dynamic that rewards the attraction of liquidity providers over the quality of executions produced. Exchanges compete primarily not for order flow in the abstract but for the liquidity providers — market makers, dealers, and high-frequency trading firms — whose posted quotes make a venue viable. The maker-taker rebate model, the proliferation of special order types, preferential access to co-location facilities, and the sale of proprietary data products are all instruments in this competition. This is a race to the bottom in the currency of structural advantage: exchanges offer increasingly generous incentives to attract and retain liquidity providers, who in turn use their privileged position to optimize their own outcomes, not necessarily to improve execution quality for the investors whose orders interact with their quotes.</p>
 
-          <p><strong>Third,</strong> it produces locked and crossed markets — the very dysfunction it was meant to prevent. Locked markets, where the bid on one exchange equals the ask on another, are substantially a product of the rebate structure that Rule 611 entrenched. The rule that was supposed to prevent market dysfunction is one of its persistent causes.</p>
+          <p>The dynamic is compounded by a structural circularity that Rule 611 did nothing to address. The small number of wholesale internalization firms that capture the majority of retail marketable orders off-exchange — where those orders never interact with a lit exchange at all — are frequently among the largest liquidity providers on those same exchanges. They internalize the retail order flow, retaining the informational and economic value of that flow, and simultaneously post at the NBBO on lit venues, earning maker rebates. Their position on both sides of the market — as wholesaler in one context and liquidity provider in another — generates information advantages that compound with each role. Rule 611 mandates routing to the best displayed quote while remaining entirely indifferent to the identity, incentives, and dual roles of the firms posting those quotes. The protection it provides is procedural. The structural conflict it permits goes unaddressed.</p>
+
+          <p><strong>Second,</strong> the quotes it protects are frequently not genuine offers to trade. The National Best Bid and Offer — the benchmark around which Rule 611 is organized — includes a significant proportion of quotes posted through order types designed to execute only passively. Post-only order types are structured to fill as the liquidity provider — capturing the maker rebate — while preventing the order from crossing the spread and incurring the taker fee. Sub-millisecond quote cancellations mean that the “protected” quote has often disappeared before any order can reach it. Intermarket Sweep Order exceptions mean that sophisticated institutional traders already route around Rule 611’s requirements on large orders. The rule binds the investors it was designed to protect while the most active market participants opt out of it routinely.</p>
+
+          <p><strong>Third,</strong> it produces locked and crossed markets — the very dysfunction it was meant to prevent. Locked markets, where the bid on one exchange equals the ask on another, are substantially a product of the rebate structure that Rule 611 entrenched. Post-only orders sit at prices participants will not trade through because crossing the spread would forfeit the maker rebate. The rule that was supposed to prevent market dysfunction is one of its persistent causes.</p>
 
           <h2>II. The Invisible Retail Investor</h2>
 
-          <p>Before describing the proposed framework, the Commission’s attention is respectfully directed to a foundational issue of scope that bears on how every element of this proposal should be evaluated: the definition of retail investor and who, in practice, bears the costs of the market structure Rule 611 created.</p>
+          <p>Before describing the proposed framework, the Commission’s attention is respectfully directed to a foundational issue of scope that bears on how every element of this proposal should be evaluated: the definition of “retail investor” and who, in practice, bears the costs of the market structure Rule 611 created.</p>
 
-          <p>There are approximately 165 million Americans who own equities — directly, through mutual funds, through ETFs, or through defined contribution retirement plans. The overwhelming majority are passive, long-horizon participants who experience the equity market entirely through the compounded returns generated by funds trading on their behalf. A one-basis-point improvement in average execution quality, compounded across a 30-year investment horizon, is worth thousands of dollars per retirement account. The aggregate impact across 165 million investors is measured in billions of dollars annually.</p>
+          <p>The Commission’s retail protection framework has historically focused, implicitly and sometimes explicitly, on the active retail trader — the individual investor placing orders through a brokerage account, experiencing execution quality directly and in real time. This is a coherent focus as far as it goes. It does not go far enough.</p>
 
-          <p>The current market structure is largely invisible to these investors. They do not receive confirmations that compare their execution to a contemporaneous market benchmark. They do not know which venue their fund’s trades were routed to, or why, or what execution quality was produced. Real-Ex changes this by creating a framework in which execution quality becomes visible, comparable, and actionable.</p>
+          <p>There are approximately 165 million Americans who own equities — directly, through mutual funds, through ETFs, or through defined contribution retirement plans. Approximately 40 percent of the entire U.S. equity market is held in retirement accounts of one kind or another. The active retail trading population — individuals placing frequent, discretionary equity orders — numbers in the hundreds of thousands, a fraction of one percent of the total investing public. The overwhelming majority of American equity investors are passive, long-horizon participants who experience the equity market entirely through the compounded returns generated by funds trading on their behalf.</p>
 
-          <div class="footnotes">
-            <p><em>Sources referenced in the petition include the Federal Reserve’s Survey of Consumer Finances, Gallup, the Investment Company Institute, BestBrokers.com, and SEC Division of Economic and Risk Analysis materials as cited in the underlying document.</em></p>
-          </div>
+          <p>These investors — the 401(k) participant, the pension beneficiary, the index fund holder — are retail investors. They are not day traders. They are not watching screens. They experience execution quality not through individual confirmations but through the 30-year accumulation of transaction costs embedded in every fund trade executed on their behalf. A one-basis-point improvement in average execution quality, compounded across a 30-year investment horizon, is worth thousands of dollars per retirement account. The aggregate impact across 165 million investors is measured in billions of dollars annually.</p>
+
+          <p>The current market structure — in which the majority of retail marketable orders are internalized off-exchange by a small number of wholesalers, where two firms alone account for 60 to 70 percent of retail order flow — is largely invisible to these investors. They do not receive confirmations that compare their execution to a contemporaneous market benchmark. They do not know which venue their fund’s trades were routed to, or why, or what execution quality was produced. Real-Ex changes this. The universal post-trade reporting requirement and the execution quality disclosure on confirmations — described in Title III — create, for the first time, a framework in which active retail investors and institutional clients with direct brokerage relationships can see, on every confirmation, what execution quality they received and how it compared to the market at the time of their trade. For the broader universe of long-horizon investors whose savings are managed on their behalf, the benefit is indirect but real: buy-side firms gain access to unified, cross-venue execution data covering every print on every venue — including the wholesale internalization desks currently outside the reporting perimeter — that enables more rigorous best execution analysis, more informed routing decisions, and a stronger basis for holding venues accountable for the quality of executions they produce. Better buy-side execution flows directly into fund returns. Fund returns compound over the investment horizons of the 165 million Americans whose retirement security is at stake. The mechanism is less visible than a line on a confirmation, but the aggregate impact is larger.</p>
+
+          <p>The Commission is invited to evaluate every element of the Real-Ex framework against this standard: does it serve the 165 million Americans whose retirement security depends on markets that work, or does it serve the intermediaries between them and those markets? The Commission’s mandate under the Exchange Act is unambiguous. Section 3(f) requires the Commission to consider investor protection alongside efficiency, competition, and capital formation in every rulemaking determination. Exchange rules must, under Section 6(b)(5), be designed to protect investors and the public interest and must not permit unfair discrimination among market participants. A market structure that systematically routes the majority of retail order flow away from transparent, regulated venues — and into internalization engines that operate largely outside the post-trade reporting framework — raises serious questions under both provisions. Real-Ex addresses those questions directly.</p>
+
+          <em class="note">Sources referenced in the petition include the Federal Reserve’s Survey of Consumer Finances (2023), Gallup (2024), the Investment Company Institute (2024), BestBrokers.com (2025), and SEC Division of Economic and Risk Analysis materials as cited in the underlying petition document. [file:225]</em>
 
           <h2>III. The Proposed Framework</h2>
 
           <p>We propose that the Commission repeal Rule 611 and replace it with five interconnected elements that together constitute a Real Execution framework.</p>
 
-          <ol>
-            <li><strong>Abolish mandatory routing.</strong> Brokers should be free to execute orders on any venue without an obligation to route to the venue displaying the best quote.</li>
-            <li><strong>Universal post-trade reporting.</strong> Every venue that executes a trade in an NMS security should report every execution to a single unified post-trade reporting system within five seconds, with venue identification on every print.</li>
-            <li><strong>Unique transaction identifier.</strong> Every execution should be assigned a unique transaction identifier that appears on the venue report and both sides’ confirmations.</li>
-            <li><strong>Execution quality disclosure on confirmations.</strong> Every trade confirmation should disclose the customer’s fill price, the contemporaneous market benchmark, and the difference between them.</li>
-            <li><strong>Public venue scoring.</strong> The unified system should produce publicly available rolling execution quality scores for every venue, including wholesalers.</li>
-          </ol>
+          <p><strong>1. Abolish mandatory routing.</strong> Brokers should be free to execute orders on any venue without an obligation to route to the venue displaying the best quote. Price discovery continues on every exchange’s Central Limit Order Book. Customers post quotes. Exchanges provide the venue. Nothing in the pre-trade environment changes except the routing obligation — and with it, the mechanism by which rebate-driven routing is systematically exploitable.</p>
 
-          <blockquote>
-            The trade-weighted average of actual prints is a more accurate and harder-to-manipulate benchmark than the NBBO. Displayed quotes can be posted and withdrawn in microseconds. Actual prints are facts.
-          </blockquote>
+          <p><strong>2. Universal post-trade reporting.</strong> Every venue that executes a trade in an NMS security — national securities exchanges, alternative trading systems, dark pools, broker-dealer internalization desks, wholesale internalization engines, hosted rooms, and internal matches — shall report every execution to a single unified post-trade reporting system within five seconds of execution, with venue identification on every print. No carve-outs. No lighter obligations for off-exchange venues. One standard, every venue, every print.</p>
+
+          <p>The existing reporting infrastructure already requires FINRA member firms — including ATSs and wholesale internalization desks — to report trades to a Trade Reporting Facility within ten seconds of execution. Real-Ex does not alter this timeline materially. What it adds is two elements the current system lacks: venue identification on the public tape, so that investors and regulators can see not just that a trade occurred but where; and a unique transaction identifier that cross-references the venue report against the buyer and seller confirmations. The trade is already being reported. Real-Ex makes the report complete.</p>
+
+          <p>The primary objection dark pools and ATSs will raise to venue identification is information leakage — the concern that revealing which venue executed a trade enables predatory algorithms to identify and reprice against institutional orders still being worked. This concern is legitimate and has been acknowledged by the Commission since its 2009 concept release on dark pool transparency. It is also, upon analysis, an argument against fragmentation rather than against transparency. The information leakage problem exists because a large order being worked across many venues generates many observable partial fills, each of which signals remaining interest to watching algorithms. Real-Ex does not worsen this dynamic — it provides the tools to address it. Buy-side firms with access to real-time venue scores and unified execution data can concentrate order flow in fewer, higher-quality venues, reducing the number of observable partial fills and the leakage that accompanies them.</p>
+
+          <p>The unique transaction identifier identifies only the executed portion of any trade. Remaining order interest is not reported, not revealed, and not inferrable from the identifier alone. A buy-side firm working a 500,000-share order who executes 10,000 shares generates one identifier for those 10,000 shares. The remaining 490,000 are invisible, exactly as they are today.</p>
+
+          <p>The Commission may wish to consider a modest calibration for very large block executions — those above a specified notional threshold — where a brief venue identification delay of up to 90 seconds may be appropriate to protect against the specific leakage risk that the 2009 concept release identified. This is a precision adjustment, not a structural exception. The core obligation — every execution reported, every venue identified, every print cross-referenced — applies uniformly.</p>
+
+          <p><strong>3. Unique transaction identifier.</strong> Every execution shall be assigned a unique transaction identifier at the moment of the trade. That identifier shall appear on the venue’s report to the unified system, the buyer’s trade confirmation, and the seller’s trade confirmation. All three records must match. The tape report and the customer confirmation are distinct documents with distinct audiences. The tape report is public and contains no customer identifying information — only venue, security, price, size, timestamp, and the unique transaction identifier. The customer confirmation is private, delivered only to the relevant counterparty, and contains account-specific information alongside the identifier. No customer identity is ever exposed on the public tape. The identifier is the bridge that allows regulators to cross-reference the public record against the private confirmations without merging them — achieving the audit capability of the Consolidated Audit Trail without its centralized data aggregation and the cybersecurity risk that aggregation created. The integrity of the reporting system is self-enforcing: every execution has at least two counterparties, each maintaining independent records. Systematic misreporting — altered timestamps, suppressed executions, manipulated prices — is detectable through routine cross-referencing of the three independent records without the need for a centralized audit trail.</p>
+
+          <p><strong>4. Execution quality disclosure on customer confirmations.</strong> Every trade confirmation delivered to a customer shall include: (a) the customer’s fill price; (b) the trade-weighted average execution price across all venues for that security during the applicable benchmark window surrounding the execution; and (c) the difference between the two. This disclosure shall appear in plain language. No jargon. No theoretical benchmarks. A retail investor whose order was internalized by a wholesaler should be able to read their confirmation and know, in dollars and cents, whether their execution was better or worse than the market at the time of their trade — not better or worse than a displayed quote that may never have been a genuine offer to trade.</p>
+
+          <p>The trade-weighted average of actual prints is a more accurate and harder-to-manipulate benchmark than the NBBO. Displayed quotes can be posted and withdrawn in microseconds. Actual prints are facts. They happened. They cannot be retroactively cancelled.</p>
+
+          <p><strong>5. Public venue scoring.</strong> The unified post-trade reporting system shall produce publicly available, rolling execution quality scores for every venue — including wholesalers — calculated as each venue’s trade-weighted average execution price relative to the contemporaneous market average. These scores shall be updated on a near-real-time basis and made freely available to the public. No mandate is required for what follows: third-party rating agencies will emerge organically to rank venues, analyze trends, and publish comparative performance data. Brokers seeking to demonstrate best execution will route to venues with better scores. Venues competing for order flow will do so by improving execution quality — not by paying for routing.</p>
 
           <h2>IV. The Benchmark — Tiered Liquidity Framework</h2>
 
-          <p>The five-second trade-weighted average benchmark described above is calibrated for securities with continuous, high-frequency trading activity. For less liquid securities, a fixed five-second window may contain too few prints to produce a meaningful benchmark. The Commission should adopt a tiered liquidity classification system that adjusts the benchmark window to the actual trading characteristics of each security.</p>
+          <p>The five-second trade-weighted average benchmark described in Title III is calibrated for securities with continuous, high-frequency trading activity. In a representative ten-second window for a large-cap equity at market open, thousands of executions are distributed across eight or more venues simultaneously. The trade-weighted average across that volume is statistically robust and manipulation-resistant: no single actor can move it without leaving a large, visible footprint in the unified reporting system.</p>
+
+          <p>For less liquid securities, a fixed five-second window may contain too few prints to produce a meaningful benchmark. A Tier 1 stock like Apple generates thousands of prints in five seconds. A micro-cap trading 8,000 shares per day may generate zero prints in five seconds, or one. A single outlier print is not a market — it is an anecdote. The Commission should adopt a tiered liquidity classification system that adjusts the benchmark window to the actual trading characteristics of each security.</p>
 
           <h3>The Tiered Structure</h3>
+
+          <p>The framework builds on the existing Tier 1 and Tier 2 NMS stock designations established under the LULD Plan, which are formally maintained, semiannually reviewed, and operationalized by every market participant. Tier 2 is subdivided into three liquidity sub-tiers based on consolidated average daily dollar volume (CADV), evaluated on the same semiannual schedule as the existing LULD review cycle.</p>
 
           <table>
             <thead>
@@ -446,64 +493,111 @@
                 <td>4</td>
                 <td>Micro-cap, illiquid</td>
                 <td>&lt; $20K</td>
-                <td>Last 20 verified prints</td>
+                <td>Last 20 verified prints, no time limit</td>
                 <td>3 prints</td>
               </tr>
             </tbody>
           </table>
 
-          <p>Where the minimum print threshold is not satisfied within the designated window, the system should automatically expand the lookback period until the minimum is reached. Every customer confirmation for an execution in a sub-minimum print security should include a plain-language “thin market execution” disclosure.</p>
+          <p>Where the minimum print threshold is not satisfied within the designated window, the system automatically expands the lookback period until the minimum is reached. Every customer confirmation for an execution in a sub-minimum print security shall include a plain-language disclosure — “thin market execution” — indicating that the benchmark reflects a wider time window than standard and that execution quality comparisons should be interpreted accordingly.</p>
+
+          <p>This disclosure does not diminish investor protection; it enhances it by providing honest context rather than a benchmark derived from insufficient data. A three-print benchmark in a micro-cap is more informative than no benchmark, and more honest than a theoretical reference derived from displayed quotes that may themselves reflect no genuine trading interest. The Commission should retain authority to adjust tier thresholds and minimum print requirements by rule as the unified reporting infrastructure matures. The thresholds proposed above are calibrated to current market conditions and should be reviewed at reasonable intervals. Real-Ex does not take away the buy-side’s ability to execute large orders in the dark — it gives them, for the first time, a systematic real-time tool to find where the liquidity actually is, verify that the venue handling their order is not leaking it to affiliated market makers, and route away from venues that are, with the same speed and precision that predatory algorithms currently use against them.</p>
 
           <h3>Manipulation Resistance Across Tiers</h3>
 
-          <p>The tiered framework is designed with manipulation resistance as a first-order constraint. In Tier 1 securities, trade density makes benchmark manipulation effectively impossible without market-moving capital. In Tier 4 securities, any attempt to move the benchmark through artificial transactions would itself constitute a reportable execution, with a unique transaction identifier cross-referenced independently by venue, buyer, and seller.</p>
+          <p>The tiered framework is designed with manipulation resistance as a first-order constraint. In Tier 1 securities, trade density makes benchmark manipulation effectively impossible without market-moving capital. In Tier 4 securities — where the benchmark relies on the last twenty verified prints — any attempt to move the benchmark through artificial transactions would itself constitute a reportable execution, with a unique transaction identifier, cross-referenced independently by venue, buyer, and seller. The cost and visibility of manipulation in a low-volume security under Real-Ex is substantially higher than manipulation of the current NBBO, where sub-penny quotes can be posted and cancelled in microseconds at near-zero cost.</p>
 
           <h2>V. Why the Framework Works</h2>
 
-          <p><strong>Price discovery is preserved.</strong> Every exchange retains its Central Limit Order Book with fully displayed limit orders. Prices remain visible. Markets remain open.</p>
+          <p><strong>Price discovery is preserved.</strong> Every exchange retains its Central Limit Order Book with fully displayed limit orders. Customers continue to post bids and offers. Price formation continues exactly as it does today — only the obligation to route away from the venue where an order rests is eliminated. Prices remain visible. Markets remain open.</p>
 
-          <p><strong>Arbitrage enforces price consistency across venues.</strong> Without a routing obligation, a concern arises that prices could diverge across venues. In practice, this cannot persist. The same technology that created the latency arms race will collapse any price dispersion almost immediately.</p>
+          <p><strong>Arbitrage enforces price consistency across venues.</strong> Without a routing obligation, a concern arises that prices could diverge across venues, with a bid on one exchange higher than an ask on another — a crossed market. In practice, this cannot persist. The same technology that created the latency arms race will immediately collapse any price dispersion. Dozens of firms sit simultaneously on every major venue, trading on price variances in milliseconds. A crossed market is risk-free profit for an arbitrageur. It will not last long enough to harm any investor. Notably, locked markets — where the bid equals the ask across venues — are themselves largely a product of the rebate structure that Rule 611 entrenched. Remove the routing obligation and the incentive to post at prices no one will trade through is substantially reduced. Locked markets substantially self-correct.</p>
 
-          <p><strong>Weaker venues face market consequences, not regulatory protection.</strong> Venues that produce worse execution scores should lose order flow to venues that perform. Real-Ex removes the subsidy of mandatory routing and lets competition work through execution quality.</p>
+          <p><strong>Weaker venues face market consequences, not regulatory protection.</strong> Exchanges that attract inferior liquidity — because they pay rebates that distort participant behavior, permit order types designed to execute only passively, or sell data advantages that tilt the playing field — will produce worse execution scores. Order flow will migrate to venues that perform. This is not a punitive outcome. It is competition working as intended. A venue that survives only because a routing rule forces orders to it is not competing. It is being subsidized. Real-Ex removes the subsidy and lets the market decide which venues add genuine value.</p>
 
-          <p><strong>Real-Ex creates structural incentives for more genuine posted liquidity.</strong> Under the current system, phantom liquidity often satisfies the technical requirements of Rule 611 while providing no genuine willingness to trade. Under Real-Ex, venues populated by quotes that cancel before execution would produce poor execution scores and lose business.</p>
+          <p><strong>The buy-side concern about price impact is addressed by redistribution, not elimination.</strong> A legitimate concern exists that venue scoring, by revealing where large natural liquidity is currently concentrated, could attract competing buy-side interest that raises prices for the firm that found the liquidity first. This concern deserves a direct answer.</p>
 
-          <p><strong>Rebates lose their primacy as a routing incentive.</strong> Maker-taker rebates and payment for order flow are affected differently, but both become more accountable when execution quality is made transparent and measurable across venues.</p>
+          <p>First, the information asymmetry that Real-Ex makes public already exists under the current system — it is simply private, held sequentially by the venue operator and affiliated market makers who use it to reprice against the remaining order before the print is visible to anyone else. The price impact that the buy-side fears from public venue scoring is already occurring in the dark, to the exclusive benefit of privileged intermediaries. Real-Ex does not create price impact — it redistributes the information that drives it from a small number of privileged participants to the entire market simultaneously.</p>
 
-          <p><strong>The NBBO becomes vestigial — and can be replaced.</strong> Without a routing obligation, the NBBO loses its legal significance as a mandatory benchmark. A trade-weighted average of actual prints across all venues is more accurate and more manipulation-resistant than displayed quotes.</p>
+          <p>Second, liquidity signals are two-sided. A venue demonstrating active, high-quality execution in a given security attracts not only buyers seeking that liquidity but sellers working complementary orders in the same security. VWAP and participation-rate algorithms on the sell side respond to the same signals as buy-side liquidity hunters. A natural seller working a 500,000-share order sees a venue scoring well in that security and routes there — drawn by the same evidence of genuine market activity. The concentration of natural buyers at a high-score venue draws natural sellers to the same venue, partially offsetting the price impact that concentrated buy-side demand would otherwise produce. Volume attracts volume from both sides; this is the virtuous cycle that genuine price discovery is supposed to generate.</p>
+
+          <p><strong>Real-Ex creates structural incentives for more genuine posted liquidity — with direct benefits for institutional execution.</strong> Under the current system, liquidity providers compete for order flow primarily through rebates and structural advantages — co-location, proprietary data feeds, and order types that allow quotes to be cancelled before a real order can execute against them. The result is a market populated with a significant proportion of phantom liquidity: quotes that satisfy the technical requirements of Rule 611’s protection standard while providing no genuine willingness to trade. Buy-side firms executing large orders encounter this phantom liquidity on every attempt — the order reaches the venue, the quote cancels, the order reroutes, and the pattern of partial fills across multiple venues becomes the primary source of information leakage.</p>
+
+          <p>Real-Ex’s venue scoring selects against phantom liquidity. A venue populated with quotes that cancel before execution produces poor execution scores. Buy-side flow migrates to high-score venues. Liquidity providers who want that flow post genuine, resting, executable quotes at high-score venues or lose the business. The elimination of the routing mandate removes the economic rationale for phantom quoting entirely: without a mandatory routing obligation, a quote that cancels on approach provides no rebate, attracts no flow, and degrades the venue’s score. The only quotes worth posting under Real-Ex are quotes the poster is willing to honor.</p>
+
+          <p>More genuine posted liquidity means fewer partial fills per order, less pattern leakage from the accumulation of partial fills across multiple venues, and faster, quieter execution of large institutional orders. Buy-side firms that currently rely on VWAP and participation-rate strategies — slicing large orders into small pieces across the trading day not because it produces optimal outcomes but because genuine block liquidity is inaccessible — gain access to deeper, more reliable execution venues. The defensive fragmentation of large orders, itself a primary source of the information leakage the buy-side fears, becomes less necessary as genuine liquidity becomes more accessible. Real-Ex does not eliminate price impact. What it does is ensure that the price impact a large order generates reflects genuine supply and demand dynamics rather than the sequential information advantages of privileged intermediaries.</p>
+
+          <p><strong>Rebates lose their primacy as a routing incentive.</strong> Maker-taker rebates and payment for order flow are related but distinct mechanisms that Real-Ex affects differently.</p>
+
+          <p>Maker-taker rebates are payments from exchanges to liquidity providers — market makers and dealers who post resting limit orders — compensating them for the adverse selection risk of providing displayed liquidity. This mechanism predates Regulation NMS and has independent economic rationale. What Rule 611 added was a guarantee: a venue posting the best displayed quote is guaranteed a flow of routed orders, making the prize for attracting liquidity providers to that quote substantially more valuable. Exchanges competed by offering larger rebates; liquidity providers responded by posting at venues with larger rebates rather than at venues with better execution quality. Without the routing mandate, the guaranteed flow disappears. Exchanges that offer genuine execution quality attract order flow through competitive merit. Rebates adjust to reflect that competitive value rather than the artificial premium created by mandatory routing.</p>
+
+          <p>Payment for order flow is a separate mechanism — payments from wholesale internalization firms to retail brokers for the right to internalize retail marketable orders. Real-Ex does not directly eliminate PFOF. What it does is subject the execution quality of internalized retail orders to the same transparency and scoring framework as exchange executions for the first time. A wholesaler whose internalized fills consistently underperform the contemporaneous market benchmark will carry a poor execution score — visible to brokers with best execution obligations, to regulators, and eventually to retail customers evaluating their broker’s routing practices. The economic pressure on PFOF comes not from prohibiting the payment but from making the execution quality of the orders purchased publicly and continuously measurable.</p>
+
+          <p>Access fees, whose cap was reduced from $0.003 to $0.001 per share under the 2024 amendments to Regulation NMS, may be further revisited once competitive forces are allowed to operate without the distortions created by mandatory routing.</p>
+
+          <p><strong>The NBBO becomes vestigial — and can be replaced.</strong> The National Best Bid and Offer exists primarily to support mandatory routing. Without a routing obligation, it loses its legal significance as a mandatory benchmark. The Commission has made meaningful progress in improving the accuracy of the NBBO through the odd-lot and round-lot reforms adopted in recent years, and that work is acknowledged here. Nevertheless, a post-execution price reference — the trade-weighted average of actual prints across all venues — is more accurate and more manipulation-resistant than even a reformed NBBO composed of displayed quotes, however carefully constructed. Actual transaction prices reflect genuine supply and demand at the moment of execution. The Commission may wish to consider whether the NBBO in its current form serves any remaining purpose once mandatory routing is eliminated, with the exception of discrete uses addressed in Title VI below.</p>
 
           <h2>VI. Interoperability — Regulation SHO, Rule 605, and the SIP Revenue Formula</h2>
 
-          <p>Repeal of Rule 611 does not operate in isolation. Three interconnected areas of existing regulation incorporate the NBBO or the current SIP infrastructure in ways that require companion treatment.</p>
+          <p>Repeal of Rule 611 does not operate in isolation. Three interconnected areas of existing regulation incorporate the NBBO or the current SIP infrastructure in ways that require companion treatment. Each is addressed in turn.</p>
 
           <h3>A. Regulation SHO — The Alternative Uptick Rule</h3>
-          <p>Under Real-Ex, the Commission should consider replacing the national best bid in Rule 201’s price test with the most recent verified execution price in the security, as reported to the unified system. The petition argues this would strengthen the rule by using a benchmark that is harder to manipulate than displayed quotes.</p>
+
+          <p>Rule 201 of Regulation SHO restricts short sales in securities that have declined ten percent or more from the prior day’s closing price. Once the circuit breaker is triggered, short sales are permitted only at a price above the current national best bid. The circuit breaker trigger itself — a ten percent intraday decline measured against the prior closing price — requires no modification under the Real-Ex framework. It references a historical price, not a live quote, and is unaffected by the elimination of the routing mandate or the retirement of the NBBO.</p>
+
+          <p>The price test requires a substitute benchmark. Under Real-Ex, the unified post-trade reporting system produces a continuous, real-time stream of verified execution prices across every venue. The Commission should amend Rule 201 to replace the national best bid with the most recent verified execution price in the security, as reported to the unified system, for purposes of the price test. A short sale would be permitted only at a price strictly above the last reported execution price.</p>
+
+          <p>This substitution does not weaken Rule 201. It strengthens it. The displayed national best bid is manipulable in both directions. A participant can cancel genuine bids in sub-milliseconds during a market decline, suppressing the NBB and lowering the floor below which short sales are prohibited — allowing continued short selling pressure at prices that genuine market participants would not permit. Conversely, a fictitious bid posted and immediately cancelled can temporarily inflate the NBB, pricing short sellers out of the available market and potentially protecting a long position during a decline. Neither manipulation leaves a trace in the current system. A verified execution price cannot be manufactured without an actual transaction that is independently cross-referenced by venue, buyer, and seller — making both forms of manipulation immediately visible and costly. A verified execution cannot be retroactively cancelled or manufactured without leaving an immutable, cross-referenced record in the unified system. The academic literature on equity market microstructure consistently documents that actual execution prices trade at or below the NBBO midpoint in the substantial majority of observed transactions. The last verified execution price is therefore a more restrictive benchmark than the current displayed national best bid in virtually every market condition — and in precisely the stressed, fast-moving conditions that Rule 201 is designed to address, where the divergence between displayed quotes and actual transaction prices is at its widest.</p>
+
+          <p>The Commission is invited to verify this relationship using the NYSE Daily TAQ database, which provides tick-by-tick trade and quote data for all NMS securities. A comparison of last-sale prices against contemporaneous NBBO bids for any actively traded Tier 1 security during any representative trading session will confirm that actual execution prices consistently trade below the displayed national best bid across the overwhelming majority of transactions. NADX will publish a detailed empirical analysis of this relationship, using publicly available market data, on its website concurrently with this petition.</p>
+
+          <p>The tiered liquidity framework described in Title IV applies to the Rule 201 benchmark as well. In a Tier 4 security already down ten percent intraday, the displayed national best bid is frequently a stub quote or a stale post-only order bearing no relationship to where the security is actually trading. The last verified execution price — drawn from the unified post-trade reporting system — is a more accurate and more restrictive benchmark in exactly the conditions Rule 201 targets.</p>
+
+          <em class="note">See cited literature in the petition, including Bartlett &amp; McCrary (2019), Holden &amp; Jacobsen (2014), Anand et al. (2017), and the forthcoming NADX empirical analysis. [file:225]</em>
 
           <h3>B. Rule 605 of Regulation NMS — Order Execution Quality Disclosure</h3>
-          <p>The petition argues that the unified post-trade reporting system would render much of Rule 605 redundant while improving on it, because the system would capture every execution across every venue in real time using actual transaction prices rather than displayed quotes.</p>
+
+          <p>The Commission’s amended Rule 605, with compliance dates extending into 2026, requires market centers to report monthly execution quality statistics including effective spread, price improvement rates, fill rates, and realized spread by order size and security type. These statistics are calculated relative to the NBBO midpoint as the reference benchmark.</p>
+
+          <p>The Real-Ex framework renders much of Rule 605 redundant — and simultaneously improves upon it. The unified post-trade reporting system captures every execution across every venue, in real time, using actual transaction prices rather than displayed quotes. Dollar volume, effective spread, fill rates, and execution quality relative to the contemporaneous market average are all byproducts of the unified system, calculated continuously rather than aggregated monthly. Critically, the unified system captures wholesaler and dark pool executions on the same basis as lit exchange executions — closing the gap that current Rule 605 reporting leaves for the off-exchange venues handling the majority of retail order flow. The Commission should consider whether the amended Rule 605 compliance timeline, with its associated infrastructure costs, should be stayed pending the adoption of a Real-Ex framework. The investor protection goals of Rule 605 — transparency into execution quality by venue — are achieved more efficiently, more accurately, and at lower cost by the unified reporting system. One distinction warrants explicit recognition: Rule 605 measures order-level execution quality, while the unified system captures trade-level data. Order-level aggregation can be constructed from trade-level data, and the Commission may wish to consider whether a simplified order-level reporting supplement, derived from the unified system, should replace the current Rule 605 filing obligation.</p>
 
           <h3>C. The SIP Revenue Formula</h3>
-          <p>The petition argues that the quoting-share formula exists to reward the behavior that Rule 611 requires. Remove the routing mandate, and the policy rationale for paying exchanges to post at the NBBO disappears with it.</p>
+
+          <p>The Securities Information Processor distributes revenue to exchanges in two equal parts: fifty percent allocated by trading share and fifty percent allocated by quoting share — each exchange’s proportion of time spent posting quotes at the national best bid or offer, weighted by quote size relative to the spread.</p>
+
+          <p>The quoting share formula exists to reward the behavior that Rule 611 requires. Remove the routing mandate, and the policy rationale for paying exchanges to post at the NBBO disappears with it. The trading share component requires migration, not elimination: the unified post-trade reporting system captures every execution across every venue in real time, more accurately and with greater cross-venue consistency than the current consolidated tape. The Commission should direct that trading share revenue be recalculated using the unified system as its source, extending distribution participation to off-exchange venues on an equal basis for the first time.</p>
+
+          <p>The quoting share component should be eliminated in connection with the repeal of Rule 611. Eliminating the quoting share does not eliminate quoting — exchanges will continue to host limit order books because their customers need price discovery. What it eliminates is the financial reward for quote activity designed to attract SIP revenue rather than to facilitate genuine trading interest. The Commission should also note that exchange proliferation is partly a function of SIP economics: a new exchange capturing even modest quoting and trading share earns SIP revenue immediately, subsidizing launch costs that would otherwise be uneconomic. Eliminating the quoting share and moving trading share to a unified reporting basis allows exchange entry and exit to be governed by genuine competitive merit.</p>
 
           <h2>VII. Elimination of the Consolidated Audit Trail</h2>
 
-          <p>The petition argues that the unique transaction identifier requirement would render CAT unnecessary by creating three independent records of every execution — at the venue, the buyer, and the seller — that can be cross-referenced without centralized aggregation.</p>
+          <p>The Consolidated Audit Trail was built at a cost estimated in excess of one billion dollars to construct, with annual maintenance costs in the hundreds of millions, for the purpose of reconstructing market activity and detecting manipulative trading patterns. It has been a persistent source of cybersecurity risk, including a breach that exposed the personal data of millions of investors.</p>
+
+          <p>The unique transaction identifier requirement proposed in Title III renders CAT unnecessary. Every execution generates a unique ID held independently by the venue, the buyer, and the seller — three separate records that must match. Systematic misreporting is detectable through routine cross-referencing. Regulators seeking to reconstruct trading activity have access to a real-time, complete, tamper-resistant record of every execution across every venue, held by multiple independent parties, at near-zero marginal cost.</p>
+
+          <p>The Commission should consider whether the Consolidated Audit Trail can be decommissioned in connection with the adoption of this framework, returning hundreds of millions of dollars annually to market participants and eliminating a cybersecurity risk that has no commensurate benefit under the proposed system.</p>
 
           <h2>VIII. Regulation SCI</h2>
 
-          <p>The unified reporting requirement may also justify revisiting the scope of Regulation SCI, particularly surveillance and reporting obligations that would be substantially duplicated by a real-time execution reporting system.</p>
+          <p>The unified reporting requirement proposed herein may also afford the Commission an opportunity to revisit the scope of Regulation SCI, particularly its surveillance and reporting obligations, which would be substantially duplicated by a real-time execution reporting system. The Commission may wish to consider narrowing Reg SCI to cover system resilience and redundancy standards only, reducing compliance costs significantly for smaller venues and alternative trading systems.</p>
 
           <h2>IX. A Note on the Comment Process</h2>
 
-          <p>NADX anticipates that this petition will generate substantive opposition from participants whose business models depend, in whole or in part, on the market structure that Rule 611 created and entrenched. The Commission and the public are encouraged to engage with those arguments on their merits and to distinguish between harms to investors and harms to business models.</p>
+          <p>NADX anticipates that this petition will generate substantive opposition from participants whose business models depend, in whole or in part, on the market structure that Rule 611 created and entrenched. That opposition is expected, and much of it will raise legitimate technical questions that deserve careful analysis. The Commission and the public are encouraged to engage with those arguments on their merits.</p>
+
+          <p>The Commission is also respectfully invited to apply a consistent analytical standard to every comment received: does the objection identify a harm to investors, or does it identify a harm to a business model? The two are not the same, and they have not always been carefully distinguished in market structure debates. A routing obligation that benefits exchanges at the expense of execution quality is not investor protection. A rebate structure that creates financial incentives for brokers to route on the basis of venue economics rather than execution quality is incompatible with genuine best execution. A transparency regime that covers lit exchanges but exempts the venues handling the majority of retail order flow is not adequate disclosure. The Commission’s mandate under the Exchange Act is to protect investors and maintain fair, orderly, and efficient markets. That standard — and the statutory obligations of Sections 3(f) and 6(b)(5) — provides the appropriate framework for evaluating every element of this proposal and every objection raised in response to it.</p>
 
           <h2>X. Conclusion</h2>
 
-          <p>Rule 611 was built on a sound instinct — that investors deserve the best available price, and that venues should compete to provide it. The instinct was right. The mechanism was wrong. Mandatory routing did not create competition; it entrenched a routing incentive structure and amplified a rebate model whose costs are borne by long-term investors.</p>
+          <p>Rule 611 was built on a sound instinct — that investors deserve the best available price, and that venues should compete to provide it. The instinct was right. The mechanism was wrong. Mandatory routing did not create competition. It entrenched a routing incentive structure, amplified a rebate model with roots predating Regulation NMS, and generated a latency arms race whose costs are borne by 165 million Americans whose retirement security depends on markets that work.</p>
 
-          <p>Real-Ex — a post-execution, market-based framework built on universal reporting, unique transaction identifiers, and transparent public scoring — seeks to achieve what Rule 611 promised by letting markets compete on actual execution quality. NADX respectfully petitions the Commission to initiate rulemaking to repeal Rule 611 of Regulation NMS and adopt a market-based real execution reporting framework along the lines described in the petition.</p>
+          <p>Real-Ex — a post-execution, market-based framework built on universal reporting, unique transaction identifiers, and transparent public scoring — achieves what Rule 611 promised by letting markets do what markets do best. Venues compete on actual execution quality. Brokers route to performers. Every investor — the institutional portfolio manager, the active retail trader, and the 401(k) participant whose savings are managed on their behalf — sees exactly what execution quality they received and how it compared to the market at the time of their trade.</p>
 
-          <hr>
+          <p>No routing mandate required. No billion-dollar audit trail required. No regulatory life support for underperforming venues required. No fictitious NBBO required. No quoting-share subsidy required. No dark wholesale fills invisible to the investors whose orders they represent.</p>
+
+          <p>The interoperability concerns that have historically attached to proposals for Rule 611 reform are addressed directly herein. The alternative uptick rule under Regulation SHO is strengthened, not weakened, by substituting a verified execution price for a manipulable displayed bid. The execution quality disclosure goals of Rule 605 are achieved more accurately and at lower cost by the unified reporting system. The SIP revenue formula, whose quoting-share component exists only to subsidize the behavior that Rule 611 incentivizes, is reformed as a natural consequence of the routing mandate’s repeal.</p>
+
+          <p>NADX respectfully petitions the Commission to initiate rulemaking to repeal Rule 611 of Regulation NMS and adopt a market-based real execution reporting framework along the lines described herein. We welcome the opportunity to discuss this proposal further with Commission staff at the staff’s convenience.</p>
 
           <p><strong>Respectfully submitted,</strong><br><br>
           Edward Jacobson<br>
@@ -514,63 +608,28 @@
           &lt;edward@nadxmarkets.com&gt;<br>
           570-540-3515</p>
 
-          <section class="comment-gate" id="discussion">
-            <h3>Private discussion</h3>
-            <p>This discussion area is available only to pre-approved readers. Sign in with your approved email to read comments and leave your own.</p>
+          <p><em>cc: The Honorable Hester M. Peirce, Commissioner<br>
+          cc: The Honorable Mark T. Uyeda, Commissioner</em></p>
 
-            <div id="signedOutState">
-              <label for="emailInput"><strong>Email address</strong></label>
-              <div class="auth-row">
-                <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="email" />
-                <button id="sendLinkBtn">Email me a sign-in link</button>
-              </div>
-              <div id="authStatus" class="status"></div>
+          <section class="comments">
+            <h2>Comments</h2>
+            <p>Signed in as <span id="signedInEmail"></span></p>
+            <label for="commentInput"><strong>Add a comment</strong></label>
+            <textarea id="commentInput" placeholder="Write your comment here..."></textarea>
+            <div class="comment-actions">
+              <button id="postCommentBtn">Submit</button>
             </div>
-
-            <div id="signedInState" class="hidden">
-              <p id="welcomeText"></p>
-              <div class="auth-row">
-                <button id="signOutBtn" class="secondary">Sign out</button>
-              </div>
-
-              <label for="commentInput"><strong>Add a comment</strong></label>
-              <textarea id="commentInput" placeholder="Write your comment here..."></textarea>
-              <div class="auth-row">
-                <button id="postCommentBtn">Post comment</button>
-              </div>
-              <div id="commentStatus" class="status"></div>
-
-              <div class="comments-list" id="commentsList"></div>
-            </div>
+            <div id="commentStatus" class="status"></div>
+            <div class="comments-list" id="commentsList"></div>
           </section>
-        </div>
-      </article>
-    </div>
+        </article>
+      </div>
+    </main>
 
-    <aside class="sidebar">
-      <div class="side-card">
-        <h4>Status</h4>
-        <p>Unlisted review page.</p>
-        <p>Share only by direct link.</p>
-      </div>
-      <div class="side-card">
-        <h4>Access</h4>
-        <p>Reading is available by direct link. Comments are limited to approved users who sign in with magic link.</p>
-      </div>
-      <div class="side-card">
-        <h4>Implementation notes</h4>
-        <ul>
-          <li>Replace the Supabase URL and anon key in the script.</li>
-          <li>Ensure the approved_users and petition_comments tables are already created.</li>
-          <li>Keep this page out of navigation.</li>
-        </ul>
-      </div>
-    </aside>
-  </main>
-
-  <footer class="site-footer">
-    <p>NADX Securities · Petition review copy</p>
-  </footer>
+    <footer class="footer">
+      <p>NADX Securities · Petition review page</p>
+    </footer>
+  </div>
 
   <script>
     const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co';
@@ -579,13 +638,13 @@
 
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const emailInput = document.getElementById('emailInput');
-    const sendLinkBtn = document.getElementById('sendLinkBtn');
-    const authStatus = document.getElementById('authStatus');
-    const signedOutState = document.getElementById('signedOutState');
-    const signedInState = document.getElementById('signedInState');
-    const welcomeText = document.getElementById('welcomeText');
+    const authGate = document.getElementById('authGate');
+    const pageContent = document.getElementById('pageContent');
+    const gateEmail = document.getElementById('gateEmail');
+    const gateSubmit = document.getElementById('gateSubmit');
+    const gateStatus = document.getElementById('gateStatus');
     const signOutBtn = document.getElementById('signOutBtn');
+    const signedInEmail = document.getElementById('signedInEmail');
     const commentInput = document.getElementById('commentInput');
     const postCommentBtn = document.getElementById('postCommentBtn');
     const commentStatus = document.getElementById('commentStatus');
@@ -596,13 +655,21 @@
       el.textContent = message;
     }
 
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     async function sendMagicLink() {
-      const email = emailInput.value.trim().toLowerCase();
+      const email = gateEmail.value.trim().toLowerCase();
       if (!email) {
-        setStatus(authStatus, 'Enter your approved email address.', 'error');
+        setStatus(gateStatus, 'Enter your approved email address.', 'error');
         return;
       }
-
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
@@ -610,15 +677,14 @@
           emailRedirectTo: window.location.href.split('#')[0]
         }
       });
-
       if (error) {
-        setStatus(authStatus, error.message, 'error');
+        setStatus(gateStatus, error.message, 'error');
       } else {
-        setStatus(authStatus, 'Magic link sent. Check your email.', 'success');
+        setStatus(gateStatus, 'Magic link sent. Check your email.', 'success');
       }
     }
 
-    async function loadComments(user) {
+    async function loadComments() {
       commentsList.innerHTML = '';
       const { data, error } = await supabase
         .from('petition_comments')
@@ -632,32 +698,34 @@
       }
 
       if (!data || !data.length) {
-        commentsList.innerHTML = '<div class="comment"><div class="comment-meta">No comments yet.</div><div>Be the first approved reader to comment.</div></div>';
+        commentsList.innerHTML = '<div class="comment"><div class="comment-meta">No comments yet.</div><div>Be the first to comment.</div></div>';
         return;
       }
 
       commentsList.innerHTML = data.map(item => `
         <article class="comment">
-          <div class="comment-meta">${item.user_email} · ${new Date(item.created_at).toLocaleString()}</div>
-          <div>${item.body.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')}</div>
+          <div class="comment-meta">${escapeHtml(item.user_email)} · ${new Date(item.created_at).toLocaleString()}</div>
+          <div>${escapeHtml(item.body).replace(/\n/g, '<br>')}</div>
         </article>
       `).join('');
     }
 
-    async function refreshAuth() {
+    async function showPageForUser(user) {
+      signedInEmail.textContent = user.email || '';
+      authGate.classList.add('hidden');
+      pageContent.classList.remove('hidden');
+      await loadComments();
+    }
+
+    async function checkAuth() {
       const { data } = await supabase.auth.getUser();
       const user = data?.user;
-
-      if (!user) {
-        signedOutState.classList.remove('hidden');
-        signedInState.classList.add('hidden');
-        return;
+      if (user) {
+        await showPageForUser(user);
+      } else {
+        pageContent.classList.add('hidden');
+        authGate.classList.remove('hidden');
       }
-
-      signedOutState.classList.add('hidden');
-      signedInState.classList.remove('hidden');
-      welcomeText.textContent = `Signed in as ${user.email}`;
-      await loadComments(user);
     }
 
     async function postComment() {
@@ -666,14 +734,14 @@
         setStatus(commentStatus, 'Write a comment first.', 'error');
         return;
       }
-
       const { data } = await supabase.auth.getUser();
       const user = data?.user;
       if (!user) {
-        setStatus(commentStatus, 'You must sign in first.', 'error');
+        setStatus(commentStatus, 'Your session expired. Sign in again.', 'error');
+        pageContent.classList.add('hidden');
+        authGate.classList.remove('hidden');
         return;
       }
-
       const { error } = await supabase
         .from('petition_comments')
         .insert({
@@ -682,28 +750,27 @@
           user_email: user.email,
           body
         });
-
       if (error) {
         setStatus(commentStatus, error.message, 'error');
         return;
       }
-
       commentInput.value = '';
-      setStatus(commentStatus, 'Comment posted.', 'success');
-      await loadComments(user);
+      setStatus(commentStatus, 'Comment submitted.', 'success');
+      await loadComments();
     }
 
     async function signOut() {
       await supabase.auth.signOut();
-      await refreshAuth();
+      pageContent.classList.add('hidden');
+      authGate.classList.remove('hidden');
+      setStatus(gateStatus, '', '');
     }
 
-    sendLinkBtn.addEventListener('click', sendMagicLink);
+    gateSubmit.addEventListener('click', sendMagicLink);
     postCommentBtn.addEventListener('click', postComment);
     signOutBtn.addEventListener('click', signOut);
-    supabase.auth.onAuthStateChange(() => refreshAuth());
-    refreshAuth();
+    supabase.auth.onAuthStateChange(() => checkAuth());
+    checkAuth();
   </script>
 </body>
 </html>
-
