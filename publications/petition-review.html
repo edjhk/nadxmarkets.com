@@ -328,11 +328,11 @@
       <div class="gate-eyebrow">NADX Securities · Access required</div>
       <h1>Petition Review</h1>
       <p>Enter your approved email address to access the article.</p>
-      <p>You will receive a magic link by email. After you sign in, the page will open and you can comment normally without another email unless your session expires. [web:109][web:332]</p>
+      <p>You will receive a magic link by email. After you sign in, the page will open and you can comment normally without another email unless your session expires.</p>
       <div class="form-row">
         <label for="gateEmail"><strong>Email address</strong></label>
         <input id="gateEmail" type="email" placeholder="you@example.com" autocomplete="email" />
-        <button id="gateSubmit">Email me a sign-in link</button>
+        <button id="gateSubmit" type="button">Email me a sign-in link</button>
       </div>
       <div id="gateStatus" class="status"></div>
     </div>
@@ -342,7 +342,7 @@
     <header class="site-header">
       <div class="header-inner">
         <a href="/" class="brand">NADX Securities</a>
-        <button id="signOutBtn" class="signout-link">Sign out</button>
+        <button id="signOutBtn" type="button" class="signout-link">Sign out</button>
       </div>
     </header>
 
@@ -617,7 +617,7 @@
             <label for="commentInput"><strong>Add a comment</strong></label>
             <textarea id="commentInput" placeholder="Write your comment here..."></textarea>
             <div class="comment-actions">
-              <button id="postCommentBtn">Submit</button>
+              <button id="postCommentBtn" type="button">Submit</button>
             </div>
             <div id="commentStatus" class="status"></div>
             <div class="comments-list" id="commentsList"></div>
