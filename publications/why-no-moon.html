@@ -238,7 +238,7 @@ gtag('config', 'G-3N2N5MTPXZ');
   // --- Load comments ---
   async function loadComments(){
     const { data, error } = await db
-      .from('petition_comments')
+      .from('article_comments')
       .select('id, body, display_name, created_at')
       .eq('page_slug', PAGE_SLUG)
       .order('created_at', { ascending: false });
@@ -265,7 +265,7 @@ gtag('config', 'G-3N2N5MTPXZ');
   // --- Post a comment ---
   async function submitComment(name, body){
     const { error } = await db
-      .from('petition_comments')
+      .from('article_comments')
       .insert({
         page_slug:    PAGE_SLUG,
         display_name: name,
