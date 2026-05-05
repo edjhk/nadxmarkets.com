@@ -254,23 +254,43 @@ a{color:inherit;text-decoration:none}
     <span>&copy; 2026 NADX Markets, Inc. For institutional and accredited investors only.</span>
     <a href="../contact.html" style="color:var(--muted)">Contact</a>
   </div>
-</footer> 
+</footer> <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+window.startCommentAuth = async function(commentText) {
+  const email = window.prompt('Enter your email to continue commenting:');
+  if (!email) return;
+
+  localStorage.setItem('pendingComment', commentText);
+  localStorage.setItem('commentReturnTo', window.location.pathname);
+
+  const { error } = await supabaseClient.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: 'https://nadxmarkets.com/complete-profile.html'
+    }
+  });
+
+  if (error) {
+    alert('Could not start email sign-in: ' + error.message);
+    return;
+  }
+
+  alert('Check your email for the secure sign-in link.');
+};
+
 document.getElementById('comment-entry')?.addEventListener('submit', async function(e){
   e.preventDefault();
 
   const comment = document.getElementById('comment-text').value.trim();
-  if(!comment) return;
+  if (!comment) return;
 
   window.pendingComment = comment;
-
-  if (window.startCommentAuth) {
-    window.startCommentAuth(comment);
-    return;
-  }
-
-  alert('Connect the Supabase comment auth flow here so email sign-in opens after comment entry.');
+  await window.startCommentAuth(comment);
 });
-</script>    
+</script>   
 </body>
 </html>
