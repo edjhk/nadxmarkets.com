@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Petition for Rulemaking | NADX Securities</title>
+  <title>petition-review</title>
   <meta name="description" content="Petition for Rulemaking — Abolition of Rule 611 of Regulation NMS and Adoption of a Market-Based Real Execution Reporting Framework." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --bg: #f7f4ef;
@@ -321,6 +321,7 @@
       .article li { font-size: 17px; }
     }
   </style>
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 </head>
 <body>
   <section id="authGate" class="gate-shell">
@@ -696,7 +697,8 @@
       commentsList.innerHTML = data.map(r => `
         <article class="comment">
           <div class="comment-meta">${esc(r.user_email)} · ${new Date(r.created_at).toLocaleString()}</div>
-          <div>${esc(r.body).split('\n').join('<br>')}</div>
+          <div>${esc(r.body).replace(/
+/g,'<br>')}</div>
         </article>`).join('');
     }
 
