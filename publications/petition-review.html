@@ -332,7 +332,7 @@
       <div class="form-row">
         <label for="gateEmail"><strong>Email address</strong></label>
         <input id="gateEmail" type="email" placeholder="you@example.com" autocomplete="email" />
-        <button id="gateSubmit" type="button">Email me a sign-in link</button>
+        <button id="gateSubmit" type="button" onclick="sendMagicLink()">Email me a sign-in link</button>
       </div>
       <div id="gateStatus" class="status"></div>
     </div>
@@ -632,6 +632,7 @@
   </div>
 
   <script>
+    console.log('PETITION SCRIPT LOADED');
     const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
     const PAGE_SLUG = 'petition-review';
@@ -650,12 +651,12 @@
     const commentStatus = document.getElementById('commentStatus');
     const commentsList = document.getElementById('commentsList');
 
-    function setStatus(el, message, type = '') {
+    window.setStatus = function setStatus(el, message, type = '') {
       el.className = 'status' + (type ? ' ' + type : '');
       el.textContent = message;
     }
 
-    function escapeHtml(text) {
+    window.escapeHtml = function escapeHtml(text) {
       return text
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -664,7 +665,7 @@
         .replace(/'/g, '&#039;');
     }
 
-    async function sendMagicLink() {
+    window.sendMagicLink = async function sendMagicLink() {
       const email = gateEmail.value.trim().toLowerCase();
       if (!email) {
         setStatus(gateStatus, 'Enter your approved email address.', 'error');
@@ -700,7 +701,7 @@
       }
     }
 
-    async function loadComments() {
+    window.loadComments = async function loadComments() {
       commentsList.innerHTML = '';
       const { data, error } = await supabase
         .from('petition_comments')
@@ -726,14 +727,14 @@
       `).join('');
     }
 
-    async function showPageForUser(user) {
+    window.showPageForUser = async function showPageForUser(user) {
       signedInEmail.textContent = user.email || '';
       authGate.classList.add('hidden');
       pageContent.classList.remove('hidden');
       await loadComments();
     }
 
-    function showGate() {
+    window.showGate = function showGate() {
       pageContent.classList.add('hidden');
       authGate.classList.remove('hidden');
     }
@@ -748,7 +749,7 @@
       }
     });
 
-    async function postComment() {
+    window.postComment = async function postComment() {
       const body = commentInput.value.trim();
       if (!body) {
         setStatus(commentStatus, 'Write a comment first.', 'error');
@@ -782,7 +783,7 @@
       await loadComments();
     }
 
-    async function signOut() {
+    window.signOut = async function signOut() {
       await supabase.auth.signOut();
       showGate();
     }
