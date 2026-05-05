@@ -18,7 +18,7 @@
   "dateModified": "2026-04-29",
   "mainEntityOfPage": {"@type": "WebPage","@id": "https://nadxmarkets.com/publications/why-no-moon.html"}
 }
-</script>
+<\/script>
 <style>
 :root{
   --text-xs:clamp(0.75rem,0.7rem + 0.2vw,0.86rem);
@@ -96,55 +96,34 @@ a{color:inherit;text-decoration:none}
   gap:var(--sp4);flex-wrap:wrap}
 @media(max-width:900px){.nav{display:none}}
 
-/* ── COMMENTS ── */
+/* COMMENTS */
 .comments-section{margin-top:var(--sp12);border-top:1px solid var(--divider);padding-top:var(--sp10)}
 .comments-section h2{font-family:var(--display);font-size:var(--text-xl);font-weight:500;color:var(--white);margin-bottom:var(--sp6)}
 
-/* Auth gate */
-#authGate{padding:var(--sp8);border:1px solid var(--border);border-radius:var(--r-xl);background:var(--surf2);text-align:center}
-#authGate p{color:var(--muted);margin-bottom:var(--sp5);font-size:var(--text-sm)}
-.gate-row{display:flex;gap:var(--sp3);max-width:420px;margin:0 auto}
-.gate-row input{flex:1;padding:.75rem 1rem;border:1px solid var(--border);border-radius:var(--r-full);
-  background:var(--surf);color:var(--text);font:inherit;outline:none}
-.gate-row input:focus{border-color:var(--gold)}
+/* Comment write area */
+.comment-write{margin-bottom:var(--sp8)}
+.comment-write textarea{width:100%;min-height:120px;padding:1rem;border:1px solid var(--border);
+  border-radius:.75rem;background:var(--surf);color:var(--text);font:inherit;resize:vertical;outline:none;margin-bottom:var(--sp3)}
+.comment-write textarea:focus{border-color:var(--gold)}
+.comment-write textarea::placeholder{color:var(--muted)}
+.comment-write .form-row{display:flex;align-items:center;gap:var(--sp3)}
 .btn-gold{padding:.7rem 1.4rem;border:none;border-radius:var(--r-full);background:var(--gold);
   color:#111;font-size:var(--text-sm);font-weight:600;cursor:pointer;white-space:nowrap}
 .btn-gold:hover{opacity:.88}
 .btn-ghost{padding:.7rem 1.4rem;border:1px solid var(--border);border-radius:var(--r-full);
   background:transparent;color:var(--muted);font-size:var(--text-sm);cursor:pointer}
 .btn-ghost:hover{color:var(--text);border-color:var(--muted)}
-.status-msg{font-size:var(--text-sm);margin-top:var(--sp4);min-height:1.4em;text-align:center}
+.status-msg{font-size:var(--text-sm);margin-top:var(--sp2);min-height:1.4em}
 .status-msg.error{color:#e07070}
 .status-msg.success{color:#7ec47e}
-
-/* Profile popup overlay */
-#profileOverlay{display:none;position:fixed;inset:0;z-index:200;
-  background:rgba(0,0,0,.75);backdrop-filter:blur(4px);
-  align-items:center;justify-content:center}
-#profileOverlay.active{display:flex}
-.profile-modal{background:var(--surf2);border:1px solid var(--border);border-radius:var(--r-xl);
-  padding:var(--sp8);width:min(440px,calc(100vw - 2rem));text-align:center}
-.profile-modal h3{font-family:var(--display);font-size:var(--text-xl);color:var(--white);margin-bottom:var(--sp3)}
-.profile-modal p{color:var(--muted);font-size:var(--text-sm);margin-bottom:var(--sp6)}
-.profile-modal input{width:100%;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.75rem;
-  background:var(--surf);color:var(--text);font:inherit;outline:none;margin-bottom:var(--sp4)}
-.profile-modal input:focus{border-color:var(--gold)}
 
 /* Signed-in bar */
 #signedInBar{display:none;align-items:center;justify-content:space-between;
   padding:var(--sp3) var(--sp5);border:1px solid var(--border);border-radius:var(--r-xl);
-  background:var(--surf2);margin-bottom:var(--sp6);font-size:var(--text-sm)}
+  background:var(--surf2);margin-bottom:var(--sp4);font-size:var(--text-sm)}
 #signedInBar.visible{display:flex}
 #signedInBar span{color:var(--muted)}
 #signedInBar strong{color:var(--gold)}
-
-/* Comment form */
-#commentForm{display:none;margin-bottom:var(--sp8)}
-#commentForm.visible{display:block}
-#commentForm textarea{width:100%;min-height:120px;padding:1rem;border:1px solid var(--border);
-  border-radius:.75rem;background:var(--surf);color:var(--text);font:inherit;resize:vertical;outline:none;margin-bottom:var(--sp3)}
-#commentForm textarea:focus{border-color:var(--gold)}
-#commentForm .form-row{display:flex;align-items:center;gap:var(--sp3)}
 
 /* Comment list */
 .comment-item{padding:var(--sp5) 0;border-bottom:1px solid var(--divider)}
@@ -153,14 +132,44 @@ a{color:inherit;text-decoration:none}
 .comment-meta strong{color:var(--gold)}
 .comment-body{color:var(--text);line-height:1.7;white-space:pre-wrap}
 .no-comments{color:var(--muted);font-size:var(--text-sm);padding:var(--sp6) 0}
+
+/* Email popup modal */
+#emailModal{display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.78);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;padding:1rem}
+#emailModal.active{display:flex}
+.email-modal-box{background:var(--surf2);border:1px solid var(--border);border-radius:var(--r-xl);
+  padding:var(--sp8);width:min(440px,calc(100vw - 2rem));text-align:center}
+.email-modal-box h3{font-family:var(--display);font-size:var(--text-xl);color:var(--white);margin-bottom:var(--sp3)}
+.email-modal-box p{color:var(--muted);font-size:var(--text-sm);margin-bottom:var(--sp5);line-height:1.6}
+.email-modal-box input{width:100%;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.75rem;
+  background:var(--surf);color:var(--text);font:inherit;outline:none;margin-bottom:var(--sp4)}
+.email-modal-box input:focus{border-color:var(--gold)}
+.email-modal-box input::placeholder{color:var(--muted)}
+.modal-btns{display:flex;gap:var(--sp3);flex-wrap:wrap}
+.modal-btns .btn-gold{flex:1}
+
+/* Profile popup overlay */
+#profileOverlay{display:none;position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,.78);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;padding:1rem}
+#profileOverlay.active{display:flex}
+.profile-modal{background:var(--surf2);border:1px solid var(--border);border-radius:var(--r-xl);
+  padding:var(--sp8);width:min(440px,calc(100vw - 2rem));text-align:center}
+.profile-modal h3{font-family:var(--display);font-size:var(--text-xl);color:var(--white);margin-bottom:var(--sp3)}
+.profile-modal p{color:var(--muted);font-size:var(--text-sm);margin-bottom:var(--sp6);line-height:1.6}
+.profile-modal input{width:100%;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.75rem;
+  background:var(--surf);color:var(--text);font:inherit;outline:none;margin-bottom:var(--sp4)}
+.profile-modal input:focus{border-color:var(--gold)}
+.profile-modal input::placeholder{color:var(--muted)}
 </style>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3N2N5MTPXZ"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3N2N5MTPXZ"><\/script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-3N2N5MTPXZ');
-</script>
+<\/script>
 </head>
 
 <body>
@@ -216,37 +225,25 @@ a{color:inherit;text-decoration:none}
 <p>The buy-side doesn&rsquo;t need a moon. It needs a market that works. Those are very different things. One is a windfall. The other is thirty years overdue.</p>
     </div>
 
-    <!-- ── COMMENTS SECTION ── -->
+    <!-- COMMENTS -->
     <section class="comments-section">
       <h2>Comments</h2>
 
-      <!-- Step 1: Email gate (shown when not logged in) -->
-      <div id="authGate">
-        <p>Sign in with your email. We&rsquo;ll send you a one-click link &mdash; no password needed.</p>
-        <div class="gate-row">
-          <input type="email" id="gateEmail" placeholder="your@email.com" autocomplete="email"/>
-          <button class="btn-gold" id="gateSubmit">Send link</button>
+      <!-- Always-visible write area -->
+      <div class="comment-write">
+        <div id="signedInBar">
+          <span>Signed in as <strong id="displayName"></strong></span>
+          <button class="btn-ghost" id="signOutBtn">Sign out</button>
         </div>
-        <div class="status-msg" id="gateStatus"></div>
-      </div>
-
-      <!-- Step 2: Signed-in bar (shown when logged in) -->
-      <div id="signedInBar">
-        <span>Signed in as <strong id="displayName"></strong></span>
-        <button class="btn-ghost" id="signOutBtn">Sign out</button>
-      </div>
-
-      <!-- Step 3: Comment form (shown when logged in) -->
-      <div id="commentForm">
-        <textarea id="commentInput" placeholder="Share your thoughts..."></textarea>
+        <textarea id="commentInput" placeholder="Share your thoughts…"></textarea>
         <div class="form-row">
           <button class="btn-gold" id="postCommentBtn">Post comment</button>
-          <div class="status-msg" id="commentStatus"></div>
+          <span class="status-msg" id="commentStatus"></span>
         </div>
       </div>
 
-      <!-- Comment list -->
-      <div id="commentsList"></div>
+      <!-- Always-visible comment list -->
+      <div id="commentsList"><div class="no-comments">Loading comments…</div></div>
     </section>
 
     <div class="article-nav">
@@ -256,7 +253,21 @@ a{color:inherit;text-decoration:none}
   </div>
 </main>
 
-<!-- Profile setup overlay (first-time users only) -->
+<!-- Email sign-in popup (appears only when unauthenticated user hits Post) -->
+<div id="emailModal">
+  <div class="email-modal-box">
+    <h3>Sign in to post</h3>
+    <p>Enter your email. We&rsquo;ll send you a one-click link &mdash; no password needed. Your comment will be waiting when you return.</p>
+    <input type="email" id="modalEmail" placeholder="your@email.com" autocomplete="email"/>
+    <div class="modal-btns">
+      <button class="btn-gold" id="modalSendBtn">Send sign-in link</button>
+      <button class="btn-ghost" id="modalCancelBtn">Cancel</button>
+    </div>
+    <div class="status-msg" id="modalStatus"></div>
+  </div>
+</div>
+
+<!-- Profile name popup (first-time users only, after sign-in) -->
 <div id="profileOverlay">
   <div class="profile-modal">
     <h3>One last thing</h3>
@@ -274,64 +285,46 @@ a{color:inherit;text-decoration:none}
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"><\/script>
 <script>
 const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
-const PAGE_SLUG = 'why-no-moon';
+const PAGE_SLUG    = 'why-no-moon';
 const REDIRECT_URL = 'https://nadxmarkets.com/publications/why-no-moon.html';
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: { detectSessionInUrl: true, persistSession: true }
+});
 
-// DOM references
-const authGate       = document.getElementById('authGate');
-const gateEmail      = document.getElementById('gateEmail');
-const gateSubmit     = document.getElementById('gateSubmit');
-const gateStatus     = document.getElementById('gateStatus');
-
-const signedInBar    = document.getElementById('signedInBar');
-const displayNameEl  = document.getElementById('displayName');
-const signOutBtn     = document.getElementById('signOutBtn');
-
-const commentForm    = document.getElementById('commentForm');
+// DOM
 const commentInput   = document.getElementById('commentInput');
 const postCommentBtn = document.getElementById('postCommentBtn');
 const commentStatus  = document.getElementById('commentStatus');
-
 const commentsList   = document.getElementById('commentsList');
+const signedInBar    = document.getElementById('signedInBar');
+const displayNameEl  = document.getElementById('displayName');
+const signOutBtn     = document.getElementById('signOutBtn');
+const emailModal     = document.getElementById('emailModal');
+const modalEmail     = document.getElementById('modalEmail');
+const modalSendBtn   = document.getElementById('modalSendBtn');
+const modalCancelBtn = document.getElementById('modalCancelBtn');
+const modalStatus    = document.getElementById('modalStatus');
+const profileOverlay = document.getElementById('profileOverlay');
+const profileNameInput = document.getElementById('profileNameInput');
+const profileSaveBtn = document.getElementById('profileSaveBtn');
+const profileStatus  = document.getElementById('profileStatus');
 
-const profileOverlay    = document.getElementById('profileOverlay');
-const profileNameInput  = document.getElementById('profileNameInput');
-const profileSaveBtn    = document.getElementById('profileSaveBtn');
-const profileStatus     = document.getElementById('profileStatus');
-
-// Helpers
-function esc(text) {
-  const div = document.createElement('div');
-  div.textContent = text ?? '';
-  return div.innerHTML;
+function esc(t) {
+  const d = document.createElement('div');
+  d.textContent = t ?? '';
+  return d.innerHTML;
 }
 
-function setGateStatus(msg, type) {
-  gateStatus.textContent = msg || '';
-  gateStatus.className = 'status-msg' + (type ? ' ' + type : '');
-}
-
-function setCommentStatus(msg, type) {
-  commentStatus.textContent = msg || '';
-  commentStatus.className = 'status-msg' + (type ? ' ' + type : '');
-}
-
-function setProfileStatus(msg, type) {
-  profileStatus.textContent = msg || '';
-  profileStatus.className = 'status-msg' + (type ? ' ' + type : '');
-}
-
-// Comments loading — PUBLIC
+// ── LOAD COMMENTS (public, no auth) ──────────────────────────────────────────
 async function loadComments() {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('petition_comments')
-    .select('id, body, display_name, created_at')
+    .select('id,body,display_name,created_at')
     .eq('page_slug', PAGE_SLUG)
     .order('created_at', { ascending: false });
 
@@ -339,238 +332,198 @@ async function loadComments() {
     commentsList.innerHTML = '<div class="no-comments">Could not load comments.</div>';
     return;
   }
-
-  if (!data || data.length === 0) {
+  if (!data || !data.length) {
     commentsList.innerHTML = '<div class="no-comments">No comments yet. Be the first.</div>';
     return;
   }
-
-  commentsList.innerHTML = data.map(row => {
-    const name = row.display_name || 'Member';
-    const when = new Date(row.created_at).toLocaleString();
-    return `
-      <article class="comment-item">
-        <div class="comment-meta"><strong>${esc(name)}</strong> &middot; ${esc(when)}</div>
-        <div class="comment-body">${esc(row.body)}</div>
-      </article>
-    `;
-  }).join('');
+  commentsList.innerHTML = data.map(r => `
+    <article class="comment-item">
+      <div class="comment-meta"><strong>${esc(r.display_name || 'Member')}</strong> &middot; ${esc(new Date(r.created_at).toLocaleString())}</div>
+      <div class="comment-body">${esc(r.body)}</div>
+    </article>`).join('');
 }
 
-// Profile fetch/create
-async function getOrCreateProfile(user) {
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('display_name')
-    .eq('user_id', user.id)
-    .maybeSingle();
+// ── AUTH STATE ────────────────────────────────────────────────────────────────
+let currentSession = null;
+let currentDisplayName = null;
 
-  if (error && error.code !== 'PGRST116') {
-    console.error('profile fetch error', error);
-  }
-
-  if (data && data.display_name) {
-    return data.display_name;
-  }
-
-  // No profile yet — force modal open
-  profileOverlay.classList.add('active');
-  profileNameInput.focus();
-
-  return null;
-}
-
-async function saveProfileName(user) {
-  const name = profileNameInput.value.trim();
-  if (!name) {
-    setProfileStatus('Enter a display name.', 'error');
-    return;
-  }
-
-  profileSaveBtn.disabled = true;
-
-  const { error } = await supabase
-    .from('profiles')
-    .upsert({ user_id: user.id, display_name: name }, { onConflict: 'user_id' });
-
-  profileSaveBtn.disabled = false;
-
-  if (error) {
-    setProfileStatus(error.message, 'error');
-    return;
-  }
-
-  setProfileStatus('');
-  profileOverlay.classList.remove('active');
-  displayNameEl.textContent = name;
-  signedInBar.classList.add('visible');
-}
-
-// Auth UI wiring
-async function refreshAuthUi() {
-  const { data: { session } } = await supabase.auth.getSession();
-
+async function refreshAuthUi(session) {
+  currentSession = session;
   if (!session) {
-    // Not signed in: show gate, hide bar and form
-    authGate.style.display = 'block';
     signedInBar.classList.remove('visible');
-    commentForm.classList.remove('visible');
     displayNameEl.textContent = '';
+    currentDisplayName = null;
     return;
   }
-
-  // Signed in: hide gate, show bar and form
-  authGate.style.display = 'none';
-  commentForm.classList.add('visible');
-
-  const user = session.user;
-  const displayName = await getOrCreateProfile(user);
-
-  if (displayName) {
-    displayNameEl.textContent = displayName;
-    signedInBar.classList.add('visible');
-  }
-}
-
-// Start magic-link login from either the gate or the popup
-async function startEmailSignIn(email) {
-  email = (email || '').trim();
-  if (!email) {
-    setGateStatus('Enter an email address.', 'error');
-    return;
-  }
-
-  setGateStatus('Sending link…', '');
-  gateSubmit.disabled = true;
-
-  // Keep any in-progress comment
-  localStorage.setItem('pendingComment', commentInput.value || '');
-
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
-    options: { emailRedirectTo: REDIRECT_URL }
-  });
-
-  gateSubmit.disabled = false;
-
-  if (error) {
-    setGateStatus(error.message || 'Could not send link.', 'error');
-    return;
-  }
-
-  setGateStatus('Check your email for the one-click link.', 'success');
-}
-
-// Post comment (requires session + display_name)
-async function postComment() {
-  const body = commentInput.value.trim();
-  if (!body) {
-    setCommentStatus('Write a comment first.', 'error');
-    return;
-  }
-
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
-    // No session: fall back to email gate
-    authGate.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    gateEmail.focus();
-    setGateStatus('Sign in first. We’ll remember your comment.', 'error');
-    localStorage.setItem('pendingComment', body);
-    return;
-  }
-
-  // Ensure we have a profile name
-  const profile = await supabase
+  // Fetch profile
+  const { data } = await db
     .from('profiles')
     .select('display_name')
     .eq('user_id', session.user.id)
     .maybeSingle();
 
-  if (!profile.data || !profile.data.display_name) {
-    // force profile modal
-    profileOverlay.classList.add('active');
+  if (data && data.display_name) {
+    currentDisplayName = data.display_name;
+    displayNameEl.textContent = currentDisplayName;
+    signedInBar.classList.add('visible');
+  } else {
+    // First time — show profile modal
+    profileOverlay.style.display = 'flex';
     profileNameInput.focus();
+  }
+}
+
+// ── SEND MAGIC LINK ───────────────────────────────────────────────────────────
+async function sendMagicLink(email) {
+  email = (email || '').trim();
+  if (!email) { modalStatus.textContent = 'Enter an email address.'; modalStatus.className = 'status-msg error'; return; }
+
+  modalSendBtn.disabled = true;
+  modalSendBtn.textContent = 'Sending…';
+  modalStatus.textContent = '';
+  modalStatus.className = 'status-msg';
+
+  localStorage.setItem('pendingComment', commentInput.value || '');
+
+  const { error } = await db.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: REDIRECT_URL }
+  });
+
+  modalSendBtn.disabled = false;
+  modalSendBtn.textContent = 'Send sign-in link';
+
+  if (error) {
+    modalStatus.textContent = error.message || 'Could not send link.';
+    modalStatus.className = 'status-msg error';
+  } else {
+    modalStatus.textContent = 'Check your email for the sign-in link.';
+    modalStatus.className = 'status-msg success';
+  }
+}
+
+// ── POST COMMENT ──────────────────────────────────────────────────────────────
+async function postComment() {
+  const body = commentInput.value.trim();
+  if (!body) {
+    commentStatus.textContent = 'Write a comment first.';
+    commentStatus.className = 'status-msg error';
+    return;
+  }
+
+  if (!currentSession) {
+    // Show email popup
     localStorage.setItem('pendingComment', body);
-    setCommentStatus('Choose a display name first.', 'error');
+    modalEmail.value = '';
+    modalStatus.textContent = '';
+    modalStatus.className = 'status-msg';
+    emailModal.style.display = 'flex';
+    setTimeout(() => modalEmail.focus(), 80);
+    return;
+  }
+
+  if (!currentDisplayName) {
+    profileOverlay.style.display = 'flex';
+    profileNameInput.focus();
     return;
   }
 
   postCommentBtn.disabled = true;
-  setCommentStatus('Posting…', '');
+  commentStatus.textContent = 'Posting…';
+  commentStatus.className = 'status-msg';
 
-  const { error } = await supabase
-    .from('petition_comments')
-    .insert({
-      page_slug: PAGE_SLUG,
-      user_id: session.user.id,
-      display_name: profile.data.display_name,
-      body
-    });
+  const { error } = await db.from('petition_comments').insert({
+    page_slug: PAGE_SLUG,
+    user_id: currentSession.user.id,
+    display_name: currentDisplayName,
+    body
+  });
 
   postCommentBtn.disabled = false;
 
   if (error) {
-    setCommentStatus(error.message || 'Could not post comment.', 'error');
+    commentStatus.textContent = error.message || 'Could not post.';
+    commentStatus.className = 'status-msg error';
     return;
   }
 
   commentInput.value = '';
   localStorage.removeItem('pendingComment');
-  setCommentStatus('Comment posted.', 'success');
+  commentStatus.textContent = 'Comment posted.';
+  commentStatus.className = 'status-msg success';
   await loadComments();
 }
 
-// Event listeners
-gateSubmit.addEventListener('click', () => startEmailSignIn(gateEmail.value));
-gateEmail.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    startEmailSignIn(gateEmail.value);
-  }
-});
+// ── PROFILE SAVE ──────────────────────────────────────────────────────────────
+async function saveProfile() {
+  const name = profileNameInput.value.trim();
+  if (!name) { profileStatus.textContent = 'Enter a name.'; profileStatus.className = 'status-msg error'; return; }
+  if (!currentSession) return;
 
-postCommentBtn.addEventListener('click', async () => {
-  await postComment();
-});
+  profileSaveBtn.disabled = true;
+  const { error } = await db.from('profiles').upsert(
+    { user_id: currentSession.user.id, display_name: name },
+    { onConflict: 'user_id' }
+  );
+  profileSaveBtn.disabled = false;
+
+  if (error) { profileStatus.textContent = error.message; profileStatus.className = 'status-msg error'; return; }
+
+  currentDisplayName = name;
+  displayNameEl.textContent = name;
+  signedInBar.classList.add('visible');
+  profileOverlay.style.display = 'none';
+
+  // Post any pending comment
+  const pending = localStorage.getItem('pendingComment');
+  if (pending) { commentInput.value = pending; await postComment(); }
+}
+
+// ── EVENT LISTENERS ───────────────────────────────────────────────────────────
+postCommentBtn.addEventListener('click', postComment);
+commentInput.addEventListener('keydown', e => { if (e.ctrlKey && e.key === 'Enter') postComment(); });
+
+modalSendBtn.addEventListener('click', () => sendMagicLink(modalEmail.value));
+modalEmail.addEventListener('keydown', e => { if (e.key === 'Enter') sendMagicLink(modalEmail.value); });
+modalCancelBtn.addEventListener('click', () => { emailModal.style.display = 'none'; });
+
+profileSaveBtn.addEventListener('click', saveProfile);
+profileNameInput.addEventListener('keydown', e => { if (e.key === 'Enter') saveProfile(); });
 
 signOutBtn.addEventListener('click', async () => {
-  await supabase.auth.signOut();
-  displayNameEl.textContent = '';
+  await db.auth.signOut();
+  currentSession = null;
+  currentDisplayName = null;
   signedInBar.classList.remove('visible');
-  commentForm.classList.remove('visible');
-  authGate.style.display = 'block';
-  setGateStatus('You have signed out.', '');
+  displayNameEl.textContent = '';
+  commentStatus.textContent = '';
+  commentStatus.className = 'status-msg';
 });
 
-// Profile save
-profileSaveBtn.addEventListener('click', async () => {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) return;
-  await saveProfileName(session.user);
-
-  // If we had a pending comment, try posting it now
-  const pending = localStorage.getItem('pendingComment');
-  if (pending) {
-    commentInput.value = pending;
-    await postComment();
-  }
-});
-
-// On load: restore pending, pick up session after magic link
-window.addEventListener('load', async () => {
-  const pending = localStorage.getItem('pendingComment');
-  if (pending && !commentInput.value) {
-    commentInput.value = pending;
-  }
-
-  await refreshAuthUi();
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(async () => {
+  // Load comments immediately for everyone
   await loadComments();
 
-  // Watch for auth changes in case Supabase sets session after redirect
-  supabase.auth.onAuthStateChange(async (_event, _session) => {
-    await refreshAuthUi();
+  // Restore any pending comment text
+  const pending = localStorage.getItem('pendingComment');
+  if (pending) commentInput.value = pending;
+
+  // Get session (handles magic-link return automatically via detectSessionInUrl)
+  const { data: { session } } = await db.auth.getSession();
+  await refreshAuthUi(session);
+
+  // If returning from magic link with pending comment, prompt to post
+  if (session && pending) {
+    commentStatus.textContent = 'You\u2019re signed in. Click Post comment to submit.';
+    commentStatus.className = 'status-msg success';
+  }
+
+  // Live auth changes
+  db.auth.onAuthStateChange(async (_event, session) => {
+    await refreshAuthUi(session);
   });
-});
-</script>
+})();
+<\/script>
 </body>
 </html>
