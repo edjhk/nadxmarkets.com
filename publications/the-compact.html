@@ -92,6 +92,41 @@ a{color:inherit;text-decoration:none}
   gap:var(--sp4);flex-wrap:wrap}
 
 @media(max-width:900px){.nav{display:none}}
+
+.comments-section{margin-top:var(--sp12);border-top:1px solid var(--divider);padding-top:var(--sp10)}
+.comments-section h2{font-family:var(--display);font-size:var(--text-xl);font-weight:500;color:var(--white);margin-bottom:var(--sp6)}
+.comments-shell{border:1px solid var(--border);border-radius:1rem;background:var(--surf);padding:var(--sp5)}
+.comment-compose{display:grid;grid-template-columns:1fr auto;gap:var(--sp3);align-items:end;margin-top:var(--sp5);padding-top:var(--sp5);border-top:1px solid var(--divider)}
+.comment-compose textarea{width:100%;min-height:70px;padding:1rem;border:1px solid var(--border);border-radius:.75rem;background:var(--surf2);color:var(--text);font:inherit;resize:vertical;outline:none}
+.comment-compose textarea:focus{border-color:var(--gold)}
+.comment-compose textarea::placeholder{color:var(--muted)}
+.form-row{display:flex;align-items:center;gap:var(--sp3);flex-wrap:wrap;margin-top:var(--sp3)}
+.btn-gold{padding:.7rem 1.4rem;border:none;border-radius:var(--r-full);background:var(--gold);color:#111;font-size:var(--text-sm);font-weight:600;cursor:pointer;white-space:nowrap;height:max-content}
+.btn-gold:hover{opacity:.88}
+.btn-ghost{padding:.7rem 1.4rem;border:1px solid var(--border);border-radius:var(--r-full);background:transparent;color:var(--muted);font-size:var(--text-sm);cursor:pointer}
+.btn-ghost:hover{color:var(--text);border-color:var(--muted)}
+.status-msg{font-size:var(--text-sm);min-height:1.4em}
+.status-msg.error{color:#e07070}.status-msg.ok{color:#7ec47e}
+.comment-item{padding:var(--sp5) 0;border-bottom:1px solid var(--divider)}
+.comment-item:last-child{border-bottom:none}
+.comment-meta{font-size:var(--text-xs);color:var(--muted);margin-bottom:var(--sp2)}
+.comment-meta strong{color:var(--gold)}
+.comment-body{color:var(--text);line-height:1.7;white-space:pre-wrap}
+.no-comments{color:var(--muted);font-size:var(--text-sm);padding:var(--sp4) 0}
+.modal-bg{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem}
+.modal-bg.open{display:flex}
+.modal-box{background:var(--surf2);border:1px solid var(--border);border-radius:var(--r-xl);padding:var(--sp8);width:min(420px,calc(100vw - 2rem));text-align:center}
+.modal-box h3{font-family:var(--display);font-size:var(--text-xl);color:var(--white);margin-bottom:var(--sp3)}
+.modal-box p{color:var(--muted);font-size:var(--text-sm);margin-bottom:var(--sp5);line-height:1.6}
+.modal-box input{width:100%;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.75rem;background:var(--surf);color:var(--text);font:inherit;outline:none;margin-bottom:var(--sp4)}
+.modal-box input:focus{border-color:var(--gold)}
+.modal-box input::placeholder{color:var(--muted)}
+.modal-btns{display:flex;gap:var(--sp3)}
+.modal-btns .btn-gold{flex:1}
+.modal-status{font-size:var(--text-sm);margin-top:var(--sp3);min-height:1.2em}
+.modal-status.error{color:#e07070}.modal-status.ok{color:#7ec47e}
+@media(max-width:700px){.comment-compose{grid-template-columns:1fr}.btn-gold{width:100%}}
+
 </style>
 </head>
   <!-- Google tag (gtag.js) -->
@@ -156,17 +191,203 @@ a{color:inherit;text-decoration:none}
   <p><sup>2</sup> Investment Company Institute, &ldquo;Ownership of Mutual Funds and Shareholder Sentiment, 2023,&rdquo; November 2023.</p>
 </div>
     </div>
+    
+    <section class="comments-section">
+      <h2>Comments</h2>
+      <div class="comments-shell">
+        <div id="commentsList"><div class="no-comments">Loading comments...</div></div>
+        <div class="comment-compose">
+          <textarea id="commentInput" placeholder=""></textarea>
+          <button type="button" class="btn-gold" id="postBtn">Post comment</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <span class="status-msg" id="commentStatus"></span>
+      </div>
+    </section>
     <div class="article-nav">
       <a href="regulatory-capture.html">&larr; Regulatory Capture: Why Markets Never Get Fixed</a>
       <a class="nav-next" href="the-netting-myth.html">The Netting Myth &rarr;</a>
     </div>
   </div>
 </main>
+
+<div id="nameModal" class="modal-bg">
+  <div class="modal-box">
+    <h3>Choose a screen name</h3>
+    <p>This will appear next to your comment. You only need to do this once.</p>
+    <input type="text" id="screenNameInput" placeholder="Your name or screen name" maxlength="40" autocomplete="nickname"/>
+    <div class="modal-btns">
+      <button type="button" class="btn-gold" id="saveNameBtn">Post comment</button>
+      <button type="button" class="btn-ghost" id="cancelNameBtn">Cancel</button>
+    </div>
+    <div class="modal-status" id="nameModalStatus"></div>
+  </div>
+</div>
 <footer class="site-footer">
   <div class="container--wide footer-row">
     <span>&copy; 2026 NADX Markets, Inc. For institutional and accredited investors only.</span>
     <a href="../contact.html" style="color:var(--muted)">Contact</a>
   </div>
 </footer>
+
+<script>
+(function(){
+  const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
+  const PAGE_SLUG = 'the-compact';
+  const API_URL = `${SUPABASE_URL}/rest/v1/article_comments`;
+
+  const commentInput = document.getElementById('commentInput');
+  const postBtn = document.getElementById('postBtn');
+  const commentStatus = document.getElementById('commentStatus');
+  const commentsList = document.getElementById('commentsList');
+  const nameModal = document.getElementById('nameModal');
+  const screenNameInput = document.getElementById('screenNameInput');
+  const saveNameBtn = document.getElementById('saveNameBtn');
+  const cancelNameBtn = document.getElementById('cancelNameBtn');
+  const nameModalStatus = document.getElementById('nameModalStatus');
+
+  let sessionName = null;
+  let pendingBody = null;
+
+  function esc(text){
+    const div = document.createElement('div');
+    div.textContent = text ?? '';
+    return div.innerHTML;
+  }
+
+  function setStatus(el, msg, type){
+    el.textContent = msg || '';
+    el.className = 'status-msg' + (type ? ' ' + type : '');
+  }
+
+  function setModalStatus(msg, type){
+    nameModalStatus.textContent = msg || '';
+    nameModalStatus.className = 'modal-status' + (type ? ' ' + type : '');
+  }
+
+  function openModal(){
+    setModalStatus('', '');
+    nameModal.classList.add('open');
+    screenNameInput.focus();
+  }
+
+  function closeModal(){
+    nameModal.classList.remove('open');
+    setModalStatus('', '');
+  }
+
+  async function loadComments(){
+    commentsList.innerHTML = '<div class="no-comments">Loading comments...</div>';
+    try {
+      const url = `${API_URL}?select=id,page_slug,display_name,body,created_at&page_slug=eq.${encodeURIComponent(PAGE_SLUG)}&order=created_at.asc`;
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`
+        }
+      });
+      const text = await res.text();
+      if (!res.ok) throw new Error(text || 'Could not load comments.');
+      const data = JSON.parse(text);
+
+      if (!data || !data.length){
+        commentsList.innerHTML = '<div class="no-comments">No comments yet. Be the first.</div>';
+        return;
+      }
+
+      commentsList.innerHTML = data.map(row => `
+        <article class="comment-item">
+          <div class="comment-meta"><strong>${esc(row.display_name || 'Anonymous')}</strong> &middot; ${esc(new Date(row.created_at).toLocaleString())}</div>
+          <div class="comment-body">${esc(row.body)}</div>
+        </article>
+      `).join('');
+    } catch (err) {
+      commentsList.innerHTML = '<div class="no-comments">Could not load comments.</div>';
+      setStatus(commentStatus, err.message || 'Could not load comments.', 'error');
+    }
+  }
+
+  async function submitComment(name, body){
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=representation'
+        },
+        body: JSON.stringify({
+          page_slug: PAGE_SLUG,
+          display_name: name,
+          body: body
+        })
+      });
+
+      const text = await res.text();
+      if (!res.ok) throw new Error(text || 'Could not post comment.');
+
+      commentInput.value = '';
+      setStatus(commentStatus, 'Comment posted!', 'ok');
+      postBtn.disabled = false;
+      await loadComments();
+    } catch (err) {
+      setStatus(commentStatus, err.message || 'Could not post comment.', 'error');
+      postBtn.disabled = false;
+    }
+  }
+
+  postBtn.addEventListener('click', async function(){
+    const body = (commentInput.value || '').trim();
+    if (!body){
+      setStatus(commentStatus, 'Write a comment first.', 'error');
+      return;
+    }
+
+    pendingBody = body;
+
+    if (sessionName){
+      postBtn.disabled = true;
+      setStatus(commentStatus, 'Posting...', '');
+      await submitComment(sessionName, pendingBody);
+      return;
+    }
+
+    screenNameInput.value = '';
+    openModal();
+  });
+
+  saveNameBtn.addEventListener('click', async function(){
+    const name = (screenNameInput.value || '').trim();
+    if (!name){
+      setModalStatus('Enter a screen name.', 'error');
+      return;
+    }
+
+    sessionName = name;
+    closeModal();
+    postBtn.disabled = true;
+    setStatus(commentStatus, 'Posting...', '');
+    await submitComment(sessionName, pendingBody);
+  });
+
+  cancelNameBtn.addEventListener('click', function(){
+    closeModal();
+  });
+
+  screenNameInput.addEventListener('keydown', function(e){
+    if (e.key === 'Enter'){
+      e.preventDefault();
+      saveNameBtn.click();
+    }
+  });
+
+  loadComments();
+})();
+</script>
+
 </body>
 </html>
