@@ -260,7 +260,7 @@ gtag('config', 'G-3N2N5MTPXZ');
   async function loadComments(){
     commentsList.innerHTML = '<div class="no-comments">Loading comments...</div>';
     try {
-      const url = `${API_URL}?select=id,page_slug,display_name,body,created_at&page_slug=eq.${encodeURIComponent(PAGE_SLUG)}&order=created_at.desc`;
+      const url = `${API_URL}?select=id,page_slug,display_name,body,created_at&page_slug=eq.${encodeURIComponent(PAGE_SLUG)}&order=created_at.asc`;
       const res = await fetch(url, {
         method: 'GET',
         headers: {
