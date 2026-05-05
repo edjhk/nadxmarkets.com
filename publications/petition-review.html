@@ -632,166 +632,151 @@
   </div>
 
   <script>
-    console.log('PETITION SCRIPT LOADED');
-    const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
-    const PAGE_SLUG = 'petition-review';
+    // ── config ──────────────────────────────────────────────────────────────
+    const SUPABASE_URL  = 'https://vrafgipbqqdujctcpnyv.supabase.co';
+    const SUPABASE_KEY  = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
+    const PAGE_SLUG     = 'petition-review';
+    const REDIRECT_URL  = 'https://nadxmarkets.com/publications/petition-review.html';
 
-    const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // ── client ───────────────────────────────────────────────────────────────
+    // window.supabase is the CDN global; we create our client as "db"
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const authGate = document.getElementById('authGate');
-    const pageContent = document.getElementById('pageContent');
-    const gateEmail = document.getElementById('gateEmail');
-    const gateSubmit = document.getElementById('gateSubmit');
-    const gateStatus = document.getElementById('gateStatus');
-    const signOutBtn = document.getElementById('signOutBtn');
+    // ── elements ─────────────────────────────────────────────────────────────
+    const authGate      = document.getElementById('authGate');
+    const pageContent   = document.getElementById('pageContent');
+    const gateEmail     = document.getElementById('gateEmail');
+    const gateSubmit    = document.getElementById('gateSubmit');
+    const gateStatus    = document.getElementById('gateStatus');
+    const signOutBtn    = document.getElementById('signOutBtn');
     const signedInEmail = document.getElementById('signedInEmail');
-    const commentInput = document.getElementById('commentInput');
-    const postCommentBtn = document.getElementById('postCommentBtn');
+    const commentInput  = document.getElementById('commentInput');
+    const postCommentBtn= document.getElementById('postCommentBtn');
     const commentStatus = document.getElementById('commentStatus');
-    const commentsList = document.getElementById('commentsList');
+    const commentsList  = document.getElementById('commentsList');
 
-    window.setStatus = function setStatus(el, message, type = '') {
+    // ── helpers ──────────────────────────────────────────────────────────────
+    function setStatus(el, msg, type) {
       el.className = 'status' + (type ? ' ' + type : '');
-      el.textContent = message;
+      el.textContent = msg;
     }
 
-    window.escapeHtml = function escapeHtml(text) {
-      return text
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+    function esc(text) {
+      return String(text)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
-    window.sendMagicLink = async function sendMagicLink() {
-      const email = gateEmail.value.trim().toLowerCase();
-      if (!email) {
-        setStatus(gateStatus, 'Enter your approved email address.', 'error');
-        return;
-      }
-      gateSubmit.disabled = true;
-      gateSubmit.textContent = 'Sending...';
-      setStatus(gateStatus, 'Contacting Supabase...', '');
-      console.log('Attempting OTP for:', email);
-      console.log('Supabase URL:', SUPABASE_URL);
-      try {
-        const { data, error } = await sbClient.auth.signInWithOtp({
-          email,
-          options: {
-            shouldCreateUser: false,
-            emailRedirectTo: 'https://nadxmarkets.com/publications/petition-review.html'
-          }
-        });
-        console.log('OTP response data:', data);
-        console.log('OTP response error:', error);
-        gateSubmit.disabled = false;
-        gateSubmit.textContent = 'Email me a sign-in link';
-        if (error) {
-          setStatus(gateStatus, 'Error: ' + error.message + ' (status: ' + (error.status || 'none') + ')', 'error');
-        } else {
-          setStatus(gateStatus, 'Check your email for a sign-in link.', 'success');
-        }
-      } catch(e) {
-        console.error('Exception:', e);
-        gateSubmit.disabled = false;
-        gateSubmit.textContent = 'Email me a sign-in link';
-        setStatus(gateStatus, 'Exception: ' + e.message, 'error');
-      }
+    function showGate() {
+      pageContent.classList.add('hidden');
+      authGate.classList.remove('hidden');
     }
 
-    window.loadComments = async function loadComments() {
-      commentsList.innerHTML = '';
-      const { data, error } = await supabase
-        .from('petition_comments')
-        .select('body, user_email, created_at')
-        .eq('page_slug', PAGE_SLUG)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        setStatus(commentStatus, error.message, 'error');
-        return;
-      }
-
-      if (!data || !data.length) {
-        commentsList.innerHTML = '<div class="comment"><div class="comment-meta">No comments yet.</div><div>Be the first to comment.</div></div>';
-        return;
-      }
-
-      commentsList.innerHTML = data.map(item => `
-        <article class="comment">
-          <div class="comment-meta">${escapeHtml(item.user_email)} · ${new Date(item.created_at).toLocaleString()}</div>
-          <div>${escapeHtml(item.body).replace(/\n/g, '<br>')}</div>
-        </article>
-      `).join('');
-    }
-
-    window.showPageForUser = async function showPageForUser(user) {
+    async function showContent(user) {
       signedInEmail.textContent = user.email || '';
       authGate.classList.add('hidden');
       pageContent.classList.remove('hidden');
       await loadComments();
     }
 
-    window.showGate = function showGate() {
-      pageContent.classList.add('hidden');
-      authGate.classList.remove('hidden');
+    // ── comments ─────────────────────────────────────────────────────────────
+    async function loadComments() {
+      const { data, error } = await db
+        .from('petition_comments')
+        .select('body, user_email, created_at')
+        .eq('page_slug', PAGE_SLUG)
+        .order('created_at', { ascending: false });
+
+      if (error) { setStatus(commentStatus, error.message, 'error'); return; }
+
+      if (!data || !data.length) {
+        commentsList.innerHTML = '<div class="comment"><div class="comment-meta">No comments yet. Be the first.</div></div>';
+        return;
+      }
+      commentsList.innerHTML = data.map(r => `
+        <article class="comment">
+          <div class="comment-meta">${esc(r.user_email)} · ${new Date(r.created_at).toLocaleString()}</div>
+          <div>${esc(r.body).replace(/
+/g,'<br>')}</div>
+        </article>`).join('');
     }
 
-    // Primary auth handler — fires on every auth state change including
-    // INITIAL_SESSION (page load) and SIGNED_IN (after magic link redirect)
-    sbClient.auth.onAuthStateChange(async (event, session) => {
+    async function postComment() {
+      const body = commentInput.value.trim();
+      if (!body) { setStatus(commentStatus, 'Write a comment first.', 'error'); return; }
+
+      const { data: { session } } = await db.auth.getSession();
+      if (!session) { setStatus(commentStatus, 'Session expired — sign in again.', 'error'); showGate(); return; }
+
+      postCommentBtn.disabled = true;
+      postCommentBtn.textContent = 'Submitting…';
+
+      const { error } = await db.from('petition_comments').insert({
+        page_slug: PAGE_SLUG,
+        user_id:   session.user.id,
+        user_email: session.user.email,
+        body
+      });
+
+      postCommentBtn.disabled = false;
+      postCommentBtn.textContent = 'Submit';
+
+      if (error) { setStatus(commentStatus, error.message, 'error'); return; }
+      commentInput.value = '';
+      setStatus(commentStatus, 'Comment posted.', 'success');
+      await loadComments();
+    }
+
+    // ── auth ─────────────────────────────────────────────────────────────────
+    async function sendMagicLink() {
+      const email = gateEmail.value.trim().toLowerCase();
+      if (!email) { setStatus(gateStatus, 'Enter your email address.', 'error'); return; }
+
+      gateSubmit.disabled = true;
+      gateSubmit.textContent = 'Sending…';
+      setStatus(gateStatus, 'Contacting Supabase…', '');
+
+      const { error } = await db.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: false,
+          emailRedirectTo: REDIRECT_URL
+        }
+      });
+
+      gateSubmit.disabled = false;
+      gateSubmit.textContent = 'Email me a sign-in link';
+
+      if (error) {
+        setStatus(gateStatus, 'Error: ' + error.message, 'error');
+      } else {
+        setStatus(gateStatus, '✓ Check your email for a sign-in link.', 'success');
+      }
+    }
+
+    async function signOut() {
+      await db.auth.signOut();
+      showGate();
+      setStatus(gateStatus, '', '');
+    }
+
+    // ── boot ─────────────────────────────────────────────────────────────────
+    // onAuthStateChange handles INITIAL_SESSION (returning user) and
+    // SIGNED_IN (after magic link redirect) — covers both cases correctly
+    db.auth.onAuthStateChange(async (event, session) => {
+      console.log('auth event:', event, session?.user?.email);
       if (session && session.user) {
-        await showPageForUser(session.user);
+        await showContent(session.user);
       } else {
         showGate();
       }
     });
 
-    window.postComment = async function postComment() {
-      const body = commentInput.value.trim();
-      if (!body) {
-        setStatus(commentStatus, 'Write a comment first.', 'error');
-        return;
-      }
-      const { data: { session } } = await sbClient.auth.getSession();
-      const user = session?.user;
-      if (!user) {
-        setStatus(commentStatus, 'Your session expired. Please sign in again.', 'error');
-        showGate();
-        return;
-      }
-      postCommentBtn.disabled = true;
-      postCommentBtn.textContent = 'Submitting...';
-      const { error } = await supabase
-        .from('petition_comments')
-        .insert({
-          page_slug: PAGE_SLUG,
-          user_id: user.id,
-          user_email: user.email,
-          body
-        });
-      postCommentBtn.disabled = false;
-      postCommentBtn.textContent = 'Submit';
-      if (error) {
-        setStatus(commentStatus, error.message, 'error');
-        return;
-      }
-      commentInput.value = '';
-      setStatus(commentStatus, 'Comment submitted.', 'success');
-      await loadComments();
-    }
-
-    window.signOut = async function signOut() {
-      await sbClient.auth.signOut();
-      showGate();
-    }
-
+    // ── events ────────────────────────────────────────────────────────────────
     gateSubmit.addEventListener('click', sendMagicLink);
+    gateEmail.addEventListener('keydown', e => { if (e.key === 'Enter') sendMagicLink(); });
     postCommentBtn.addEventListener('click', postComment);
     signOutBtn.addEventListener('click', signOut);
-    gateEmail.addEventListener('keydown', e => { if (e.key === 'Enter') sendMagicLink(); });
   </script>
 </body>
 </html>
