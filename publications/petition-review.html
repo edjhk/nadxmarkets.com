@@ -672,19 +672,31 @@
       }
       gateSubmit.disabled = true;
       gateSubmit.textContent = 'Sending...';
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          shouldCreateUser: false,
-          emailRedirectTo: 'https://nadxmarkets.com/publications/petition-review.html'
+      setStatus(gateStatus, 'Contacting Supabase...', '');
+      console.log('Attempting OTP for:', email);
+      console.log('Supabase URL:', SUPABASE_URL);
+      try {
+        const { data, error } = await supabase.auth.signInWithOtp({
+          email,
+          options: {
+            shouldCreateUser: false,
+            emailRedirectTo: 'https://nadxmarkets.com/publications/petition-review.html'
+          }
+        });
+        console.log('OTP response data:', data);
+        console.log('OTP response error:', error);
+        gateSubmit.disabled = false;
+        gateSubmit.textContent = 'Email me a sign-in link';
+        if (error) {
+          setStatus(gateStatus, 'Error: ' + error.message + ' (status: ' + (error.status || 'none') + ')', 'error');
+        } else {
+          setStatus(gateStatus, 'Check your email for a sign-in link.', 'success');
         }
-      });
-      gateSubmit.disabled = false;
-      gateSubmit.textContent = 'Email me a sign-in link';
-      if (error) {
-        setStatus(gateStatus, error.message, 'error');
-      } else {
-        setStatus(gateStatus, 'Check your email for a sign-in link.', 'success');
+      } catch(e) {
+        console.error('Exception:', e);
+        gateSubmit.disabled = false;
+        gateSubmit.textContent = 'Email me a sign-in link';
+        setStatus(gateStatus, 'Exception: ' + e.message, 'error');
       }
     }
 
