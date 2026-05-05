@@ -48,35 +48,6 @@ button:hover{background:var(--gold-h)}
 .status.success{color:#b7d9b1}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
-<body>
-<main class="profile-complete">
-  <div class="container">
-    <div class="profile-card">
-      <p class="eyebrow">NADX Markets</p>
-      <h1>Complete your profile</h1>
-      <p class="sub">Add your name to continue. You can also choose a screen name for public comments.</p>
-
-      <form id="comment-profile-form">
-        <label>
-          Name
-          <input type="text" id="profile-name" required />
-        </label>
-
-        <label>
-          Screen name (optional)
-          <input type="text" id="profile-username" />
-        </label>
-        <p class="hint">Name is required. Screen name is optional and can be used publicly instead of your name.</p>
-
-        <button type="submit">Continue</button>
-      </form>
-
-      <p id="profile-status" class="status"></p>
-    </div>
-  </div>
-</main>
-
 <script>
 const SUPABASE_URL = 'https://vrafgipbqqdujctcpnyv.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
@@ -96,10 +67,10 @@ form.addEventListener('submit', async (e) => {
   statusEl.textContent = '';
   statusEl.className = 'status';
 
-  const name = document.getElementById('profile-name').value.trim();
-  const username = document.getElementById('profile-username').value.trim();
+  const fullName = document.getElementById('profile-name').value.trim();
+  const screenName = document.getElementById('profile-username').value.trim();
 
-  if (!name) {
+  if (!fullName) {
     statusEl.textContent = 'Name is required.';
     statusEl.classList.add('error');
     return;
@@ -114,9 +85,10 @@ form.addEventListener('submit', async (e) => {
 
   const payload = {
     id: user.id,
-    name,
-    username: username || null,
     email: user.email || null,
+    full_name: fullName,
+    screen_name: screenName || null,
+    use_screen_name: !!screenName,
     updated_at: new Date().toISOString()
   };
 
@@ -125,7 +97,7 @@ form.addEventListener('submit', async (e) => {
     .upsert(payload, { onConflict: 'id' });
 
   if (error) {
-    statusEl.textContent = 'Could not save your profile yet. Check that the profiles table exists and try again.';
+    statusEl.textContent = 'Could not save your profile yet. Check that the profiles table and permissions are set correctly.';
     statusEl.classList.add('error');
     return;
   }
@@ -133,7 +105,7 @@ form.addEventListener('submit', async (e) => {
   statusEl.textContent = 'Profile saved. Returning you to the article...';
   statusEl.classList.add('success');
 
-  const returnTo = sessionStorage.getItem('commentReturnTo') || '/publications/why-no-moon.html';
+  const returnTo = localStorage.getItem('commentReturnTo') || '/publications/why-no-moon.html';
   window.location.href = returnTo;
 });
 
