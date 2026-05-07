@@ -661,125 +661,95 @@
       await loadComments();
     }
 
-    // ── comments ─────────────────────────────────────────────────────────────
-    async function loadComments() {
-      const { data, error } = await db
-        .from('petition_comments')
-        .select('body, user_email, created_at')
-        .eq('page_slug', PAGE_SLUG)
-        .order('created_at', { ascending: false });
+// ── comments ─────────────────────────────────────────────────────────────
+  const SUPABASE_URL   = 'https://your-project.supabase.co';
+  const SUPABASE_KEY   = 'your-anon-key';
+  const API_URL        = `${SUPABASE_URL}/rest/v1/petition_comments`;
 
-      if (error) { setStatus(commentStatus, error.message, 'error'); return; }
+  function esc(str){ return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-      if (!data || !data.length) {
-        commentsList.innerHTML = '<div class="comment"><div class="comment-meta">No comments yet. Be the first.</div></div>';
+  async function loadComments(){
+    commentsList.innerHTML = '<div class="no-comments">Loading comments...</div>';
+    try {
+      const url = `${API_URL}?select=id,page_slug,display_name,body,created_at&page_slug=eq.${encodeURIComponent(PAGE_SLUG)}&order=created_at.asc`;
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+      });
+      const text = await res.text();
+      if (!res.ok) throw new Error(text || 'Could not load comments.');
+      const data = JSON.parse(text);
+      if (!data || !data.length){
+        commentsList.innerHTML = '<div class="no-comments">No comments yet. Be the first.</div>';
         return;
       }
-      commentsList.innerHTML = data.map(r => `
-        <article class="comment">
-          <div class="comment-meta">${esc(r.user_email)} · ${new Date(r.created_at).toLocaleString()}</div>
-           <div class="comment-body">${esc(row.body)}</div>
-        </article>`).join('');
+      commentsList.innerHTML = data.map(row => `
+        <article class="comment-item">
+          <div class="comment-meta"><strong>${esc(row.display_name||'Anonymous')}</strong> &middot; ${esc(new Date(row.created_at).toLocaleString())}</div>
+          <div class="comment-body">${esc(row.body)}</div>
+        </article>
+      `).join('');
+    } catch(err){
+      commentsList.innerHTML = '<div class="no-comments">Could not load comments.</div>';
+      setStatus(commentStatus, err.message||'Could not load comments.', 'error');
     }
+  }
 
-    async function postComment() {
-      const body = commentInput.value.trim();
-      if (!body) { setStatus(commentStatus, 'Write a comment first.', 'error'); return; }
-
-      const { data: { session } } = await db.auth.getSession();
-      if (!session) { setStatus(commentStatus, 'Session expired — sign in again.', 'error'); showGate(); return; }
-
-      postCommentBtn.disabled = true;
-      postCommentBtn.textContent = 'Submitting…';
-
-      const { error } = await db.from('petition_comments').insert({
-        page_slug: PAGE_SLUG,
-        user_id:   session.user.id,
-        user_email: session.user.email,
-        body
+  async function submitComment(name, body){
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=representation'
+        },
+        body: JSON.stringify({ page_slug: PAGE_SLUG, display_name: name, body: body })
       });
-
-      postCommentBtn.disabled = false;
-      postCommentBtn.textContent = 'Submit';
-
-      if (error) { setStatus(commentStatus, error.message, 'error'); return; }
+      const text = await res.text();
+      if (!res.ok) throw new Error(text || 'Could not post comment.');
       commentInput.value = '';
-      setStatus(commentStatus, 'Comment posted.', 'success');
+      setStatus(commentStatus, 'Comment posted!', 'ok');
+      postBtn.disabled = false;
       await loadComments();
+    } catch(err){
+      setStatus(commentStatus, err.message||'Could not post comment.', 'error');
+      postBtn.disabled = false;
     }
+  }
 
-    // ── auth ─────────────────────────────────────────────────────────────────
-    async function sendMagicLink() {
-      const email = gateEmail.value.trim().toLowerCase();
-      if (!email) { setStatus(gateStatus, 'Enter your email address.', 'error'); return; }
-
-      gateSubmit.disabled = true;
-      gateSubmit.textContent = 'Sending…';
-      setStatus(gateStatus, 'Contacting Supabase…', '');
-
-      const { error } = await db.auth.signInWithOtp({
-        email,
-        options: {
-          shouldCreateUser: false,
-          emailRedirectTo: REDIRECT_URL
-        }
-      });
-
-      gateSubmit.disabled = false;
-      gateSubmit.textContent = 'Email me a sign-in link';
-
-      if (error) {
-        setStatus(gateStatus, 'Error: ' + error.message, 'error');
-      } else {
-        setStatus(gateStatus, '✓ Check your email for a sign-in link.', 'success');
-      }
+  postBtn.addEventListener('click', async function(){
+    const body = (commentInput.value||'').trim();
+    if (!body){ setStatus(commentStatus,'Write a comment first.','error'); return; }
+    pendingBody = body;
+    if (sessionName){
+      postBtn.disabled = true;
+      setStatus(commentStatus,'Posting...','');
+      await submitComment(sessionName, pendingBody);
+      return;
     }
-
-    async function signOut() {
-      await db.auth.signOut();
-      showGate();
-      setStatus(gateStatus, '', '');
-    }
-
-    // ── boot ─────────────────────────────────────────────────────────────────
-    // onAuthStateChange handles INITIAL_SESSION (returning user) and
-    // SIGNED_IN (after magic link redirect) — covers both cases correctly
-    db.auth.onAuthStateChange(async (event, session) => {
-      console.log('auth event:', event, session?.user?.email);
-      if (session && session.user) {
-        await showContent(session.user);
-      } else {
-        showGate();
-      }
-    });
-
-    // ── events ────────────────────────────────────────────────────────────────
-    gateSubmit.addEventListener('click', sendMagicLink);
-    gateEmail.addEventListener('keydown', e => { if (e.key === 'Enter') sendMagicLink(); });
-    postCommentBtn.addEventListener('click', postComment);
-    signOutBtn.addEventListener('click', signOut);
-  </script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var page = document.getElementById('pageContent');
-    if (page) page.classList.remove('hidden');
-    var button = document.getElementById('postCommentBtn');
-    var input = document.getElementById('commentInput');
-    var list = document.getElementById('commentsList');
-    var status = document.getElementById('commentStatus');
-    if (input) {
-      input.disabled = true;
-      input.placeholder = 'Comments are disabled in this copy.';
-    }
-    if (button) {
-      button.disabled = true;
-      button.textContent = 'Comments disabled in this copy';
-    }
-    if (status) status.textContent = '';
-    if (list && !list.innerHTML.trim()) {
-      list.innerHTML = '<div class="comment"><div class="comment-meta">Comments are not active on this standalone page.</div></div>';
-    }
+    screenNameInput.value = '';
+    openModal();
   });
+
+  saveNameBtn.addEventListener('click', async function(){
+    const name = (screenNameInput.value||'').trim();
+    if (!name){ setModalStatus('Enter a screen name.','error'); return; }
+    sessionName = name;
+    closeModal();
+    postBtn.disabled = true;
+    setStatus(commentStatus,'Posting...','');
+    await submitComment(sessionName, pendingBody);
+  });
+
+  cancelNameBtn.addEventListener('click', function(){ closeModal(); });
+
+  screenNameInput.addEventListener('keydown', function(e){
+    if (e.key==='Enter'){ e.preventDefault(); saveNameBtn.click(); }
+  });
+
+  loadComments();
 </script>
 </body>
 </html>
