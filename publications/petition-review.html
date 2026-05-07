@@ -627,7 +627,8 @@
 
     // ── client ───────────────────────────────────────────────────────────────
     // window.supabase is the CDN global; we create our client as "db"
-    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const db  = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const API_URL = `${SUPABASE_URL}/rest/v1/petition_comments`;
 
     // ── elements ─────────────────────────────────────────────────────────────
     const authGate      = document.getElementById('authGate');
