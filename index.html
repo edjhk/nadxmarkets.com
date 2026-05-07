@@ -210,6 +210,18 @@ button{font:inherit;cursor:pointer}
 /* Scroll arrow */
 .scroll-arrow{display:flex;justify-content:center;padding:var(--sp4) 0 0;color:var(--muted)}
 
+ /* Article tile with image */
+.article-tile{display:flex;flex-direction:column;text-decoration:none;
+  color:inherit;border-radius:var(--r-xl);overflow:hidden;
+  background:var(--surf);border:1px solid var(--border);
+  transition:border-color .18s}
+.article-tile:hover{border-color:var(--gold)}
+.tile-image{width:100%;aspect-ratio:16/9;overflow:hidden}
+.tile-image img{width:100%;height:100%;object-fit:cover;
+  object-position:center;display:block;transition:transform .3s ease}
+.article-tile:hover .tile-image img{transform:scale(1.03)}
+.tile-content{padding:var(--sp6);display:flex;flex-direction:column;gap:var(--sp2)}
+
 @media(max-width:900px){
   .nav{display:none}
   .menu-toggle{display:flex}
@@ -360,10 +372,21 @@ the technology. What it has lacked is the will to act together.
 </div>
 <p class="essays-intro">Four articles written for institutional investors who want to understand the structural argument, not just the product pitch.</p>
 <div class="essays-grid">
-<a href="publications/why-no-moon.html" class="essay-card">
-<h3>Why No Moon for Blockchain Securities</h3>
-<p>Why tokenized securities will not replicate the ICO era&nbsp;&mdash; and why the real opportunity is something more durable and more valuable than a price spike.</p>
-<span class="read-link">Read the article &rarr;</span>
+<a href="why-no-moon.html" class="article-tile">
+  <div class="tile-image">
+    <img 
+      src="tesla-horse.png" 
+      alt="A child taping a Tesla badge onto a horse with duct tape"
+      width="600" 
+      height="338"
+      loading="lazy"
+    >
+  </div>
+  <div class="tile-content">
+    <h3>Why No Moon for Blockchain Securities</h3>
+    <p>Why tokenized securities will not replicate the ICO era&nbsp;&mdash; and why the real opportunity is something more durable and more valuable than a price spike.</p>
+    <span class="read-link">Read the article &rarr;</span>
+  </div>
 </a>
 <a href="publications/regulatory-capture.html" class="essay-card">
 <h3>Regulatory Capture: Why Markets Never Get Fixed</h3>
