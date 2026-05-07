@@ -721,37 +721,7 @@
     }
   }
 
-  postCommentBtn.addEventListener('click', async function(){
-    const body = (commentInput.value||'').trim();
-    if (!body){ setStatus(commentStatus,'Write a comment first.','error'); return; }
-    pendingBody = body;
-    if (sessionName){
-      postCommentBtn.disabled = true;
-      setStatus(commentStatus,'Posting...','');
-      await submitComment(sessionName, pendingBody);
-      return;
-    }
-    screenNameInput.value = '';
-    openModal();
-  });
 
-  saveNameBtn.addEventListener('click', async function(){
-    const name = (screenNameInput.value||'').trim();
-    if (!name){ setModalStatus('Enter a screen name.','error'); return; }
-    sessionName = name;
-    closeModal();
-    postCommentBtn.disabled = true;
-    setStatus(commentStatus,'Posting...','');
-    await submitComment(sessionName, pendingBody);
-  });
-
-  cancelNameBtn.addEventListener('click', function(){ closeModal(); });
-
-  screenNameInput.addEventListener('keydown', function(e){
-    if (e.key==='Enter'){ e.preventDefault(); saveNameBtn.click(); }
-  });
-
-  loadComments();
 </script>
 </body>
 </html>
