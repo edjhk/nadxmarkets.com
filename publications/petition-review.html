@@ -713,20 +713,20 @@
       if (!res.ok) throw new Error(text || 'Could not post comment.');
       commentInput.value = '';
       setStatus(commentStatus, 'Comment posted!', 'ok');
-      postBtn.disabled = false;
+      postCommentBtn.disabled = false;
       await loadComments();
     } catch(err){
       setStatus(commentStatus, err.message||'Could not post comment.', 'error');
-      postBtn.disabled = false;
+      postCommentBtn.disabled = false;
     }
   }
 
-  postBtn.addEventListener('click', async function(){
+  postCommentBtn.addEventListener('click', async function(){
     const body = (commentInput.value||'').trim();
     if (!body){ setStatus(commentStatus,'Write a comment first.','error'); return; }
     pendingBody = body;
     if (sessionName){
-      postBtn.disabled = true;
+      postCommentBtn.disabled = true;
       setStatus(commentStatus,'Posting...','');
       await submitComment(sessionName, pendingBody);
       return;
@@ -740,7 +740,7 @@
     if (!name){ setModalStatus('Enter a screen name.','error'); return; }
     sessionName = name;
     closeModal();
-    postBtn.disabled = true;
+    postCommentBtn.disabled = true;
     setStatus(commentStatus,'Posting...','');
     await submitComment(sessionName, pendingBody);
   });
