@@ -169,7 +169,12 @@ button{font:inherit;cursor:pointer}
 .essays-head h2 em{font-style:italic;color:var(--gold)}
 .essays-intro{color:var(--muted);font-size:var(--text-base);
   margin-bottom:var(--sp8);max-width:60ch}
-.essays-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp5)}
+.essays-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--sp5);
+  align-items:stretch;
+}
 .essay-card{padding:var(--sp6);border:1px solid var(--border);
   border-radius:var(--r-xl);background:var(--surf);
   display:flex;flex-direction:column;gap:var(--sp4);
