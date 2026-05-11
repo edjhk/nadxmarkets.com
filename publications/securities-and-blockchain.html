@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Securities and Blockchain Look Like Opposites. They're Not. | NADX Markets</title>
+  <meta name="description" content="Every stock trade you make settles a day later than it should. That delay isn't a technical limitation — it's a structural tax, and someone is collecting it." />
+
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&f[]=zodiak@400,500,600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --text-xs:clamp(0.75rem,0.7rem + 0.2vw,0.86rem);
+      --text-sm:clamp(0.88rem,0.82rem + 0.2vw,0.98rem);
+      --text-base:clamp(1rem,0.96rem + 0.2vw,1.08rem);
+      --text-lg:clamp(1.08rem,1rem + 0.45vw,1.32rem);
+      --text-xl:clamp(1.35rem,1.08rem + 1vw,1.95rem);
+      --text-2xl:clamp(2rem,1.45rem + 1.8vw,3rem);
+      --sp2:.5rem;--sp3:.75rem;--sp4:1rem;--sp5:1.25rem;--sp6:1.5rem;
+      --sp8:2rem;--sp10:2.5rem;--sp12:3rem;--sp16:4rem;
+      --r-xl:1rem;--r-full:9999px;
+      --bg:#111111;--surf:#171717;--surf2:#1e1c18;
+      --border:#2f2a22;--divider:#26221c;
+      --text:#f3f0e8;--muted:#c3b79b;
+      --gold:#c8a96b;--white:#ffffff;
+      --body:"General Sans",Inter,sans-serif;
+      --display:"Zodiak",Georgia,serif;
+      --content:740px;
+      --wide:1160px;
+    }
+
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:var(--body);
+      font-size:var(--text-base);
+      line-height:1.75;
+      color:var(--text);
+      background:var(--bg);
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block;height:auto}
+    .container{width:min(calc(100% - 2rem),var(--content));margin:0 auto}
+    .container--wide{width:min(calc(100% - 2rem),var(--wide));margin:0 auto}
+
+    .site-header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(14px);
+      background:color-mix(in srgb,var(--bg) 92%,transparent);
+      border-bottom:1px solid var(--divider);
+    }
+    .site-header__inner{
+      min-height:60px;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:var(--sp4);
+    }
+    .brand{
+      display:inline-flex;align-items:center;gap:var(--sp3);
+      font-size:var(--text-sm);font-weight:600;
+      letter-spacing:.06em;text-transform:uppercase;
+    }
+    .brand-mark{
+      width:28px;height:28px;border-radius:9px;
+      display:grid;place-items:center;
+      background:var(--gold);color:#111;
+      font-size:.76rem;font-weight:700;
+    }
+    .nav{
+      display:flex;align-items:center;gap:var(--sp5);
+    }
+    .nav a{
+      font-size:var(--text-sm);
+      color:var(--muted);
+      transition:color .18s;
+    }
+    .nav a:hover,.nav a.active{color:var(--text)}
+
+    .article{
+      padding:var(--sp8) 0 var(--sp16);
+    }
+
+    .article-hero{
+      margin-bottom:var(--sp8);
+      border-radius:var(--r-xl);
+      overflow:hidden;
+      background:var(--surf);
+      aspect-ratio:16/9;
+    }
+    .article-hero img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .back{
+      display:inline-flex;
+      align-items:center;
+      gap:var(--sp2);
+      margin-bottom:var(--sp8);
+      font-size:var(--text-sm);
+      color:var(--muted);
+      transition:color .18s;
+    }
+    .back:hover{color:var(--gold)}
+
+    .series-note{
+      font-size:var(--text-xs);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--gold);
+      margin-bottom:var(--sp3);
+    }
+
+    h1{
+      font-family:var(--display);
+      font-size:var(--text-2xl);
+      font-weight:500;
+      line-height:1.05;
+      letter-spacing:-.02em;
+      color:var(--white);
+      margin-bottom:var(--sp5);
+      max-width:22ch;
+    }
+
+    .dek{
+      font-size:var(--text-lg);
+      color:var(--muted);
+      line-height:1.5;
+      max-width:52ch;
+      margin-bottom:var(--sp8);
+      padding-bottom:var(--sp8);
+      border-bottom:1px solid var(--divider);
+    }
+
+    .body{
+      color:var(--text);
+      line-height:1.8;
+    }
+    .body p{
+      margin-bottom:1.4rem;
+      max-width:68ch;
+    }
+    .body p:last-child{margin-bottom:0}
+    .body h2{
+      font-family:var(--display);
+      font-size:var(--text-xl);
+      font-weight:500;
+      color:var(--white);
+      line-height:1.15;
+      letter-spacing:-.02em;
+      margin:var(--sp10) 0 var(--sp4);
+      max-width:26ch;
+    }
+    .body strong{color:var(--white);font-weight:600}
+    .body em{font-style:italic}
+    .body blockquote{
+      border-left:2px solid var(--gold);
+      padding-left:var(--sp5);
+      margin:var(--sp8) 0;
+      font-family:var(--display);
+      font-size:var(--text-lg);
+      font-style:italic;
+      color:var(--white);
+      line-height:1.5;
+    }
+    .body hr{
+      border:none;
+      border-top:1px solid var(--divider);
+      margin:var(--sp10) 0;
+    }
+
+    .article-nav{
+      display:flex;
+      justify-content:space-between;
+      padding:var(--sp8) 0 0;
+      border-top:1px solid var(--divider);
+      margin-top:var(--sp12);
+      gap:var(--sp6);
+    }
+    .article-nav a{
+      font-size:var(--text-sm);
+      color:var(--muted);
+      transition:color .18s;
+      max-width:40ch;
+    }
+    .article-nav a:hover{color:var(--gold)}
+    .article-nav .nav-next{text-align:right}
+
+    .site-footer{
+      border-top:1px solid var(--divider);
+      padding:var(--sp5) 0 var(--sp8);
+      color:var(--muted);
+      font-size:var(--text-sm);
+    }
+    .footer-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:var(--sp4);
+      flex-wrap:wrap;
+    }
+
+    @media (max-width:900px){
+      .nav{display:none}
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container--wide site-header__inner">
+      <a href="../index.html" class="brand">
+        <span class="brand-mark">N</span>
+        NADX Markets
+      </a>
+      <nav class="nav">
+        <a href="../index.html">The Case</a>
+        <a href="../publications.html" class="active">Research</a>
+        <a href="../platform.html">Platform</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="article">
+    <div class="container--wide">
+      <figure class="article-hero">
+        <img
+          src="poker.png"
+          alt="Poker table imagery representing securities settlement and blockchain validation"
+          width="1600"
+          height="900"
+          loading="lazy"
+        />
+      </figure>
+    </div>
+
+    <div class="container">
+      <a class="back" href="../publications.html">&larr; All research</a>
+
+      <p class="series-note">Securities vs. Blockchain</p>
+      <h1>Securities and Blockchain Look Like Opposites. They're Not.</h1>
+      <p class="dek">Every stock trade you make settles a day later than it should. That delay isn't a technical limitation — it's a structural tax, and someone is collecting it.</p>
+
+      <div class="body">
+        <p>When you buy a share of Apple, you are not taking physical possession of anything. There is no certificate, no vault, no transfer of something tangible. What happens is simpler: a ledger is updated. Your account is credited. The seller's is debited. The security didn't move. The record changed.</p>
+
+        <p>When you transfer a token on a blockchain, the mechanics are remarkably similar. Two accounts on a ledger are updated &mdash; one on each side of the transaction. The token didn't travel anywhere. The record changed. At the transaction level, securities and crypto are much more similar than most people realize.</p>
+
+        <p>In a pickup poker game, the dealer's job is to confirm the pot &mdash; who's in, who folded &mdash; and then declare: <em>pot's good.</em> In a crypto transaction, that's the job of the miners. They validate that the transaction is legitimate and authorize the ledger to update &mdash; recording the change in ownership of the token. The blockchain <em>is</em> the record, and the miners are the dealers. It typically takes several confirmations before a transaction is considered final, but there is one unified system, one rail, one call.</p>
+
+        <p>In traditional securities settlement, you have two dealers. One confirms the payment leg &mdash; the money. Another confirms the asset transfer leg &mdash; the securities. Only then does DTCC update the ledger. Two separate <em>pot's good</em> calls, on two separate rails. And this is worth noting: that makes DVP the more complete system. A standard blockchain transaction is DF &mdash; Delivery of an asset on a single rail (setting aside DeFi protocols where the swap is atomic). Traditional securities settlement ties both sides together. Delivery <em>versus</em> Payment. The money and the securities, accounted for together.</p>
+
+        <p><strong>It's called DVP. But shouldn't we really call it DVP+1?</strong></p>
+
+        <p>Each confirmation takes time &mdash; the broker, the clearing firm, the DTCC ledger update. By the time both calls are made and reconciled, a day has passed. The architecture is sound. The clock is the problem.</p>
+
+        <p>That extra day is not merely an administrative inconvenience. It is also a float &mdash; capital committed but not yet settled, sitting in a gap between trade and finality. Settlement risk lives in that gap. After the move to T+1 in May 2024, the industry's CNS fail rate remained at approximately 2.12% &mdash; consistent with where it was under T+2. The window got shorter. The failures didn't disappear. Overnight funding has a rate. The infrastructure built to manage what can go wrong in the interval between agreement and finality has a cost. That cost is paid every day, by every participant, on every trade. It is a tax.</p>
+
+        <p><strong>What if it didn't have to be?</strong></p>
+
+        <p>What if delivery and payment happened on the same system &mdash; the same rail &mdash; at the moment of the transaction? One update. Both sides confirmed in the same hash, timestamped together. We could call that DXP: Delivery <em>and</em> Payment, simultaneously. What others call T-instant settlement, or atomic settlement &mdash; the trade either completes entirely or it doesn't happen at all. No float. No overnight exposure. No two dealers. One call: <em>pot's good</em>, on the asset and the payment, at once.</p>
+
+        <p>This is what we could be building now. The technology exists. The regulatory moment is as open as it has been in thirty years. What's missing is not the infrastructure. It's the will to build it.</p>
+
+        <p>DXP doesn't just eliminate the plus one. It changes what's possible downstream. When there is no delivery without payment &mdash; ever, by construction &mdash; a significant layer of compliance and reconciliation infrastructure built around the possibility of settlement failure has no failure to prepare for. The system is self-authenticating in a way that two-rail settlement can never be.</p>
+
+        <p>T+1 was progress. T+0 would be more progress. But until the two rails are consolidated, neither eliminates the structural gap. They only shrink it. DXP closes it.</p>
+      </div>
+
+      <div class="article-nav">
+        <a href="the-netting-myth.html">&larr; The Netting Myth</a>
+        <span></span>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container--wide footer-row">
+      <span>&copy; 2026 NADX Markets, Inc. For institutional and accredited investors only.</span>
+      <a href="../contact.html" style="color:var(--muted)">Contact</a>
+    </div>
+  </footer>
+</body>
+</html>
