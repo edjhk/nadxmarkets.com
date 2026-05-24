@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Green Light</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --surface: #1e1e1e;
+            --primary: #2ECC71;
+            --text: #ffffff;
+            --text-muted: #888888;
+        }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { margin: 0; padding: 0; background: var(--bg); color: var(--text); overflow-x: hidden; touch-action: manipulation; }
+        
+        /* Pinned Header */
+        #pinned-header {
+            position: sticky; top: 0; z-index: 100; background: #000000;
+            padding: 8px 10px 12px 10px; border-bottom: 1px solid #333;
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .header-row { display: flex; justify-content: space-between; align-items: center; }
+        #status-text { font-size: 13px; font-weight: bold; color: var(--text-muted); }
+        #connect-btn { background: var(--primary); color: #000; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer; }
+        
+        /* 24-LED Visualizer */
+        #visualizer { display: flex; gap: 2px; width: 100%; height: 12px; background: transparent; }
+        .vis-led { flex: 1; background: #333; border-radius: 2px; transition: background 0.05s; }
+
+        /* Main Content Container */
+        .container { padding: 10px; display: flex; flex-direction: column; gap: 12px; }
+        .section { background: var(--surface); padding: 10px; border-radius: 8px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        h3 { margin: 0; font-size: 14px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; }
+        
+        /* Controls */
+        .control-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+        .control-row label { font-size: 13px; font-weight: 500; white-space: nowrap; }
+        input[type="range"] { flex-grow: 1; margin: 0; accent-color: var(--primary); }
+        select { background: #333; color: white; border: none; padding: 6px; border-radius: 4px; font-size: 13px; width: 100%; }
+        
+        /* Action Buttons */
+        .action-btn { background: #333; color: white; border: 1px solid #555; padding: 8px; border-radius: 4px; font-weight: bold; width: 100%; font-size: 13px; cursor: pointer; }
+        .action-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
+
+        /* Segmented Control (Pulse Home) */
+        .segmented { display: flex; background: #000; border-radius: 6px; overflow: hidden; width: 100%; }
+        .seg-btn { flex: 1; padding: 6px; text-align: center; font-size: 12px; background: transparent; color: white; border: none; border-right: 1px solid #333; }
+        .seg-btn:last-child { border-right: none; }
+        .seg-btn.active { background: #444; font-weight: bold; }
+
+        /* Color Circles */
+        .color-row { display: flex; gap: 8px; justify-content: space-between; margin-top: 5px; }
+        .color-circle { width: 24px; height: 24px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; box-shadow: 0 0 4px rgba(0,0,0,0.5); }
+        .color-circle.active { border-color: white; transform: scale(1.1); }
+
+        /* Status & Log Box at Bottom */
+        #log-box { 
+            background: #000; border: 1px solid #333; border-radius: 6px; 
+            padding: 8px; font-family: monospace; font-size: 11px; 
+            color: #2ECC71; height: 80px; overflow-y: auto; 
+            display: flex; flex-direction: column; gap: 4px;
+        }
+        .log-entry { border-bottom: 1px dashed #222; padding-bottom: 2px; }
+        
+        #footer { text-align: center; font-size: 10px; color: #555; padding: 10px; }
+        #demo-btn { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
+    </style>
+</head>
+<body>
+
+    <!-- Pinned Header -->
+    <div id="pinned-header">
+        <div class="header-row">
+            <div id="status-text">🔴 Disconnected</div>
+            <button id="connect-btn" onclick="toggleConnection()">CONNECT</button>
+        </div>
+        <!-- 24 LED Visualizer -->
+        <div id="visualizer"></div>
+    </div>
+
+    <div class="container">
+        <!-- GLOBAL SETTINGS -->
+        <div class="section">
+            <h3>Global Settings</h3>
+            <div class="control-row" style="margin-top: 8px;">
+                <label>Brightness</label>
+                <input type="range" id="br-slider" min="10" max="100" value="100" onchange="updateConfig()">
+            </div>
+            <div class="control-row">
+                <label>Pulse Origin</label>
+                <div class="segmented">
+                    <button class="seg-btn" id="home-left" onclick="setHome('left')">Left</button>
+                    <button class="seg-btn active" id="home-center" onclick="setHome('center')">Center</button>
+                    <button class="seg-btn" id="home-right" onclick="setHome('right')">Right</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- OBD SENSOR -->
+        <div class="section">
+            <div class="section-header">
+                <h3>OBD Sensor</h3>
+                <button class="action-btn active" id="btn-mode-0" style="width: auto; padding: 4px 12px;" onclick="setMode(0)">ACTIVATE</button>
+            </div>
+            <select id="pid-select" onchange="selectPID()">
+                <option value="-1">Select Sensor...</option>
+                <option value="0">Relative Throttle</option>
+                <option value="2">Accel Pedal D</option>
+                <option value="3">Vehicle Speed</option>
+            </select>
+        </div>
+
+        <!-- STROBE -->
+        <div class="section">
+            <div class="section-header">
+                <h3>Strobe</h3>
+                <button class="action-btn" id="btn-mode-1" style="width: auto; padding: 4px 12px;" onclick="setMode(1)">ACTIVATE</button>
+            </div>
+            <div class="control-row">
+                <label>Speed</label>
+                <input type="range" id="hz-slider" min="0.5" max="10.0" step="0.5" value="4.0" onchange="updateConfig()">
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Left Color</div>
+            <div class="color-row" id="palette-left"></div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 8px;">Right Color</div>
+            <div class="color-row" id="palette-right"></div>
+        </div>
+
+        <!-- STEADY -->
+        <div class="section">
+            <div class="section-header">
+                <h3>Steady</h3>
+                <button class="action-btn" id="btn-mode-2" style="width: auto; padding: 4px 12px;" onclick="setMode(2)">ACTIVATE</button>
+            </div>
+            <div class="color-row" id="palette-steady"></div>
+        </div>
+
+        <!-- SYSTEM MONITOR -->
+        <div class="section">
+            <h3>System Monitor</h3>
+            <div id="log-box" style="margin-top: 8px;"></div>
+        </div>
+
+        <button class="action-btn" id="demo-btn" onclick="runVideoDemo()">▶ PLAY DEMO</button>
+    </div>
+
+    <div id="footer">Green Light v2.8.4</div>
+
+    <script>
+        // UUIDs
+        const GL_SVC_UUID = "12345678-1234-1234-1234-123456789abc";
+        const PID_WRITE_UUID = "12345678-1234-1234-1234-123456789abd";
+        const STATUS_NOTIFY_UUID = "12345678-1234-1234-1234-123456789abe";
+        const LIGHTS_WRITE_UUID = "12345678-1234-1234-1234-123456789abf";
+
+        // BLE & App State
+        let bleDevice = null;
+        let lightsChar = null;
+        let pidChar = null;
+        let statusChar = null;
+        let reconnectTimer = null;
+        let reconnectArmed = false;
+        let isReconnecting = false;
+
+        let state = {
+            br: 100,
+            mode: 0,
+            hz: 4.0,
+            lHex: "FF0000",
+            rHex: "0000FF",
+            home: "center",
+            sHex: "2ECC71"
+        };
+
+        const colors = ["FF0000", "0000FF", "2ECC71", "FFFFFF", "FFA500", "FFFF00", "800080", "FFC0CB"];
+
+        // Visualizer State
+        let isDemo = false;
+        let fakePedal = 0.0;
+        let strobePhase = false;
+        let lastStrobeToggle = 0;
+        let glActivity = false;
+        let lastStatusState = "idle";
+
+        function logMsg(msg) {
+            const box = document.getElementById('log-box');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            const time = new Date().toLocaleTimeString([], {hour12: false});
+            entry.innerText = `[${time}] ${msg}`;
+            box.appendChild(entry);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        // Initialize UI
+        function initUI() {
+            buildPalette('palette-left', 'lHex');
+            buildPalette('palette-right', 'rHex');
+            buildPalette('palette-steady', 'sHex');
+            
+            // Build 24 LEDs
+            const vis = document.getElementById('visualizer');
+            for(let i=0; i<24; i++) {
+                let d = document.createElement('div');
+                d.className = 'vis-led';
+                vis.appendChild(d);
+            }
+            
+            requestAnimationFrame(renderVisualizer);
+            window.addEventListener('focus', () => scheduleReconnect(300));
+            document.addEventListener('visibilitychange', () => {
+                if(document.visibilityState === 'visible') scheduleReconnect(300);
+            });
+            logMsg("App initialized. Ready to connect.");
+        }
+
+        function buildPalette(containerId, stateKey) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            colors.forEach(hex => {
+                const div = document.createElement('div');
+                div.className = 'color-circle' + (state[stateKey] === hex ? ' active' : '');
+                div.style.background = '#' + hex;
+                div.onclick = () => {
+                    state[stateKey] = hex;
+                    buildPalette(containerId, stateKey); 
+                    
+                    if(stateKey === 'lHex' || stateKey === 'rHex') setMode(1);
+                    if(stateKey === 'sHex') setMode(2);
+                    
+                    updateConfig();
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function setHome(val) {
+            state.home = val;
+            document.querySelectorAll('.seg-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('home-' + val).classList.add('active');
+            updateConfig();
+            logMsg(`Pulse origin set to: ${val}`);
+        }
+
+        function setMode(val) {
+            state.mode = val;
+            document.getElementById('btn-mode-0').classList.remove('active');
+            document.getElementById('btn-mode-1').classList.remove('active');
+            document.getElementById('btn-mode-2').classList.remove('active');
+            document.getElementById('btn-mode-' + val).classList.add('active');
+            updateConfig();
+            logMsg(`Mode changed to: ${val === 0 ? 'OBD' : (val === 1 ? 'Strobe' : 'Steady')}`);
+        }
+
+        function selectPID() {
+            const val = document.getElementById('pid-select').value;
+            if(val !== "-1") {
+                setMode(0);
+                if (pidChar) {
+                    writeBleData(pidChar, val);
+                    logMsg(`PID changed to index: ${val}`);
+                }
+            }
+        }
+
+        // --- 24 LED Dynamic Visualizer ---
+        function renderVisualizer() {
+            const leds = document.getElementById('visualizer').children;
+            const now = Date.now();
+            const connected = !!(bleDevice && bleDevice.gatt && bleDevice.gatt.connected);
+            const active = isDemo || (connected && glActivity);
+
+            if (!active) {
+                for(let i=0; i<24; i++) {
+                    leds[i].style.background = '#333';
+                    leds[i].style.opacity = '0.35';
+                }
+                requestAnimationFrame(renderVisualizer);
+                return;
+            }
+
+            for(let i=0; i<24; i++) leds[i].style.opacity = '1';
+
+            if (state.mode === 0) { 
+                let val = isDemo ? fakePedal : 1.0;
+                let lit = Math.round(val * 24);
+                
+                for(let i=0; i<24; i++) {
+                    let isOn = false;
+                    if (state.home === 'left') isOn = (i < lit);
+                    else if (state.home === 'right') isOn = (i >= 24 - lit);
+                    else {
+                        let center = 12;
+                        let half = lit / 2;
+                        isOn = (i >= center - Math.ceil(half) && i < center + Math.floor(half));
+                    }
+                    leds[i].style.background = isOn ? '#2ECC71' : '#333';
+                }
+            } 
+            else if (state.mode === 1) { 
+                let period = 1000 / state.hz;
+                if (now - lastStrobeToggle > period / 2) {
+                    strobePhase = !strobePhase;
+                    lastStrobeToggle = now;
+                }
+                let sameColor = (state.lHex === state.rHex);
+                
+                for(let i=0; i<24; i++) {
+                    if (sameColor) {
+                        leds[i].style.background = strobePhase ? `#${state.lHex}` : '#333';
+                    } else {
+                        if (strobePhase) leds[i].style.background = (i < 12) ? `#${state.lHex}` : '#333';
+                        else leds[i].style.background = (i >= 12) ? `#${state.rHex}` : '#333';
+                    }
+                }
+            } 
+            else if (state.mode === 2) { 
+                for(let i=0; i<24; i++) {
+                    leds[i].style.background = `#${state.sHex}`;
+                }
+            }
+            requestAnimationFrame(renderVisualizer);
+        }
+
+        async function updateConfig() {
+            state.br = document.getElementById('br-slider').value;
+            state.hz = document.getElementById('hz-slider').value;
+            
+            if (!lightsChar) return;
+            const cmd = `LIGHTS|${state.br}|${state.mode}|${parseFloat(state.hz).toFixed(1)}|${state.lHex}|${state.rHex}|${state.home}|${state.sHex}`;
+            await writeBleData(lightsChar, cmd);
+        }
+
+        // --- BLE Functions ---
+        async function toggleConnection() {
+            if (bleDevice && bleDevice.gatt.connected) {
+                reconnectArmed = false;
+                bleDevice.gatt.disconnect();
+            } else {
+                try {
+                    logMsg('Requesting BLE device...');
+                    bleDevice = await navigator.bluetooth.requestDevice({
+                        filters: [{ namePrefix: 'GreenLight' }],
+                        optionalServices: [GL_SVC_UUID]
+                    });
+                    reconnectArmed = true;
+                    await connectToDevice(bleDevice, false);
+                } catch (err) {
+                    console.error(err);
+                    document.getElementById('status-text').innerText = '🔴 Error';
+                    logMsg(`Error: ${err.message}`);
+                }
+            }
+        }
+
+        async function connectToDevice(device, isRetry) {
+            if(!device || isReconnecting) return;
+            isReconnecting = true;
+            try {
+                if(!device.__glBound) {
+                    device.addEventListener('gattserverdisconnected', onDisconnected);
+                    device.__glBound = true;
+                }
+                document.getElementById('status-text').innerText = isRetry ? '🟡 Reconnecting...' : '🟡 Connecting...';
+                const server = await device.gatt.connect();
+                const service = await server.getPrimaryService(GL_SVC_UUID);
+
+                lightsChar = await service.getCharacteristic(LIGHTS_WRITE_UUID);
+                pidChar = await service.getCharacteristic(PID_WRITE_UUID);
+                statusChar = await service.getCharacteristic(STATUS_NOTIFY_UUID);
+
+                await statusChar.startNotifications();
+                statusChar.removeEventListener('characteristicvaluechanged', handleStatus);
+                statusChar.addEventListener('characteristicvaluechanged', handleStatus);
+
+                clearTimeout(reconnectTimer);
+                document.getElementById('connect-btn').innerText = 'DISCONNECT';
+                document.getElementById('connect-btn').style.background = '#e74c3c';
+                document.getElementById('status-text').innerText = '🟢 Connected';
+                logMsg(isRetry ? 'Reconnected successfully.' : 'Successfully connected!');
+
+                updateConfig();
+            } finally {
+                isReconnecting = false;
+            }
+        }
+
+        function scheduleReconnect(delay = 1200) {
+            if(!reconnectArmed || !bleDevice || (bleDevice.gatt && bleDevice.gatt.connected) || isReconnecting) return;
+            clearTimeout(reconnectTimer);
+            reconnectTimer = setTimeout(async () => {
+                if(!reconnectArmed || !bleDevice || (bleDevice.gatt && bleDevice.gatt.connected)) return;
+                try {
+                    await connectToDevice(bleDevice, true);
+                } catch(err) {
+                    logMsg(`Reconnect failed: ${err.message}`);
+                    scheduleReconnect(2500);
+                }
+            }, delay);
+        }
+
+        function onDisconnected() {
+            document.getElementById('connect-btn').innerText = 'CONNECT';
+            document.getElementById('connect-btn').style.background = 'var(--primary)';
+            document.getElementById('status-text').innerText = '🔴 Disconnected';
+            logMsg('Device disconnected.');
+            lightsChar = null; pidChar = null; statusChar = null;
+            glActivity = false;
+            scheduleReconnect();
+        }
+
+        function handleStatus(event) {
+            const dec = new TextDecoder().decode(event.target.value);
+            logMsg(`ESP32: ${dec}`);
+            const parts = dec.split('|');
+            if(parts.length >= 3) {
+                lastStatusState = parts[2];
+                glActivity = /connected|pid-set/i.test(parts[2]);
+                document.getElementById('status-text').innerText = `🟢 ${parts[1]} (${parts[2]})`;
+                document.getElementById('pid-select').value = parts[0];
+            }
+        }
+
+        async function writeBleData(characteristic, stringData) {
+            const enc = new TextEncoder();
+            await characteristic.writeValueWithoutResponse(enc.encode(stringData));
+        }
+
+                async function updateConfig() {
+            state.br = document.getElementById('br-slider').value;
+            state.hz = document.getElementById('hz-slider').value;
+            
+            if (!lightsChar) return;
+            const cmd = `LIGHTS|${state.br}|${state.mode}|${parseFloat(state.hz).toFixed(1)}|${state.lHex}|${state.rHex}|${state.home}|${state.sHex}`;
+            
+            // Catch errors here so manual clicks don't crash the app
+            try {
+                await writeBleData(lightsChar, cmd);
+            } catch (e) {
+                console.log("BLE skip:", e);
+            }
+        }
+
+        // --- Video Demo Sequence ---
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+        let cancelDemo = false;
+        
+        async function demoPulseOrigin(origin) {
+            setMode(0);
+            state.home = origin;
+            document.querySelectorAll('.seg-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('home-' + origin).classList.add('active');
+            await updateConfig();
+            await sleep(80);
+            const vals = [0.08, 0.22, 0.4, 0.58, 0.78, 1.0, 0.78, 0.5, 0.25, 0.08];
+            for (const v of vals) {
+                if (cancelDemo) return;
+                fakePedal = v;
+                if (lightsChar) {
+                    try { await writeBleData(lightsChar, `FAKE_OBD|${v.toFixed(2)}`); } catch(e) {}
+                }
+                await sleep(180);
+            }
+            fakePedal = 0.0;
+            if (lightsChar) {
+                try { await writeBleData(lightsChar, 'FAKE_OBD|0.00'); } catch(e) {}
+            }
+            await sleep(120);
+        }
+
+        async function demoStrobeRamp() {
+            state.mode = 1;
+            state.hz = 1.0;
+            document.getElementById('hz-slider').value = 1.0;
+            state.lHex = '0000FF';
+            state.rHex = '0000FF';
+            buildPalette('palette-left', 'lHex');
+            buildPalette('palette-right', 'rHex');
+            setMode(1);
+            await updateConfig();
+            await sleep(2000);
+
+            if (cancelDemo) return;
+            state.rHex = 'FF0000';
+            buildPalette('palette-right', 'rHex');
+            await updateConfig();
+
+            const ramp = [1.6, 2.3, 3.1, 4.2, 5.5, 7.0];
+            for (const hz of ramp) {
+                if (cancelDemo) return;
+                state.hz = hz;
+                document.getElementById('hz-slider').value = hz.toFixed(1);
+                await updateConfig();
+                await sleep(500);
+            }
+        }
+
+        async function runVideoDemo() {
+            const btn = document.getElementById('demo-btn');
+            
+            // If it's already running, clicking it again will cancel it!
+            if(isDemo) {
+                cancelDemo = true;
+                logMsg("Canceling Demo...");
+                return;
+            }
+            
+            isDemo = true;
+            cancelDemo = false;
+            btn.innerText = "⏹ CANCEL DEMO";
+            btn.style.color = "red";
+            logMsg("Starting Sequence...");
+
+            try {
+                if (cancelDemo) return;
+                logMsg('Demo: Left Pulse');
+                await demoPulseOrigin('left');
+
+                if (cancelDemo) return;
+                logMsg('Demo: Center Pulse');
+                await demoPulseOrigin('center');
+
+                if (cancelDemo) return;
+                logMsg('Demo: Right Pulse');
+                await demoPulseOrigin('right');
+
+                if (cancelDemo) return;
+                logMsg('Demo: Extended Strobe Ramp');
+                await demoStrobeRamp();
+
+                if (cancelDemo) return;
+                logMsg('Demo: Steady Green');
+                state.sHex = '2ECC71';
+                buildPalette('palette-steady', 'sHex');
+                setMode(2); 
+                await sleep(3000);
+
+            } finally {
+                // The 'finally' block ensures this cleanup runs NO MATTER WHAT
+                logMsg("Demo Complete / Stopped.");
+                isDemo = false;
+                cancelDemo = false;
+                fakePedal = 0.0;
+                
+                // Reset cleanly to OBD idle
+                setMode(0); setHome('center');
+                if(lightsChar) {
+                    try { await writeBleData(lightsChar, `FAKE_OBD|0.0`); } catch(e) {}
+                }
+                
+                btn.innerText = "▶ PLAY DEMO";
+                btn.style.color = "var(--primary)";
+            }
+        }
+
+        // Run on load
+        window.onload = initUI;
+    </script>
+</body>
+</html>
