@@ -177,6 +177,12 @@
       font-size: clamp(46px, 8vw, 88px);
       max-width: 10ch;
     }
+    .hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
     .dek {
       margin-top: 18px;
       font-size: clamp(19px, 2.4vw, 26px);
@@ -230,7 +236,7 @@
     .article .letterhead {
       color: var(--muted);
       font-size: 16px;
-      line-height: 1.9;
+      line-height: 1.4;
       margin-bottom: 28px;
     }
     .article hr {
@@ -371,19 +377,18 @@
 </head>
 <body>
 
-    <section class="hero">
-      <div class="eyebrow">Publications</div>
-      <h1>Petition for Rulemaking</h1>
-      <p class="dek">Abolition of Rule 611 of Regulation NMS and Adoption of a Market-Based Real Execution Reporting Framework</p>
-      <div class="meta">
-        <span>NADX Securities, Inc.</span>
-        <span>June 9, 2026</span>
-      </div>
-      <div class="hero-actions">
-        <a href="NADX-Real-Ex-Petition-6.9.26.pdf" download class="download-btn">Download PDF</a>
-      </div>
-    </section>
-
+<section class="hero">
+  <div class="hero-top">
+    <div class="eyebrow">Publications</div>
+    <a href="NADX-Real-Ex-Petition-6.9.26.pdf" download class="download-btn">Download PDF</a>
+  </div>
+  <h1>Petition for Rulemaking</h1>
+  <p class="dek">Abolition of Rule 611 of Regulation NMS and Adoption of a Market-Based Real Execution Reporting Framework</p>
+  <div class="meta">
+    <span>NADX Securities, Inc.</span>
+    <span>June 9, 2026</span>
+  </div>
+</section>
     <main class="article-shell">
       <div class="article-card">
         <article class="article">
