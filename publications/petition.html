@@ -184,6 +184,25 @@
       font-size: 14px;
     }
 
+        .hero-actions {
+      margin-top: 22px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--accent);
+      color: #fff;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-weight: 600;
+      border: 1px solid var(--accent);
+    }
+
+    .download-btn:hover {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
+    }
     .article-shell {
       max-width: var(--max);
       margin: 0 auto;
@@ -343,27 +362,10 @@
         <span>NADX Securities, Inc.</span>
         <span>June 9, 2026</span>
       </div>
+      <div class="hero-actions">
+        <a href="NADX-Real-Ex-Petition-6.9.26.pdf" download class="download-btn">Download PDF</a>
+      </div>
     </section>
-
-    .hero-actions {
-  margin-top: 22px;
-}
-
-.download-btn {
-  display: inline-block;
-  text-decoration: none;
-  background: var(--accent);
-  color: #fff;
-  padding: 14px 18px;
-  border-radius: 14px;
-  font-weight: 600;
-  border: 1px solid var(--accent);
-}
-
-.download-btn:hover {
-  background: var(--accent-dark);
-  border-color: var(--accent-dark);
-}
 
     <div class="hero-actions">
   <a href="NADX-Real-Ex-Petition-6.9.26.pdf" download class="download-btn">Download PDF</a>
@@ -646,8 +648,8 @@
     // ── config ──────────────────────────────────────────────────────────────
     const SUPABASE_URL  = 'https://vrafgipbqqdujctcpnyv.supabase.co';
     const SUPABASE_KEY  = 'sb_publishable_DziQMeadRHnS5eG634R71w_57OQVqoh';
-    const PAGE_SLUG     = 'petition-review';
-    const REDIRECT_URL  = 'https://nadxmarkets.com/publications/petition-review.html';
+    const PAGE_SLUG     = 'petition';
+    const REDIRECT_URL  = 'https://nadxmarkets.com/publications/petition.html';
 
     // ── client ───────────────────────────────────────────────────────────────
     // window.supabase is the CDN global; we create our client as "db"
